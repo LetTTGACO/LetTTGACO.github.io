@@ -41,12 +41,12 @@
 	<meta property="og:type" content="article">
 	<meta property="og:title" content="Web开发过程中的图片优化 | LetTTGACO">
 	<meta property="og:description" content="Web开发过程中的图片优化">
-	<meta property="og:url" content="https://blog.letttgaco.cn/2020/04/20/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+	<meta property="og:url" content="https://blog.letttgaco.cn/2020/04/20/Web%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/">
 
 	
 	<meta property="article:published_time" content="2020-04-20T17:04:00+08:00"> 
 	<meta property="article:author" content="LetTTGACO">
-	<meta property="article:published_first" content="LetTTGACO, /2020/04/20/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+	<meta property="article:published_first" content="LetTTGACO, /2020/04/20/Web%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/">
 	
 
 	
@@ -154,7 +154,7 @@
 <p>我们先来看图片压缩。</p>
 <h2 id="一、图片压缩"><a href="#一、图片压缩" class="headerlink" title="一、图片压缩"></a>一、图片压缩</h2><p>压缩的第一步是筛选出需要压缩的图片。如果图片本身就已经足够小了，那么再压缩的意义就不大。</p>
 <p>而对于这些足够小的图片，我们就可以将其转换成雪碧图<strong>（CssSprites）</strong>或者<code>base64</code>编码来存储，而关于这两者的使用场景这里可以看一下这两篇文章（<a href="https://www.cnblogs.com/joyho/articles/3715275.html" target="_blank" rel="noopener">不要滥用雪碧图sprite</a>和<a href="https://www.cnblogs.com/coco1s/p/4375774.html" target="_blank" rel="noopener">玩转图片Base64编码</a>）。</p>
-<h3 id="url-loader"><a href="#url-loader" class="headerlink" title="url-loader"></a>url-loader</h3><p>这里我采用的是<code>webpack</code>里的<code>url-loader</code>插件进行处理，对于小于<code>1kb</code>的图片，将其转换成<code>base64</code>编码进行存储。</p>
+<h3 id="url-loader"><a href="#url-loader" class="headerlink" title="url-loader"></a>url-loader</h3><p>这里我采用的是webpack里的<code>url-loader</code>插件进行处理，对于小于1kb的图片，将其转换成<code>base64</code>编码进行存储。</p>
 <figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">  test: <span class="regexp">/\.(png|jpe?g|gif|svg)$/</span>,</span><br><span class="line">  use: [{</span><br><span class="line">      loader: <span class="string">"url-loader"</span>, <span class="comment">// 它封装了file-loader，所以可以使用两个loader的全部配置属性</span></span><br><span class="line">      options: {</span><br><span class="line">        limit: <span class="number">1024</span>,</span><br><span class="line">        esModule: <span class="literal">false</span>,</span><br><span class="line">        outputPath: <span class="string">'images'</span> <span class="comment">// 设置图片的输出路径</span></span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  ]</span><br><span class="line">},</span><br></pre></td></tr></tbody></table></figure>
 
 <blockquote>
@@ -182,9 +182,9 @@
 </blockquote>
 <h4 id="imagemin-mozjpeg"><a href="#imagemin-mozjpeg" class="headerlink" title="imagemin-mozjpeg"></a><a href="https://github.com/imagemin/imagemin-mozjpeg" target="_blank" rel="noopener">imagemin-mozjpeg</a></h4><p>JPEG 根据显示方式的不同，分为两种：Progressive JPEG 和 Baseline JPEG。</p>
 <p>Progressive JPEG 会先加载模糊的整张图片，然后变的越来越清晰。</p>
-<p><img alt class="post-img b-lazy" data-img="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173352.jpg" data-index="0" data-src="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173352.jpg"></p>
+<p><img alt class="post-img b-lazy" data-img="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225431.jpg" data-index="0" data-src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225431.jpg"></p>
 <p>而 Baseline JPEG 会先清晰地加载图片的一部分，然后慢慢显示剩余的部分。</p>
-<p><img alt class="post-img b-lazy" data-img="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173545.jpg" data-index="1" data-src="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173545.jpg"></p>
+<p><img alt class="post-img b-lazy" data-img="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225446.jpg" data-index="1" data-src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225446.jpg"></p>
 <p>从视觉效果来说，Progressive JPEG 自然更好一些。但它也有一些缺点，比如它的解码速度比 Baseline JPEG 要慢，占用的 CPU 时间更多。</p>
 <p>如果是桌面浏览器，这点性能问题自然无所谓，但是如果是移动端，就不得不考虑。工程本来就是权衡的艺术。</p>
 <p>默认情况下，MozJPEG 生成的是 Progressive JPEG，可以通过 <a href="https://github.com/imagemin/imagemin-mozjpeg#progressive" target="_blank" rel="noopener">选项</a> 调整。</p>
@@ -201,7 +201,7 @@
 <p><strong>参数说明(引用自<a href="https://www.jianshu.com/p/83d00a7e2a4b" target="_blank" rel="noopener">Laya 图片压缩</a>)：</strong><br> 1.<code>quality</code>参数的作用是保证图片经过优化处理后，图片质量的取值范围（0<del>1）。取值越小，表示压缩比率越大，同时的图片的质量也就越差。在测试过程中发现，当设置最低取值为0.60或0.65时，部分图片的质量会严重下降，因此最终选择了0.70作为最低值。<br> 2.<code>speed</code>参数的设置决定了图片优化的执行速度，取值范围为1</del>10，默认值为4。其中10的执行速度最快，对应的压缩比率最小；而1的执行速度最慢，对应的压缩比率最大。在测试过程中发现，无论我设置哪一个值它们的执行时间都差不多，不过压缩比率确实1的最大，10的最小。<br> 实测效果：<br> 在设置quality的取值范围为0.70~0.95，以及speed为4的情况下，可以在尽可能不影响图片质量的前提下去缩减文件的大小。<br> 在测试过程中，我们以PNG-8品质为256的图片为例，最终的图片输出可以降低70%左右的大小（从3.78KB缩减到1.13KB）。</p>
 </blockquote>
 <h4 id="gifsicle"><a href="#gifsicle" class="headerlink" title="gifsicle"></a><a href="https://github.com/imagemin/imagemin-gifsicle" target="_blank" rel="noopener">gifsicle</a></h4><p><a href="https://github.com/imagemin/imagemin-gifsicle" target="_blank" rel="noopener">gifsicle</a>一共有4个参数配置，我一般常用的就interlaced，即隔行扫描进行渲染，图片会自上而下渐进式加载。</p>
-<p>在上文中提到的Progressive和Baseline的区别中，<code>progressive</code>等同于<code>interlaced</code>，<code>baseline</code> 等同于 <code>not interlaced</code>，所以取舍自己决定。</p>
+<p>在上文中提到的Progressive和Baseline的区别中，progressive等同于<code>interlaced</code>，baseline 等同于 <code>not interlaced</code>，所以取舍自己决定。</p>
 <blockquote>
 <p>参数说明</p>
 <p><code>optimizationLevel</code>是优化级别，默认值为1，取值范围在1-3。优化级别的高低决定图片的质量，较高的级别需要更长的时间，但可能会有更好的效果。</p>
@@ -221,7 +221,7 @@
 <p><strong>在实际的使用中，发现这里存在一个容易被忽视的坑。</strong></p>
 <p><strong>image-webpack-loader 里的webp优化器只是针对已有的webp文件进行质量上的优化（或者说就不起作用，如果有研究出来的大佬麻烦评论告知哈），并不能把前面的png/jpg转成webp。官方文档有点误导到大家，导致许多图片优化的教程都把这个当成webp转换器，然而我实际试了下，并不能=.=。</strong></p>
 </blockquote>
-<p>至于webp的优化过程，我将在下文<code>安全的使用WebP图片</code>中详细介绍。</p>
+<p>至于webp的优化过程，我将在下文<code>优雅地使用WebP图片</code>中详细介绍。</p>
 <h2 id="二、响应式图片"><a href="#二、响应式图片" class="headerlink" title="二、响应式图片"></a>二、响应式图片</h2><p>所谓响应式图片，关键就一点：<strong>根据客户端的情况返回最适合客户端的图片</strong>。</p>
 <p>那么，在准备部署响应式图片的时候，会存在哪些情况呢？</p>
 <ul>
@@ -284,15 +284,15 @@
 <p>WebP图像的视觉质量通常与JPEG和PNG相当，但通常文件大小要小得多。例如，当我将屏幕截图从上面转换为WebP时，我得到了一个88 KB的文件，其质量与913 KB的原始图像相当。<strong>减少90％！</strong></p>
 <p>看一看下面三张图，你能分辨的出来吗？</p>
 <ul>
-<li><p><a href="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173702.png" target="_blank" rel="noopener">原始图片</a></p>
+<li><p><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232154.png" target="_blank" rel="noopener">原始图片</a></p>
 </li>
-<li><p><a href="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173805.png" target="_blank" rel="noopener">优化后的图片</a></p>
+<li><p><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232255.png" target="_blank" rel="noopener">优化后的图片</a></p>
 </li>
-<li><p><a href="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420174018.webp" target="_blank" rel="noopener">webp图片</a></p>
+<li><p><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232329.webp" target="_blank" rel="noopener">webp图片</a></p>
 </li>
 </ul>
 <p>就个人而言，视觉质量具有可比性，您所获得的节省很难被忽视。现在我们已经确定了尽可能使用WebP格式的价值，但是要注意是它不能完全取代JPEG和PNG。根据<a href="https://caniuse.com/#search=WebP" target="_blank" rel="noopener">caniuse.com</a>提供的数据显示，虽然浏览器中的WebP支持已经很普遍了，但是需要足够高的版本号才可支持。</p>
-<p><img alt class="post-img b-lazy" data-img="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173633.png" data-index="2" data-src="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200420173633.png"></p>
+<p><img alt class="post-img b-lazy" data-img="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419233351.png" data-index="2" data-src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419233351.png"></p>
 <p>截止撰稿日(2020-04-20)，只有Safari还在试验中，也算是即将支持webp图片了。至于IE浏览器嘛，emmmm….一言难尽:slightly_smiling_face:</p>
 <p>数据显示，全球有77.63%的用户使用支持WebP的浏览器。这意味着，通过提供WebP图像，您可以为77.63%的客户提高网页速度。</p>
 <p>所以，在客户端支持的情况下，我们应该尽可能地使用 WebP 格式。</p>
@@ -353,7 +353,7 @@
 </blockquote>
 <p>对于webpack中关于多页面的其他配置，我将在其他文章中详细介绍并分享我的代码，请持续关注，谢谢～</p>
 <h3 id="利用cdn服务自动判断"><a href="#利用cdn服务自动判断" class="headerlink" title="利用cdn服务自动判断"></a>利用cdn服务自动判断</h3><p>目前，有些图片cdn服务可以开启自动兼容webp的模式，即支持webp的浏览器则将原图转换为webp图片并返回，否则直接返回原图。实现这个功能的原理是，根据浏览器发起的请求头中的Accept属性中是否包含webp格式来判断：</p>
-<p><img alt class="post-img b-lazy" data-img="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200422001919.png" data-index="3" data-src="https://raw.githubusercontent.com/LetTTGACO/images.letttgaco.cn/master/blog-images/20200422001919.png"></p>
+<p><img alt class="post-img b-lazy" data-img="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225140.png" data-index="3" data-src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200429225140.png"></p>
 <p>有则说明浏览器支持webp格式，这对开发者来说可能是最简单的兼容方案，但是依赖于后端服务。</p>
 <h2 id="四、参考"><a href="#四、参考" class="headerlink" title="四、参考"></a>四、参考</h2><ol>
 <li><a href="https://blog.liuguofeng.com/tag/图片" target="_blank" rel="noopener">将之前的项目图片进行了压缩</a></li>
@@ -509,7 +509,7 @@
       
       
       <li>
-        <a href="/2020/04/20/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/">Web开发过程中的图片优化</a>
+        <a href="/2020/04/20/Web%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/">Web开发过程中的图片优化</a>
       </li>
       
       
@@ -607,7 +607,7 @@
 			 <a href="http://beian.miit.gov.cn" target="_blank" rel="noopener">陕ICP备18013290号-1
 			
 				
-			        <span hidden="true" id="/2020/04/20/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="leancloud-visitors" data-flag-title="Web开发过程中的图片优化">
+			        <span hidden="true" id="/2020/04/20/Web%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/" class="leancloud-visitors" data-flag-title="Web开发过程中的图片优化">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
