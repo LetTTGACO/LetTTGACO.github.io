@@ -11,13 +11,13 @@
 	<link rel="preconnect" href="//9qpuwspm.api.lncld.net">
 	<link rel="preconnect" href="//gravatar.loli.net">
 
-	<title>Docker安装Nginx并配置重定向和Https的实践 | LetTTGACO</title>
+	<title>Nginx配置重定向和Https的实践 | LetTTGACO</title>
 
 	<meta name="HandheldFriendly" content="True">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 	<meta name="generator" content="hexo">
 	<meta name="author" content="LetTTGACO">
-	<meta name="description" content="docker安装Nginx并配置重定向和Https的实践">
+	<meta name="description" content="Nginx配置重定向和Https的实践">
 
 	
 	<meta name="keywords" content="docker Nginx 重定向 反向代理 Https SSL证书申请">
@@ -39,14 +39,14 @@
 
 	<meta property="og:site_name" content="LetTTGACO">
 	<meta property="og:type" content="article">
-	<meta property="og:title" content="Docker安装Nginx并配置重定向和Https的实践 | LetTTGACO">
-	<meta property="og:description" content="docker安装Nginx并配置重定向和Https的实践">
-	<meta property="og:url" content="https://blog.letttgaco.cn/2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">
+	<meta property="og:title" content="Nginx配置重定向和Https的实践 | LetTTGACO">
+	<meta property="og:description" content="Nginx配置重定向和Https的实践">
+	<meta property="og:url" content="https://blog.letttgaco.cn/2020/10/16/Nginx%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">
 
 	
 	<meta property="article:published_time" content="2020-10-16T23:10:00+08:00"> 
 	<meta property="article:author" content="LetTTGACO">
-	<meta property="article:published_first" content="LetTTGACO, /2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">
+	<meta property="article:published_first" content="LetTTGACO, /2020/10/16/Nginx%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">
 	
 
 	
@@ -140,7 +140,7 @@
                 
                 
             </div>
-            <h1 class="post-full-title">Docker安装Nginx并配置重定向和Https的实践</h1>
+            <h1 class="post-full-title">Nginx配置重定向和Https的实践</h1>
         </header>
         <div class="post-full no-image">
             
@@ -152,7 +152,7 @@
 <h2 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h2><p>我的云服务器为腾讯云服务器，系统为CentOS7.6(64位)，自带50G系统盘。</p>
 <p>在<code>dns</code>解析中将<code>www.letttgaco.cn</code>指向云服务器的对外IP地址。</p>
 <h2 id="安装并配置Nginx"><a href="#安装并配置Nginx" class="headerlink" title="安装并配置Nginx"></a>安装并配置Nginx</h2><p>首先介绍下整体的目录结构，如下：</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight csharp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|--root                   <span class="comment">// root（家）目录</span></span><br><span class="line">|  |--app                 <span class="comment">// 各个程序所在目录</span></span><br><span class="line">|  |  |--nginx            <span class="comment">// 各个程序所在目录</span></span><br><span class="line">|  |  |  |--conf  							</span><br><span class="line">|  |  |  |  |--nginx.conf <span class="comment">// nginx自定义配置文件</span></span><br><span class="line">|  |  |  |--html          <span class="comment">// 网页根目录</span></span><br><span class="line">|  |  |  |--logs          <span class="comment">// 日志文件</span></span><br><span class="line">|  |  |  |--ssl           <span class="comment">// 各个域名的证书存放地址nginx.conf</span></span><br><span class="line">|  |--nginx_run.sh        <span class="comment">// sh自动化命令</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|--root                   // root（家）目录</span><br><span class="line">|  |--app                 // 各个程序所在目录</span><br><span class="line">|  |  |--nginx            // 各个程序所在目录</span><br><span class="line">|  |  |  |--conf  							</span><br><span class="line">|  |  |  |  |--nginx.conf // nginx自定义配置文件</span><br><span class="line">|  |  |  |--html          // 网页根目录</span><br><span class="line">|  |  |  |--logs          // 日志文件</span><br><span class="line">|  |  |  |--ssl           // 各个域名的证书存放地址nginx.conf</span><br><span class="line">|  |--nginx_run.sh        // sh自动化命令</span><br></pre></td></tr></tbody></table></figure>
 
 <p>首先先按照以上目录结构创建相应的文件夹和文件</p>
 <figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir /root/app/nginx/conf</span><br><span class="line">touch /root/app/nginx/conf/nginx.conf</span><br><span class="line">mkdir /root/app/nginx/html</span><br><span class="line">mkdir /root/app/nginx/logs</span><br><span class="line">mkdir /root/app/nginx/ssl</span><br><span class="line">touch /root/nginx_run.sh</span><br></pre></td></tr></tbody></table></figure>
@@ -336,7 +336,7 @@
       
       
       <li>
-        <a href="/2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">Docker安装Nginx并配置重定向和Https的实践</a>
+        <a href="/2020/10/16/Nginx%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">Nginx配置重定向和Https的实践</a>
       </li>
       
       
@@ -436,7 +436,7 @@
 			 <a href="http://beian.miit.gov.cn" target="_blank" rel="noopener">陕ICP备18013290号-1
 			
 				
-			        <span hidden="true" id="/2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="leancloud-visitors" data-flag-title="Docker安装Nginx并配置重定向和Https的实践">
+			        <span hidden="true" id="/2020/10/16/Nginx%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="leancloud-visitors" data-flag-title="Nginx配置重定向和Https的实践">
 			            <span>阅读量 </span>
 			            <span class="leancloud-visitors-count">0</span>
 			        </span>
