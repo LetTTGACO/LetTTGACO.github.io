@@ -267,13 +267,13 @@
 </li>
 <li><p>视口 < 1280px 时</p>
 <ul>
-<li><p>根据视口的具体宽度，返回不同尺寸的 <em>img</em> 图片</p>
+<li>根据视口的具体宽度，返回不同尺寸的 <em>img</em> 图片</li>
+</ul>
 </li>
 <li><p>如果客户端支持 WebP，返回 WebP 格式</p>
 </li>
 </ul>
-</li>
-</ul>
+<p>dwdwd<br>dwdd</p>
 <figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag"><<span class="name">picture</span>></span></span><br><span class="line">  <span class="tag"><<span class="name">source</span></span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">"(min-width: 1280px)"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">sizes</span>=<span class="string">"50vw"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">"img-full-200.webp 200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-400.webp 400w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-800.webp 800w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-1200.webp 1200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-1600.webp 1600w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-2000.webp 2000w"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"image/webp"</span></span></span><br><span class="line"><span class="tag">  ></span></span><br><span class="line">  <span class="tag"><<span class="name">source</span></span></span><br><span class="line"><span class="tag">    <span class="attr">media</span>=<span class="string">"(min-width: 1280px)"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">sizes</span>=<span class="string">"50vw"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">"img-full-200.jpg 200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-400.jpg 400w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-800.jpg 800w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-1200.jpg 1200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-1600.jpg 1800w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-full-2000.jpg 2000w"</span></span></span><br><span class="line"><span class="tag">  ></span></span><br><span class="line"></span><br><span class="line">  <span class="tag"><<span class="name">source</span></span></span><br><span class="line"><span class="tag">    <span class="attr">sizes</span>=<span class="string">"(min-width: 640px) 60vw, 100vw"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">"img-200.webp 200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-400.webp 400w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-800.webp 800w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-1200.webp 1200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-1600.webp 1600w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-2000.webp 2000w"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"image/webp"</span></span></span><br><span class="line"><span class="tag">  ></span></span><br><span class="line">  <span class="tag"><<span class="name">img</span></span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">"img-400.jpg"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">sizes</span>=<span class="string">"(min-width: 640px) 60vw, 100vw"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">srcset</span>=<span class="string">"img-200.jpg 200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-400.jpg 400w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-800.jpg 800w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-1200.jpg 1200w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-1600.jpg 1600w,</span></span></span><br><span class="line"><span class="tag"><span class="string">        img-2000.jpg 2000w"</span></span></span><br><span class="line"><span class="tag">  ></span></span><br><span class="line"><span class="tag"></<span class="name">picture</span>></span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>这里强烈建议自己动手，结合 <a href="https://placeholder.com/" target="_blank" rel="noopener">placeholder.com</a> 网站，生成一些图片来测试。毕竟，纸上得来终觉浅。</p>
@@ -377,6 +377,10 @@
 
     
     <nav id="gobottom" class="pagination">
+        
+        <a class="prev-post" title="Docker安装Nginx并配置重定向和Https的实践" href="/2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">
+            ← Docker安装Nginx并配置重定向和Https的实践
+        </a>
         
         <span class="prev-next-post">·</span>
         
@@ -509,6 +513,12 @@
       
       
       <li>
+        <a href="/2020/10/16/Docker%E5%AE%89%E8%A3%85Nginx%E5%B9%B6%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8CHttps%E7%9A%84%E5%AE%9E%E8%B7%B5/">Docker安装Nginx并配置重定向和Https的实践</a>
+      </li>
+      
+      
+      
+      <li>
         <a href="/2020/04/20/Web%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/">Web开发过程中的图片优化</a>
       </li>
       
@@ -519,10 +529,6 @@
       </li>
       
       
-      
-      <li>
-        <a href="/2020/04/15/canal%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">canal命令总结</a>
-      </li>
       
       
       
@@ -573,7 +579,7 @@
 		<h3 class="read-next-card-header-title">标签云</h3>
 	</header>
 	<div class="read-next-card-content-ext">
-		<a href="/tags/FastDFS/" style="font-size: 14px;">FastDFS</a> <a href="/tags/Git/" style="font-size: 14px;">Git</a> <a href="/tags/HBase/" style="font-size: 14px;">HBase</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/Spring-Security/" style="font-size: 14px;">Spring Security</a> <a href="/tags/Tinymce/" style="font-size: 14px;">Tinymce</a> <a href="/tags/canal/" style="font-size: 14px;">canal</a> <a href="/tags/dubbo/" style="font-size: 14px;">dubbo</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 14px;">中间件</a> <a href="/tags/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/" style="font-size: 14px;">图片优化</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 14px;">数据结构</a> <a href="/tags/%E7%9F%AD%E4%BF%A1/" style="font-size: 14px;">短信</a>
+		<a href="/tags/FastDFS/" style="font-size: 14px;">FastDFS</a> <a href="/tags/Git/" style="font-size: 14px;">Git</a> <a href="/tags/HBase/" style="font-size: 14px;">HBase</a> <a href="/tags/Linux/" style="font-size: 14px;">Linux</a> <a href="/tags/Mybatis/" style="font-size: 14px;">Mybatis</a> <a href="/tags/Nginx/" style="font-size: 14px;">Nginx</a> <a href="/tags/Spring-Security/" style="font-size: 14px;">Spring Security</a> <a href="/tags/Tinymce/" style="font-size: 14px;">Tinymce</a> <a href="/tags/canal/" style="font-size: 14px;">canal</a> <a href="/tags/dubbo/" style="font-size: 14px;">dubbo</a> <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/" style="font-size: 14px;">中间件</a> <a href="/tags/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/" style="font-size: 14px;">图片优化</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 14px;">数据结构</a> <a href="/tags/%E7%9F%AD%E4%BF%A1/" style="font-size: 14px;">短信</a>
 	</div>
 </article>
 
