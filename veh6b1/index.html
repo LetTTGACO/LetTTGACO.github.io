@@ -1,0 +1,1901 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="第五章 Diff算法, blog">
+    <meta name="description" content="自顶向下学习React源码 第五章 Diff算法">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="baidu-site-verification" content="code-g3oDWAlD4V" />
+    <title>第五章 Diff算法 | 1874</title>
+    <!-- <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico"> -->
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <!-- <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    <!-- <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script> -->
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+        <!-- <div id="navContainer" class="nav-wrapper head-container"> -->
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <!-- <img src="/medias/logo.png" class="logo-img" alt="LOGO"> -->
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">1874</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/articles/" class="waves-effect waves-light">
+
+      
+      <i class="fa fa-bars" style="zoom: 0.6;"></i>
+      
+      <span>文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags">
+          
+          <i class="fas fa-tags" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>标签</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/categories">
+          
+          <i class="fas fa-bookmark" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>分类</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/archives/">
+          
+          <i class="fa fa-tasks" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>简约风</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/timeline/">
+          
+          <i class="fa fa-ellipsis-v" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>时间轴</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/data/" class="waves-effect waves-light">
+      
+      <i class="fa fa-list-alt" style="zoom: 0.6;"></i>
+      
+      <span>统计</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends/" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about/" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <!-- <img src="/medias/logo.png" class="logo-img circle responsive-img"> -->
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">1874</div>
+        <div class="logo-desc">
+            
+            有粤语歌就不会有世界末日
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fa fa-bars"></i>
+			
+			文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/tags " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-tags" style="position: absolute;left:50px" ></i>
+			      
+		          <span>标签</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/categories " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-bookmark" style="position: absolute;left:50px" ></i>
+			      
+		          <span>分类</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-archive"></i>
+			
+			归档
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/archives/ " style="margin-left:75px";>
+				  
+				   <i class="fa fa fa-tasks" style="position: absolute;left:50px" ></i>
+			      
+		          <span>简约风</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/timeline/ " style="margin-left:75px";>
+				  
+				   <i class="fa fa fa-ellipsis-v" style="position: absolute;left:50px" ></i>
+			      
+		          <span>时间轴</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/data/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fa fa-list-alt"></i>
+			
+			统计
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+</header>
+
+    
+
+
+
+<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/202201191345844.jpeg')"> -->
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/202201191345844.jpeg')">    
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">第五章 Diff算法</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <!-- <link rel="stylesheet" href="/libs/tocbot/tocbot.css"> -->
+<link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 110px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/React/">
+                                <span class="chip bg-color">React</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
+                                <span class="chip bg-color">自顶向下学习React源码</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                技术分享
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-27
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-03-29
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    18 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>对于<code>update</code>的组件，<code>React</code>会将当前组件与该组件在上次更新时对应的<code>Fiber</code>节点比较（也就是俗称的<code>Diff</code>算法），将比较的结果生成新<code>Fiber</code>节点。</p>
+<blockquote>
+<p>你可以从<a href="https://zh-hans.reactjs.org/docs/reconciliation.html#the-diffing-algorithm" target="_blank" rel="noopener">这里</a>看到 Diff 算法的介绍。</p>
+</blockquote>
+<p>一个 DOM 节点在某一时刻最多会有 4 个节点和他相关。</p>
+<ol>
+<li><code>current Fiber</code>。如果该<code>DOM</code>节点已在页面中，<code>current Fiber</code>代表该<code>DOM</code>节点对应的<code>Fiber</code>节点。</li>
+<li><code>workInProgress Fiber</code>。如果该<code>DOM</code>节点将在本次更新中渲染到页面中，<code>workInProgress Fiber</code>代表该<code>DOM</code>节点对应的<code>Fiber</code>节点。</li>
+<li><code>DOM</code>节点本身。</li>
+<li><code>JSX</code>对象。即<code>ClassComponent</code>的<code>render</code>方法的返回结果，或<code>FunctionComponent</code>的调用结果。<code>JSX</code>对象中包含描述<code>DOM</code>节点的信息。</li>
+</ol>
+<p><code>Diff</code>算法的本质是对比 1 和 4，生成 2。</p>
+<h1 id="Diff-的瓶颈以及-React-如何应对"><a href="#Diff-的瓶颈以及-React-如何应对" class="headerlink" title="Diff 的瓶颈以及 React 如何应对"></a>Diff 的瓶颈以及 React 如何应对</h1><p>由于<code>Diff</code>操作本身也会带来性能损耗，<code>React</code>文档中提到，即使在最前沿的算法中，将前后两棵树完全比对的算法的复杂程度为 <code>O(n3)</code>，其中<code>n</code>是树中元素的数量。<br>如果在<code>React</code>中使用了该算法，那么展示<code>1000</code>个元素所需要执行的计算量将在十亿的量级范围。这个开销实在是太过高昂。<br>为了降低算法复杂度，<code>React</code>的<code>diff</code>会预设三个限制：</p>
+<ol>
+<li>只对同级元素进行<code>Diff</code>。如果一个<code>DOM</code>节点在前后两次更新中跨越了层级，那么<code>React</code>不会尝试复用他。</li>
+<li>两个不同类型的元素会产生出不同的树。如果元素由<code>div</code>变为<code>p</code>，<code>React</code>会销毁<code>div</code>及其子孙节点，并新建<code>p</code>及其子孙节点。</li>
+<li>开发者可以通过 <code>key prop</code>来暗示哪些子元素在不同的渲染下能保持稳定。考虑如下例子：</li>
+</ol>
+<pre class=" language-html"><code class="language-html">// 更新前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ka<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>song<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+// 更新后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>song<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ka<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>如果没有<code>key</code>，<code>React</code>会认为<code>div</code>的第一个子节点由<code>p</code>变为<code>h3</code>，第二个子节点由<code>h3</code>变为<code>p</code>。这符合限制 2 的设定，会销毁并新建。<br>但是当我们用<code>key</code>指明了节点前后对应关系后，<code>React</code>知道<code>key === &quot;ka&quot;</code>的<code>p</code>在更新后还存在，所以<code>DOM</code>节点可以复用，只是需要交换下顺序。<br>这就是<code>React</code>为了应对算法性能瓶颈做出的三条限制。</p>
+<h1 id="Diff-是如何实现的"><a href="#Diff-是如何实现的" class="headerlink" title="Diff 是如何实现的"></a>Diff 是如何实现的</h1><p>从<code>Diff</code>的入口函数<code>reconcileChildFibers</code>出发，该函数会根据<code>newChild</code>（即<code>JSX</code>对象）类型调用不同的处理函数。</p>
+<blockquote>
+<p>你可以从<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L1280" target="_blank" rel="noopener">这里</a>看到<code>reconcileChildFibers</code>的源码。</p>
+</blockquote>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 根据newChild类型选择不同diff函数处理</span>
+<span class="token keyword">function</span> <span class="token function">reconcileChildFibers</span><span class="token punctuation">(</span>
+  returnFiber<span class="token punctuation">:</span> Fiber<span class="token punctuation">,</span>
+  currentFirstChild<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  newChild<span class="token punctuation">:</span> <span class="token keyword">any</span>
+<span class="token punctuation">)</span><span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> isObject <span class="token operator">=</span> <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">"object"</span> <span class="token operator">&amp;&amp;</span> newChild <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>isObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// object类型，可能是 REACT_ELEMENT_TYPE 或 REACT_PORTAL_TYPE</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>newChild<span class="token punctuation">.</span>$$<span class="token keyword">typeof</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">case</span> REACT_ELEMENT_TYPE<span class="token punctuation">:</span>
+      <span class="token comment" spellcheck="true">// 调用 reconcileSingleElement 处理</span>
+      <span class="token comment" spellcheck="true">// // ...省略其他case</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">"string"</span> <span class="token operator">||</span> <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">"number"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 调用 reconcileSingleTextNode 处理</span>
+    <span class="token comment" spellcheck="true">// ...省略</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isArray</span><span class="token punctuation">(</span>newChild<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 调用 reconcileChildrenArray 处理</span>
+    <span class="token comment" spellcheck="true">// ...省略</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 一些其他情况调用处理函数</span>
+  <span class="token comment" spellcheck="true">// ...省略</span>
+
+  <span class="token comment" spellcheck="true">// 以上都没有命中，删除节点</span>
+  <span class="token keyword">return</span> <span class="token function">deleteRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> currentFirstChild<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>可以从同级的节点数量将<code>Diff</code>分为两类：</p>
+<ol>
+<li>当<code>newChild</code>类型为<code>object</code>、<code>number</code>、<code>string</code>，代表同级只有一个节点</li>
+<li>当<code>newChild</code>类型为<code>Array</code>，同级有多个节点</li>
+</ol>
+<h1 id="单节点-Diff"><a href="#单节点-Diff" class="headerlink" title="单节点 Diff"></a>单节点 Diff</h1><p>对于单个节点，以类型<code>object</code>为例，会进入<code>reconcileSingleElement</code></p>
+<blockquote>
+<p>你可以从<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L1141" target="_blank" rel="noopener">这里</a>看到<code>reconcileSingleElement</code>源码</p>
+</blockquote>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">const</span> isObject <span class="token operator">=</span> <span class="token keyword">typeof</span> newChild <span class="token operator">===</span> <span class="token string">"object"</span> <span class="token operator">&amp;&amp;</span> newChild <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isObject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 对象类型，可能是 REACT_ELEMENT_TYPE 或 REACT_PORTAL_TYPE</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>newChild<span class="token punctuation">.</span>$$<span class="token keyword">typeof</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> REACT_ELEMENT_TYPE<span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true">// 调用 reconcileSingleElement 处理</span>
+    <span class="token comment" spellcheck="true">// ...其他case</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fob_llXO4IWuOz8t8LLXpU1vWzZv.png"></p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// returnFiber: current fiber的父级fiber</span>
+<span class="token comment" spellcheck="true">// currentFirstChild: 当前的current fiber，mount时不存在</span>
+<span class="token comment" spellcheck="true">// element: JSX对象</span>
+<span class="token comment" spellcheck="true">// lanes: 优先级相关，透传</span>
+<span class="token keyword">function</span> <span class="token function">reconcileSingleElement</span><span class="token punctuation">(</span>
+  returnFiber<span class="token punctuation">:</span> Fiber<span class="token punctuation">,</span>
+  currentFirstChild<span class="token punctuation">:</span> Fiber <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  element<span class="token punctuation">:</span> ReactElement<span class="token punctuation">,</span>
+  lanes<span class="token punctuation">:</span> Lanes
+<span class="token punctuation">)</span><span class="token punctuation">:</span> Fiber <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> key <span class="token operator">=</span> element<span class="token punctuation">.</span>key<span class="token punctuation">;</span>
+  <span class="token keyword">let</span> child <span class="token operator">=</span> currentFirstChild<span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// 首先判断是否存在对应DOM节点</span>
+  <span class="token comment" spellcheck="true">// 在mount时，不存在current fiber对应的dom节点</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>child <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 上一次更新存在DOM节点，接下来判断是否可复用</span>
+
+    <span class="token comment" spellcheck="true">// 首先比较key是否相同</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>child<span class="token punctuation">.</span>key <span class="token operator">===</span> key<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// key相同，接下来比较type是否相同</span>
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>child<span class="token punctuation">.</span>tag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// ...省略case</span>
+
+        <span class="token keyword">default</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>child<span class="token punctuation">.</span>elementType <span class="token operator">===</span> element<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// type相同则表示可以复用</span>
+            <span class="token comment" spellcheck="true">// 删除剩余的已经存在的children</span>
+            <span class="token comment" spellcheck="true">// 对于单一节点的更新，已经找到了可以复用的fiber，其余的fiber就没用了</span>
+            <span class="token function">deleteRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> child<span class="token punctuation">.</span>sibling<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// useFiber：复用老的fiber（current fiber），生成新fiber（work in progress fiber）</span>
+            <span class="token keyword">const</span> existing <span class="token operator">=</span> <span class="token function">useFiber</span><span class="token punctuation">(</span>child<span class="token punctuation">,</span> element<span class="token punctuation">.</span>props<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            existing<span class="token punctuation">.</span>ref <span class="token operator">=</span> <span class="token function">coerceRef</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> child<span class="token punctuation">,</span> element<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            existing<span class="token punctuation">.</span><span class="token keyword">return</span> <span class="token operator">=</span> returnFiber<span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// 返回复用的fiber</span>
+            <span class="token keyword">return</span> existing<span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+          <span class="token comment" spellcheck="true">// type不同则跳出switch</span>
+          <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">// 代码执行到这里代表：key相同但是type不同</span>
+      <span class="token comment" spellcheck="true">// 将该fiber及其兄弟fiber标记为删除</span>
+      <span class="token comment" spellcheck="true">// Remaining：其余的</span>
+      <span class="token function">deleteRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">// key不同，将该fiber标记为删除</span>
+      <span class="token function">deleteChild</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> child<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// 存在更新前是多个节点，更新后是一个节点，就需要将之前的多个节点依次与新节点对比，直到找出可复用的节点</span>
+    <span class="token comment" spellcheck="true">// 这里赋值后可再次进入循环</span>
+    child <span class="token operator">=</span> child<span class="token punctuation">.</span>sibling<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// 创建新Fiber，并返回 ...省略</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>从代码可以看出，<code>React</code>通过先判断<code>key</code>是否相同，如果<code>key</code>相同则判断<code>type</code>是否相同，只有都相同时一个<code>DOM</code>节点才能复用。<br>这里有个细节需要关注下：</p>
+<ul>
+<li>当<code>child !== null</code>且<code>key</code>相同且<code>type</code>不同时执行<code>deleteRemainingChildren</code>将<code>child</code>及其兄弟<code>fiber</code>都标记删除。</li>
+<li>当<code>child !== null且key</code>不同时仅将 child 标记删除。</li>
+</ul>
+<p>考虑如下例子：<br>当前页面有 3 个<code>li</code>，我们要全部删除，再插入一个<code>p</code>。</p>
+<pre><code>// 当前页面显示的
+ul &gt; li * 3
+
+// 这次需要更新的
+ul &gt; p
+</code></pre>
+<p>由于本次更新时只有一个<code>p</code>，属于单一节点的<code>Diff</code>，会走上面介绍的代码逻辑。<br>在<code>reconcileSingleElement</code>中遍历之前的 3 个<code>fiber</code>（对应的<code>DOM</code>为 3 个<code>li</code>），寻找本次更新的<code>p</code>是否可以复用之前的 3 个<code>fiber</code>中某个的<code>DOM</code>。<br>当<code>key</code>相同且<code>type</code>不同时，代表我们已经找到本次更新的<code>p</code>对应的上次的<code>fiber</code>，但是<code>p</code>与<code>li</code> <code>type</code>不同，不能复用。既然唯一的可能性已经不能复用，则剩下的<code>fiber</code>都没有机会了，所以都需要标记删除。<br>当<code>key</code>不同时只代表遍历到的该<code>fiber</code>不能被<code>p</code>复用，后面还有兄弟<code>fiber</code>还没有遍历到。所以仅仅标记该 fiber 删除。</p>
+<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>请判断如下<code>JSX</code>对象对应的<code>DOM</code>元素是否可以复用：</p>
+<pre class=" language-html"><code class="language-html">// 习题1 更新前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+// 更新后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+
+// 习题2 更新前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+// 更新后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ooo<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+
+// 习题3 更新前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+// 更新后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ooo<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+
+// 习题4 更新前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>ka song<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+// 更新后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>xiao bei<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>答案：<br>习题 1: 未设置<code>key prop</code>默认 <code>key = null</code>，所以更新前后<code>key</code>相同，都为<code>null</code>，但是更新前<code>type</code>为<code>div</code>，更新后为<code>p</code>，<code>type</code>改变则不能复用。<br>习题 2: 更新前后<code>key</code>改变，不需要再判断<code>type</code>，不能复用。<br>习题 3: 更新前后<code>key</code>改变，不需要再判断<code>type</code>，不能复用。<br>习题 4: 更新前后<code>key</code>与<code>type</code>都未改变，可以复用。<code>children</code>变化，<code>DOM</code>的子元素需要更新。</p>
+<h1 id="多节点-Diff"><a href="#多节点-Diff" class="headerlink" title="多节点 Diff"></a>多节点 Diff</h1><p>现在考虑我们有一个<code>FunctionComponent</code>：</p>
+<pre class=" language-html"><code class="language-html">function List () { return (
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>3<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+) }
+</code></pre>
+<p>他的返回值<code>JSX</code>对象的<code>children</code>属性不是单一节点，而是包含四个对象的数组</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token punctuation">{</span>
+  $$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  key<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  props<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    children<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>$$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span> type<span class="token punctuation">:</span> <span class="token string">"li"</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token string">"0"</span><span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> props<span class="token punctuation">:</span> <span class="token punctuation">{</span>…<span class="token punctuation">}</span><span class="token punctuation">,</span> …<span class="token punctuation">}</span>
+      <span class="token punctuation">{</span>$$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span> type<span class="token punctuation">:</span> <span class="token string">"li"</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token string">"1"</span><span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> props<span class="token punctuation">:</span> <span class="token punctuation">{</span>…<span class="token punctuation">}</span><span class="token punctuation">,</span> …<span class="token punctuation">}</span>
+      <span class="token punctuation">{</span>$$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span> type<span class="token punctuation">:</span> <span class="token string">"li"</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token string">"2"</span><span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> props<span class="token punctuation">:</span> <span class="token punctuation">{</span>…<span class="token punctuation">}</span><span class="token punctuation">,</span> …<span class="token punctuation">}</span>
+      <span class="token punctuation">{</span>$$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span> type<span class="token punctuation">:</span> <span class="token string">"li"</span><span class="token punctuation">,</span> key<span class="token punctuation">:</span> <span class="token string">"3"</span><span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span> props<span class="token punctuation">:</span> <span class="token punctuation">{</span>…<span class="token punctuation">}</span><span class="token punctuation">,</span> …<span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  type<span class="token punctuation">:</span> <span class="token string">"ul"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>这种情况下，<code>reconcileChildFibers</code>的<code>newChild</code>参数类型为<code>Array</code>，在<code>reconcileChildFibers</code>函数内部对应如下情况：</p>
+<blockquote>
+<p>你可以在<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L1352" target="_blank" rel="noopener">这里</a>看到这段源码逻辑</p>
+</blockquote>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">isArray</span><span class="token punctuation">(</span>newChild<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// 调用 reconcileChildrenArray 处理</span>
+  <span class="token comment" spellcheck="true">// ...省略</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="场景归纳"><a href="#场景归纳" class="headerlink" title="场景归纳"></a>场景归纳</h2><h3 id="场景-1：节点更新"><a href="#场景-1：节点更新" class="headerlink" title="场景 1：节点更新"></a>场景 1：节点更新</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 之前</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span> className<span class="token operator">=</span><span class="token string">"before"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+
+<span class="token comment" spellcheck="true">// 之后 情况1 —— 节点属性变化</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span> className<span class="token operator">=</span><span class="token string">"after"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+
+<span class="token comment" spellcheck="true">// 之后 情况2 —— 节点类型更新</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>div key<span class="token operator">=</span><span class="token string">"0"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+</code></pre>
+<h3 id="场景-2：节点新增或减少"><a href="#场景-2：节点新增或减少" class="headerlink" title="场景 2：节点新增或减少"></a>场景 2：节点新增或减少</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 之前</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+
+<span class="token comment" spellcheck="true">// 之后 情况1 —— 新增节点</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"2"</span><span class="token operator">></span><span class="token number">2</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+
+<span class="token comment" spellcheck="true">// 之后 情况2 —— 删除节点</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+</code></pre>
+<h3 id="场景-3：节点位置变化"><a href="#场景-3：节点位置变化" class="headerlink" title="场景 3：节点位置变化"></a>场景 3：节点位置变化</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 之前</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+
+<span class="token comment" spellcheck="true">// 之后</span>
+<span class="token operator">&lt;</span>ul<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"1"</span><span class="token operator">></span><span class="token number">1</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+  <span class="token operator">&lt;</span>li key<span class="token operator">=</span><span class="token string">"0"</span><span class="token operator">></span><span class="token number">0</span><span class="token operator">&lt;</span>li<span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>ul<span class="token operator">></span>
+</code></pre>
+<p>同级多个节点的<code>Diff</code>，一定属于以上三种情况中的一种或多种。</p>
+<h2 id="Diff-的思路"><a href="#Diff-的思路" class="headerlink" title="Diff 的思路"></a>Diff 的思路</h2><p>该如何设计 Diff 算法呢？一般思路：</p>
+<ol>
+<li>判断当前节点的更新属于哪种情况</li>
+<li>如果是新增，执行新增逻辑</li>
+<li>如果是删除，执行删除逻辑</li>
+<li>如果是更新，执行更新逻辑</li>
+</ol>
+<p>按这个方案，其实有个隐含的前提——<strong>不同操作的优先级是相同的</strong><br>但是<code>React</code>团队发现，在日常开发中，相较于新增和删除，更新组件发生的频率更高。所以<code>Diff</code>会优先判断当前节点是否属于更新。</p>
+<blockquote>
+<p><strong>注意</strong><br>在我们做数组相关的算法题时，经常使用双指针从数组头和尾同时遍历以提高效率，但是这里却不行。<br>虽然本次更新的<code>JSX</code>对象 <code>newChildren</code>为数组形式，但是和<code>newChildren</code>中每个组件进行比较的是<code>current fiber</code>，同级的<code>Fiber</code>节点是由<code>sibling</code>指针链接形成的单链表，即不支持双指针遍历。<br>即 <code>newChildren[0]</code>与<code>fiber</code>比较，<code>newChildren[1]</code>与<code>fiber.sibling</code>比较。<br>所以无法使用双指针优化。</p>
+</blockquote>
+<p>基于以上原因，<code>Diff</code>算法的整体逻辑会经历两轮遍历：<br>第一轮遍历：处理<code>更新</code>的节点。<br>第二轮遍历：处理剩下的<code>不属于更新</code>的节点。</p>
+<h2 id="第一轮遍历"><a href="#第一轮遍历" class="headerlink" title="第一轮遍历"></a>第一轮遍历</h2><p>第一轮遍历步骤如下：</p>
+<ol>
+<li><code>let i = 0</code>，遍历<code>newChildren</code>，将<code>newChildren[i]</code>与<code>oldFiber</code>比较，判断<code>DOM</code>节点是否可复用。</li>
+<li>如果可复用，<code>i++</code>，继续比较<code>newChildren[i]</code>与<code>oldFiber.sibling</code>，可以复用则继续遍历。</li>
+<li>如果不可复用，分两种情况：</li>
+</ol>
+<ul>
+<li><code>key</code>不同导致不可复用，立即跳出整个遍历，第一轮遍历结束。第一轮遍历只处理节点更新，也就是 key 相同的情况</li>
+<li><code>key</code>相同 type<code>不同</code>导致不可复用，会将<code>oldFiber</code>标记为<code>DELETION</code>，并继续遍历</li>
+</ul>
+<ol start="4">
+<li>如果<code>newChildren</code>遍历完（即<code>i === newChildren.length - 1</code>）或者<code>oldFiber</code>遍历完（即<code>oldFiber.sibling === null</code>），跳出遍历，第一轮遍历结束。<blockquote>
+<p>你可以从<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L818" target="_blank" rel="noopener">这里</a>看到这轮遍历的源码</p>
+</blockquote>
+</li>
+</ol>
+<p>当遍历结束后，会有两种结果：</p>
+<h3 id="1-步骤-3-跳出的遍历"><a href="#1-步骤-3-跳出的遍历" class="headerlink" title="1.步骤 3 跳出的遍历"></a>1.步骤 3 跳出的遍历</h3><p>此时<code>newChildren</code>没有遍历完，<code>oldFiber</code>也没有遍历完。<br>举个例子，考虑如下代码：</p>
+<pre class=" language-html"><code class="language-html">// 之前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+
+// 之后
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>第一个节点可复用，遍历到<code>key === 2</code>的节点发现<code>key</code>改变，不可复用，跳出遍历，等待第二轮遍历处理。<br>此时<code>oldFiber</code>剩下<code>key === 1</code>、<code>key === 2</code>未遍历，<code>newChildren</code>剩下<code>key === 2</code>、<code>key === 1</code>未遍历。</p>
+<h3 id="2-步骤-4-跳出的遍历"><a href="#2-步骤-4-跳出的遍历" class="headerlink" title="2.步骤 4 跳出的遍历"></a>2.步骤 4 跳出的遍历</h3><p>可能<code>newChildren</code>遍历完，或<code>oldFiber</code>遍历完，或他们同时遍历完。<br>举个例子，考虑如下代码：</p>
+<pre class=" language-html"><code class="language-html">// 之前
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>b<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+
+// 之后 情况1 —— newChildren与oldFiber都遍历完
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aa<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+
+// 之后 情况2 —— newChildren没遍历完，oldFiber遍历完 // newChildren剩下
+key==="2" 未遍历
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aa<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bb<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cc<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+
+// 之后 情况3 —— newChildren遍历完，oldFiber没遍历完 // oldFiber剩下 key==="1"
+未遍历
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>aa<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>带着第一轮遍历的结果，我们开始第二轮遍历。</p>
+<h2 id="第二轮遍历"><a href="#第二轮遍历" class="headerlink" title="第二轮遍历"></a>第二轮遍历</h2><p>对于第一轮遍历的结果，我们分别讨论：</p>
+<h3 id="newChildren-与-oldFiber-同时遍历完"><a href="#newChildren-与-oldFiber-同时遍历完" class="headerlink" title="newChildren 与 oldFiber 同时遍历完"></a>newChildren 与 oldFiber 同时遍历完</h3><p>那就是最理想的情况：只需在第一轮遍历进行组件<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L825" target="_blank" rel="noopener">更新</a>。此时 Diff 结束。</p>
+<h3 id="newChildren-没遍历完，oldFiber-遍历完"><a href="#newChildren-没遍历完，oldFiber-遍历完" class="headerlink" title="newChildren 没遍历完，oldFiber 遍历完"></a>newChildren 没遍历完，oldFiber 遍历完</h3><p>已有的<code>DOM</code>节点都复用了，这时还有新加入的节点，意味着本次更新有新节点插入，我们只需要遍历剩下的<code>newChildren</code>为生成的<code>workInProgress fiber</code>依次标记<code>Placement</code>。</p>
+<blockquote>
+<p>你可以在<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L869" target="_blank" rel="noopener">这里</a>看到这段源码逻辑</p>
+</blockquote>
+<h3 id="newChildren-遍历完，oldFiber-没遍历完"><a href="#newChildren-遍历完，oldFiber-没遍历完" class="headerlink" title="newChildren 遍历完，oldFiber 没遍历完"></a>newChildren 遍历完，oldFiber 没遍历完</h3><p>意味着本次更新比之前的节点数量少，有节点被删除了。所以需要遍历剩下的<code>oldFiber</code>，依次标记<code>Deletion</code>。</p>
+<blockquote>
+<p>你可以在<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L863" target="_blank" rel="noopener">这里</a>看到这段源码逻辑</p>
+</blockquote>
+<h3 id="newChildren-与-oldFiber-遍历完"><a href="#newChildren-与-oldFiber-遍历完" class="headerlink" title="newChildren 与 oldFiber 遍历完"></a>newChildren 与 oldFiber 遍历完</h3><p>这意味着有节点在这次更新中改变了位置。<br>这是<code>Diff</code>算法最精髓也是最难懂的部分。</p>
+<blockquote>
+<p>你可以在<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L893" target="_blank" rel="noopener">这里</a>看到这段源码逻辑</p>
+</blockquote>
+<h2 id="处理移动的节点"><a href="#处理移动的节点" class="headerlink" title="处理移动的节点"></a>处理移动的节点</h2><p>由于有节点改变了位置，所以不能再用位置索引 i 对比前后的节点，那么如何才能将同一个节点在两次更新中对应上呢？<br>我们需要使用<code>key</code>。<br>为了快速的找到<code>key</code>对应的<code>oldFiber</code>，我们将所有还未处理的<code>oldFiber</code>存入以<code>key</code>为<code>key</code>，<code>oldFiber</code>为<code>value</code>的<code>Map</code>中。</p>
+<pre class=" language-typescript"><code class="language-typescript"><span class="token keyword">const</span> existingChildren <span class="token operator">=</span> <span class="token function">mapRemainingChildren</span><span class="token punctuation">(</span>returnFiber<span class="token punctuation">,</span> oldFiber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>你可以在<a href="https://github.com/facebook/react/blob/1fb18e22ae66fdb1dc127347e169e73948778e5a/packages/react-reconciler/src/ReactChildFiber.new.js#L890" target="_blank" rel="noopener">这里</a>看到这段源码逻辑</p>
+</blockquote>
+<p>接下来遍历剩余的<code>newChildren</code>，通过<code>newChildren[i].key</code>就能在<code>existingChildren</code>中找到<code>key</code>相同的<code>oldFiber</code>。</p>
+<h2 id="标记节点是否移动"><a href="#标记节点是否移动" class="headerlink" title="标记节点是否移动"></a>标记节点是否移动</h2><p>既然我们的目标是寻找移动的节点，那么我们需要明确：节点是否移动是以什么为参照物？<br>我们的参照物是：最后一个可复用的节点在<code>oldFiber</code>中的位置索引（用变量<code>lastPlacedIndex</code>表示）。<br>由于本次更新中节点是按<code>newChildren</code>的顺序排列。在遍历<code>newChildren</code>过程中，每个遍历到的可复用节点一定是当前遍历到的所有可复用节点中最靠右的那个，即一定在<code>lastPlacedIndex</code>对应的可复用的节点在本次更新中位置的后面。<br>那么我们只需要比较遍历到的可复用节点在上次更新时是否也在<code>lastPlacedIndex</code>对应的<code>oldFiber</code>后面，就能知道两次更新中这两个节点的相对位置改变没有。<br>我们用变量<code>oldIndex</code>表示遍历到的可复用节点在<code>oldFiber</code>中的位置索引。如果<code>oldIndex &lt; lastPlacedIndex</code>，代表本次更新该节点需要向右移动。<br><code>lastPlacedIndex</code>初始为<code>0</code>，每遍历一个可复用的节点，如果<code>oldIndex &gt;= lastPlacedIndex</code>，则<code>lastPlacedIndex = oldIndex</code>。<br>这里有两个 Demo，可以对照着理解。</p>
+<h3 id="Demo1"><a href="#Demo1" class="headerlink" title="Demo1"></a>Demo1</h3><p>在<code>Demo</code>中我们简化下书写，每个字母代表一个节点，字母的值代表节点的<code>key</code></p>
+<pre class=" language-typescript"><code class="language-typescript">
+<span class="token comment" spellcheck="true">// 之前</span>
+abcd
+
+<span class="token comment" spellcheck="true">// 之后</span>
+acdb
+
+<span class="token operator">===</span>第一轮遍历开始<span class="token operator">===</span>
+a（之后）vs a（之前）
+key不变，可复用
+此时 a 对应的oldFiber（之前的a）在之前的数组（abcd）中索引为<span class="token number">0</span>
+所以 lastPlacedIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+继续第一轮遍历<span class="token operator">...</span>
+
+c（之后）vs b（之前）
+key改变，不能复用，跳出第一轮遍历
+此时 lastPlacedIndex <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token operator">===</span>第一轮遍历结束<span class="token operator">===</span>
+
+<span class="token operator">===</span>第二轮遍历开始<span class="token operator">===</span>
+newChildren <span class="token operator">===</span> cdb，没用完，不需要执行删除旧节点
+oldFiber <span class="token operator">===</span> bcd，没用完，不需要执行插入新节点
+
+将剩余oldFiber（bcd）保存为map
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：bcd</span>
+<span class="token comment" spellcheck="true">// 当前newChildren：cdb</span>
+
+继续遍历剩余newChildren
+
+key <span class="token operator">===</span> c 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> c（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span>
+此时 oldIndex <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以c.index === 2</span>
+比较 oldIndex 与 lastPlacedIndex<span class="token punctuation">;</span>
+
+如果 oldIndex <span class="token operator">>=</span> lastPlacedIndex 代表该可复用节点不需要移动
+并将 lastPlacedIndex <span class="token operator">=</span> oldIndex<span class="token punctuation">;</span>
+如果 oldIndex <span class="token operator">&lt;</span> lastplacedIndex 该可复用节点之前插入的位置索引小于这次更新需要插入的位置索引，代表该节点需要向右移动
+
+在例子中，oldIndex <span class="token number">2</span> <span class="token operator">></span> lastPlacedIndex <span class="token number">0</span>，
+则 lastPlacedIndex <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+c节点位置不变
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：bd</span>
+<span class="token comment" spellcheck="true">// 当前newChildren：db</span>
+
+key <span class="token operator">===</span> d 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> d（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span>
+oldIndex <span class="token number">3</span> <span class="token operator">></span> lastPlacedIndex <span class="token number">2</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以d.index === 3</span>
+则 lastPlacedIndex <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+d节点位置不变
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：b</span>
+<span class="token comment" spellcheck="true">// 当前newChildren：b</span>
+
+key <span class="token operator">===</span> b 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> b（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span>
+oldIndex <span class="token number">1</span> <span class="token operator">&lt;</span> lastPlacedIndex <span class="token number">3</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以b.index === 1</span>
+则 b节点需要向右移动
+<span class="token operator">===</span>第二轮遍历结束<span class="token operator">===</span>
+
+最终acd <span class="token number">3</span>个节点都没有移动，b节点被标记为移动
+</code></pre>
+<h3 id="Demo2"><a href="#Demo2" class="headerlink" title="Demo2"></a>Demo2</h3><pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// 之前</span>
+abcd
+
+<span class="token comment" spellcheck="true">// 之后</span>
+dabc
+
+<span class="token operator">===</span>第一轮遍历开始<span class="token operator">===</span>
+d（之后）vs a（之前）
+key改变，不能复用，跳出遍历
+<span class="token operator">===</span>第一轮遍历结束<span class="token operator">===</span>
+
+<span class="token operator">===</span>第二轮遍历开始<span class="token operator">===</span>
+newChildren <span class="token operator">===</span> dabc，没用完，不需要执行删除旧节点
+oldFiber <span class="token operator">===</span> abcd，没用完，不需要执行插入新节点
+
+将剩余oldFiber（abcd）保存为map
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：abcd</span>
+<span class="token comment" spellcheck="true">// 当前newChildren dabc</span>
+
+key <span class="token operator">===</span> d 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> d（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span>
+此时 oldIndex <span class="token operator">===</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以d.index === 3</span>
+比较 oldIndex 与 lastPlacedIndex<span class="token punctuation">;</span>
+oldIndex <span class="token number">3</span> <span class="token operator">></span> lastPlacedIndex <span class="token number">0</span>
+则 lastPlacedIndex <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">;</span>
+d节点位置不变
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：abc</span>
+<span class="token comment" spellcheck="true">// 当前newChildren abc</span>
+
+key <span class="token operator">===</span> a 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> a（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以a.index === 0</span>
+此时 oldIndex <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">;</span>
+比较 oldIndex 与 lastPlacedIndex<span class="token punctuation">;</span>
+oldIndex <span class="token number">0</span> <span class="token operator">&lt;</span> lastPlacedIndex <span class="token number">3</span>
+则 a节点需要向右移动
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：bc</span>
+<span class="token comment" spellcheck="true">// 当前newChildren bc</span>
+
+key <span class="token operator">===</span> b 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> b（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以b.index === 1</span>
+此时 oldIndex <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">;</span>
+比较 oldIndex 与 lastPlacedIndex<span class="token punctuation">;</span>
+oldIndex <span class="token number">1</span> <span class="token operator">&lt;</span> lastPlacedIndex <span class="token number">3</span>
+则 b节点需要向右移动
+
+继续遍历剩余newChildren
+
+<span class="token comment" spellcheck="true">// 当前oldFiber：c</span>
+<span class="token comment" spellcheck="true">// 当前newChildren c</span>
+
+key <span class="token operator">===</span> c 在 oldFiber中存在
+<span class="token keyword">const</span> oldIndex <span class="token operator">=</span> c（之前）<span class="token punctuation">.</span>index<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 之前节点为 abcd，所以c.index === 2</span>
+此时 oldIndex <span class="token operator">===</span> <span class="token number">2</span><span class="token punctuation">;</span>
+比较 oldIndex 与 lastPlacedIndex<span class="token punctuation">;</span>
+oldIndex <span class="token number">2</span> <span class="token operator">&lt;</span> lastPlacedIndex <span class="token number">3</span>
+则 c节点需要向右移动
+
+<span class="token operator">===</span>第二轮遍历结束<span class="token operator">===</span>
+</code></pre>
+<p>可以看到，我们以为从 <code>abcd</code> 变为 <code>dabc</code>，只需要将<code>d</code>移动到前面。<br>但实际上<code>React</code>保持<code>d</code>不变，将<code>abc</code>分别移动到了<code>d</code>的后面。<br>从这点可以看出，考虑性能，我们要尽量减少将节点从后面移动到前面的操作。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://1874.cool" rel="external nofollow noreferrer">1874</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://1874.cool/veh6b1/">https://1874.cool/veh6b1/</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        语雀文章链接: &nbsp;
+                    </i>
+                </span>
+                    <span class="reprint-info">
+                    <a href="https://www.yuque.com/1874w/1874.cool/veh6b1/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/veh6b1/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://1874.cool" target="_blank">1874</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/React/">
+                                    <span class="chip bg-color">React</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
+                                    <span class="chip bg-color">自顶向下学习React源码</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <!-- <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css"> -->
+<link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="qq,weibo,douban,google,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <!-- <script src="/libs/share/js/social-share.min.js"></script> -->
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<!-- <script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script> -->
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'Md0lfvjFOKaeMBFRyhPa8Flr-gzGzoHsz',
+        appKey: 'qtEUdBnIgk8OxXH1Vbpw25Vd',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mp',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '欢迎畅所欲言'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/veh6b1/">
+                    <div class="card-image">
+                        
+                        <!-- <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第五章 状态更新"> -->
+                        <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第五章 状态更新">
+                        
+                        <span class="card-title">第五章 状态更新</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            自顶向下学习React源码 第五章 状态更新
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-29
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                    技术分享
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
+                        <span class="chip bg-color">自顶向下学习React源码</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/lgutmr/">
+                    <div class="card-image">
+                        
+                        <!-- <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第四章 React架构-commit阶段"> -->
+                        <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第四章 React架构-commit阶段">
+                        
+                        <span class="card-title">第四章 React架构-commit阶段</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            自顶向下学习React源码 第四章 React架构-commit阶段
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-02-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                    技术分享
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/React/">
+                        <span class="chip bg-color">React</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
+                        <span class="chip bg-color">自顶向下学习React源码</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<!-- <script src="/libs/tocbot/tocbot.min.js"></script> -->
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Design by&nbsp;<a href="https://blog.csdn.net/z_johnny" target="_blank">1874</a>
+            &nbsp|&nbsp&nbsp;Powered by&nbsp;<a href="https://github.com/hongweifuture/hexo-theme-halo" target="_blank">Halo</a> 
+            of <a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;总字数:&nbsp;<span
+                class="white-color">55.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;点击量:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            <br>
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>&nbsp&nbsp|
+            &nbsp;<a href="https://1874.cool/sitemap.xml" target="_blank">Sitemap</a>&nbsp;&nbsp;|&nbsp;
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "2";
+                    var startDate = "17";
+                    var startHour = "22";
+                    var startMinute = "08";
+                    var startSecond = "11";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                            " 天 " ;
+                        // document.getElementById("sitetime").innerHTML = "本站已充电 " + diffDays + " 天 " + diffHours +
+                        //     " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                            " 天 " ;
+                        // document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                        //     " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/LetTTGACO" class="tooltipped" target="_blank" data-toggle="tooltip" data-placement="top" title="访问我的GitHub">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:me@1874.cool" class="tooltipped" target="_blank" data-toggle="tooltip" data-placement="top" title="邮件联系我">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<!-- <script src="/js/search.js"></script> -->
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    // searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <!-- <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script> -->
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+        <!-- <script src="/libs/others/clicklove.js" async="async"></script> -->
+        <script src="/libs/others/clicklove.js" async="async"></script>
+    
+
+    
+
+    
+
+    
+    <!-- <script async src="/libs/others/busuanzi.pure.mini.js"></script> -->
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <!-- <script src="/libs/instantpage/instantpage.js" type="module"></script> -->
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<!--    <script type="text/javascript"> -->
+<!--        var OriginTitile=document.title,st; -->
+<!--        document.addEventListener("visibilitychange",function(){ -->
+<!--            document.hidden?(document.title="ヽ(●-`Д´-)ノ风里雨里我在等你~",clearTimeout(st)):(document.title="(๑•̀ㅂ•́) ✧ 欢迎回来~~！",st=setTimeout(function(){document.title=OriginTitile},3e3)) -->
+<!--            })-->
+<!--    </script>-->
+
+    <div id="he-plugin-simple"></div>
+    <script>
+    WIDGET = {
+    CONFIG: {
+        "modules": "01234",
+        "background": 5,
+        "tmpColor": "FFFFFF",
+        "tmpSize": 16,
+        "cityColor": "FFFFFF",
+        "citySize": "16",
+        "aqiSize": 16,
+        "weatherIconSize": "20",
+        "alertIconSize": 18,
+        "padding": "10px 10px 10px 10px",
+        "shadow": "0",
+        "language": "auto",
+        "fixed": "true",
+        "vertical": "top",
+        "horizontal": "right",
+        "right": 10,
+        "top": "60",
+        "key": "2ccd90212a1d41dea248662765a0fb9c"
+    }
+    }
+    </script>
+    <script src="https://widget.heweather.net/simple/static/js/he-simple-common.js?v=1.1"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== '' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+Base64.encode(href)+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body>
+
+</html>

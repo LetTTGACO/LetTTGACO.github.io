@@ -1,0 +1,1793 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Webpack配置-图片优化, blog">
+    <meta name="description" content="利用Webpack插件来优化图片">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="baidu-site-verification" content="code-g3oDWAlD4V" />
+    <title>Webpack配置-图片优化 | 1874</title>
+    <!-- <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico"> -->
+    <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
+
+    <!-- <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    <!-- <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script> -->
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+        <!-- <div id="navContainer" class="nav-wrapper head-container"> -->
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <!-- <img src="/medias/logo.png" class="logo-img" alt="LOGO"> -->
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">1874</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/articles/" class="waves-effect waves-light">
+
+      
+      <i class="fa fa-bars" style="zoom: 0.6;"></i>
+      
+      <span>文章</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/tags">
+          
+          <i class="fas fa-tags" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>标签</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/categories">
+          
+          <i class="fas fa-bookmark" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>分类</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives/" class="waves-effect waves-light">
+
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+      <i class="fas fa-chevron-down" aria-hidden="true" style="zoom: 0.6;"></i>
+    </a>
+    <ul class="sub-nav menus_item_child ">
+      
+      <li>
+        <a href="/archives/">
+          
+          <i class="fa fa-tasks" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>简约风</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/timeline/">
+          
+          <i class="fa fa-ellipsis-v" style="margin-top: -20px; zoom: 0.6;"></i>
+          
+          <span>时间轴</span>
+        </a>
+      </li>
+      
+    </ul>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/data/" class="waves-effect waves-light">
+      
+      <i class="fa fa-list-alt" style="zoom: 0.6;"></i>
+      
+      <span>统计</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends/" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友链</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about/" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <!-- <img src="/medias/logo.png" class="logo-img circle responsive-img"> -->
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">1874</div>
+        <div class="logo-desc">
+            
+            有粤语歌就不会有世界末日
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fa fa-bars"></i>
+			
+			文章
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/tags " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-tags" style="position: absolute;left:50px" ></i>
+			      
+		          <span>标签</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/categories " style="margin-left:75px";>
+				  
+				   <i class="fa fas fa-bookmark" style="position: absolute;left:50px" ></i>
+			      
+		          <span>分类</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="javascript:;">
+			
+				<i class="fa-fw fas fa-archive"></i>
+			
+			归档
+			<span class="m-icon"><i class="fas fa-chevron-right"></i></span>
+		</a>
+            <ul  style="background:  ;" >
+              
+                <li>   
+				
+                  <a href="/archives/ " style="margin-left:75px";>
+				  
+				   <i class="fa fa fa-tasks" style="position: absolute;left:50px" ></i>
+			      
+		          <span>简约风</span>
+                  </a>
+                </li>
+              
+                <li>   
+				
+                  <a href="/timeline/ " style="margin-left:75px";>
+				  
+				   <i class="fa fa fa-ellipsis-v" style="position: absolute;left:50px" ></i>
+			      
+		          <span>时间轴</span>
+                  </a>
+                </li>
+               
+            </ul>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/data/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fa fa-list-alt"></i>
+			
+			统计
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友链
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+    </nav>
+</header>
+
+    
+
+
+
+<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/20200420000347.jpg')"> -->
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/20200420000347.jpg')">    
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Webpack配置-图片优化</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <!-- <link rel="stylesheet" href="/libs/tocbot/tocbot.css"> -->
+<link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 110px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Webpack/">
+                                <span class="chip bg-color">Webpack</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E4%BC%98%E5%8C%96/">
+                                <span class="chip bg-color">静态资源优化</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                技术分享
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-04-20
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-04-20
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.7k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    21 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>图片是大部分网页的重要组成部分，一般情况下，我们不会太关注这方面的问题，需要显示图片直接一个 <code>img</code> 标签搞定。但实际上，无论是对于提高加载速度，还是对于优化用户体验，优化图片都是一个重要的手段。<br>图片优化分成两个方面：</p>
+<ol>
+<li>图片压缩。在保证视觉效果的情况下，减少图片的体积。这个很有效，1M 和 100K 的图片，肉眼看起来几乎差不多，但却省了 90% 的流量，大大提高了加载速度。</li>
+<li>响应式图片。根据客户端的情况，选择最合适的图片返回给用户。用户是一个 500px 的设备，那么返回 1000px 的图给他就是浪费（假设物理像素和 CSS 像素是一比一）。</li>
+</ol>
+<h1 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h1><p>压缩的第一步是筛选出需要压缩的图片。如果图片本身就已经足够小了，那么再压缩的意义就不大。<br>而对于这些足够小的图片，我们就可以将其转换成雪碧图<strong>（CssSprites）</strong>或者<code>base64</code>编码来存储，而关于这两者的使用场景这里可以看一下这两篇文章（<a href="https://www.cnblogs.com/joyho/articles/3715275.html" target="_blank" rel="noopener">不要滥用雪碧图 sprite</a>和<a href="https://www.cnblogs.com/coco1s/p/4375774.html" target="_blank" rel="noopener">玩转图片 Base64 编码</a>）。</p>
+<h2 id="url-loader"><a href="#url-loader" class="headerlink" title="url-loader"></a>url-loader</h2><p>这里我采用的是 webpack 里的<code>url-loader</code>插件进行处理，对于小于 1kb 的图片，将其转换成<code>base64</code>编码进行存储。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
+  test<span class="token punctuation">:</span> <span class="token regex">/\.(png|jpe?g|gif|svg)$/</span><span class="token punctuation">,</span>
+  use<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      loader<span class="token punctuation">:</span> <span class="token string">"url-loader"</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 它封装了file-loader，所以可以使用两个loader的全部配置属性</span>
+      options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        limit<span class="token punctuation">:</span> <span class="token number">1024</span><span class="token punctuation">,</span>
+        esModule<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        outputPath<span class="token punctuation">:</span> <span class="token string">'images'</span> <span class="token comment" spellcheck="true">// 设置图片的输出路径</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+<blockquote>
+<p><strong>参数说明</strong> &gt; <code>limit</code>是转换成 Base64 的图片大小的零界点设置，单位为 Byte，小于该数值的将进行转换。<br><code>esModule</code>是针对是否使用模块化框架的用户设定参数，默认为 true。如果项目中没有使用模块化框架，建议要将这个属性关闭，避免出现图片资源超过 limit，就变成[object Module]的问题。<br><code>outputPath</code>图片输出路径，将优化后的图片统一输出到该路径。</p>
+</blockquote>
+<h2 id="image-webpack-loader"><a href="#image-webpack-loader" class="headerlink" title="image-webpack-loader"></a>image-webpack-loader</h2><p>接下来就是压缩大一点的图片了，使用<a href="https://github.com/tcoopman/image-webpack-loader" target="_blank" rel="noopener">image-webpack-loader</a>进行进一步处理。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
+  test<span class="token punctuation">:</span> <span class="token regex">/\.(png|jpe?g|gif|webp|svg)$/</span><span class="token punctuation">,</span>
+  use<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+      loader<span class="token punctuation">:</span> <span class="token string">"url-loader"</span><span class="token punctuation">,</span>
+      options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        limit<span class="token punctuation">:</span> <span class="token number">1024</span><span class="token punctuation">,</span>
+        esModule<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        outputPath<span class="token punctuation">:</span> <span class="token string">'images'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+      loader<span class="token punctuation">:</span> <span class="token string">'image-webpack-loader'</span><span class="token punctuation">,</span>
+      options<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        mozjpeg<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          progressive<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+          quality<span class="token punctuation">:</span> <span class="token number">70</span> <span class="token comment" spellcheck="true">// 数值越高，质量越好</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        optipng<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">// enabled: false,</span>
+          OptimizationLevel<span class="token punctuation">:</span> <span class="token number">4</span> <span class="token comment" spellcheck="true">// 默认是3</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        pngquant<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          enabled：<span class="token boolean">false</span><span class="token punctuation">,</span>
+          <span class="token comment" spellcheck="true">// quality: [0.75,0.95],</span>
+          <span class="token comment" spellcheck="true">// speed: 4</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        gifsicle<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          interlaced<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 默认：false 隔行扫描gif进行渲染</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token comment" spellcheck="true">// webp: {</span>
+        <span class="token comment" spellcheck="true">//   quality: 75</span>
+        <span class="token comment" spellcheck="true">// }</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+<blockquote>
+<p>如文档所说，<a href="https://github.com/tcoopman/image-webpack-loader" target="_blank" rel="noopener">image-webpack-loader</a>随附以下优化器，默认情况下会自动启用这些优化器：</p>
+<ul>
+<li><a href="https://github.com/imagemin/imagemin-mozjpeg" target="_blank" rel="noopener">mozjpeg</a> — 压缩 JPEG 图像</li>
+<li><a href="https://github.com/kevva/imagemin-optipng" target="_blank" rel="noopener">optipng</a> — 压缩 PNG 图像</li>
+<li><a href="https://github.com/imagemin/imagemin-pngquant" target="_blank" rel="noopener">pngquant</a> — 压缩 PNG 图像</li>
+<li><a href="https://github.com/kevva/imagemin-svgo" target="_blank" rel="noopener">svgo</a> — 压缩 SVG 图像</li>
+<li><a href="https://github.com/kevva/imagemin-gifsicle" target="_blank" rel="noopener">gifsicle</a> — 压缩 GIF 图像</li>
+</ul>
+<p>和可选的优化器：</p>
+<ul>
+<li><a href="https://github.com/imagemin/imagemin-webp" target="_blank" rel="noopener">webp</a> —将 JPG 和 PNG 图像压缩为 WEBP</li>
+</ul>
+<p>可以通过指定禁用默认优化器<code>optimizer.enabled: false</code>，并将其放在选项中即可启用可选优化器。</p>
+</blockquote>
+<h3 id="imagemin-mozjpeg"><a href="#imagemin-mozjpeg" class="headerlink" title="imagemin-mozjpeg"></a><a href="https://github.com/imagemin/imagemin-mozjpeg" target="_blank" rel="noopener">imagemin-mozjpeg</a></h3><p>JPEG 根据显示方式的不同，分为两种：Progressive JPEG 和 Baseline JPEG。<br>Progressive JPEG 会先加载模糊的整张图片，然后变的越来越清晰。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fk_-bMzWW6DrevC_kqIB1zGKiRgZ.jpg"><br>而 Baseline JPEG 会先清晰地加载图片的一部分，然后慢慢显示剩余的部分。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FjOjOygtOL0EeKqbIJJOrjot6rNB.jpg"></p>
+<p>从视觉效果来说，Progressive JPEG 自然更好一些。但它也有一些缺点，比如它的解码速度比 Baseline JPEG 要慢，占用的 CPU 时间更多。<br>如果是桌面浏览器，这点性能问题自然无所谓，但是如果是移动端，就不得不考虑。工程本来就是权衡的艺术。<br>默认情况下，MozJPEG 生成的是 Progressive JPEG，可以通过 <a href="https://github.com/imagemin/imagemin-mozjpeg#progressive" target="_blank" rel="noopener">选项</a> 调整。</p>
+<h3 id="optipng"><a href="#optipng" class="headerlink" title="optipng"></a><a href="https://github.com/imagemin/imagemin-optipng" target="_blank" rel="noopener">optipng</a></h3><p>在研究文档的过程中发现一个有趣的问题，也可能是官网无意中的行为（真的吗？），官方文档为了说明其 API 中的禁用指定优化器功能<code>optimizer.enabled: false</code>，就在文档中写了这么一段代码：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">// optipng.enabled: false will disable optipng</span>
+    optipng<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        enabled<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  pngquant<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    quality<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">0.65</span><span class="token punctuation">,</span> <span class="token number">0.90</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    speed<span class="token punctuation">:</span> <span class="token number">4</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>本来是一个举例说明，结果在我 google 的几乎所有用户的 webpack 配置中，大家都把<code>optipng</code>这个优秀的压缩工具给禁用了 QAQ。<br>实际上在压缩质量上来说，<code>optipng</code>是无损压缩，采用的是基于 LZ/Huffman 的 DEFLATE 算法，以减少图片 IDAT chunk 区域的数据来实现压缩图片，同样是无损压缩的工具还有<a href="https://pngcrush.com/" target="_blank" rel="noopener"><strong>pngcrush</strong></a><strong>、</strong><a href="https://www.oschina.net/translate/4-free-tools-to-optimize-and-compress-png-images-without-loosing-quality?print" target="_blank" rel="noopener"><strong>pngout</strong></a><strong>、advpng</strong>。<br>而<a href="https://github.com/kornelski/pngquant" target="_blank" rel="noopener">pngquant</a>和<a href="https://tinify.cn/" target="_blank" rel="noopener"><strong>tinypng</strong></a><strong>、</strong><a href="https://github.com/kornelski/ImageAlpha" target="_blank" rel="noopener"><strong>ImageAlpha</strong></a><strong>、</strong><a href="https://github.com/stuart/pngnq" target="_blank" rel="noopener"><strong>pngnq</strong></a>等都是有损压缩，采用的是 quantization 算法，将 24 位的 PNG 图片转换为 8 位的 PNG 图片，减少图片的颜色数来实现图片压缩；<br>具体可以参考<a href="https://www.jianshu.com/p/83d00a7e2a4b" target="_blank" rel="noopener">Laya 图片压缩</a>对于各个压缩工具的对比情况。<br>但是呢，一般有损压缩的压缩率会大大高于无损压缩。就如 png 和 jpg 两者来说，png 格式可以进行无损压缩，质量好、支持透明但是体积大，jpg 的质量相对差一点但是体积很小，两者体积相差几乎在 70%以上。所以具体的权衡取舍还是看个人实际应用场景。</p>
+<h3 id="pngquant"><a href="#pngquant" class="headerlink" title="pngquant"></a><a href="https://github.com/imagemin/imagemin-pngquant" target="_blank" rel="noopener">pngquant</a></h3><p>正如上面所说，它是一个有损压缩，我这里为了演示，暂时禁用了它。</p>
+<blockquote>
+<p><strong>参数说明(引用自</strong><a href="https://www.jianshu.com/p/83d00a7e2a4b" target="_blank" rel="noopener"><strong>Laya 图片压缩</strong></a><strong>)：</strong> 1.<code>quality</code>参数的作用是保证图片经过优化处理后，图片质量的取值范围（0<del>1）。取值越小，表示压缩比率越大，同时的图片的质量也就越差。在测试过程中发现，当设置最低取值为 0.60 或 0.65 时，部分图片的质量会严重下降，因此最终选择了 0.70 作为最低值。 2.<code>speed</code>参数的设置决定了图片优化的执行速度，取值范围为 1</del>10，默认值为 4。其中 10 的执行速度最快，对应的压缩比率最小；而 1 的执行速度最慢，对应的压缩比率最大。在测试过程中发现，无论我设置哪一个值它们的执行时间都差不多，不过压缩比率确实 1 的最大，10 的最小。<br>实测效果：<br>在设置 quality 的取值范围为 0.70~0.95，以及 speed 为 4 的情况下，可以在尽可能不影响图片质量的前提下去缩减文件的大小。<br>在测试过程中，我们以 PNG-8 品质为 256 的图片为例，最终的图片输出可以降低 70%左右的大小（从 3.78KB 缩减到 1.13KB）。</p>
+</blockquote>
+<h3 id="gifsicle"><a href="#gifsicle" class="headerlink" title="gifsicle"></a><a href="https://github.com/imagemin/imagemin-gifsicle" target="_blank" rel="noopener">gifsicle</a></h3><p>gifsicle 一共有 4 个参数配置，我一般常用的就 interlaced，即隔行扫描进行渲染，图片会自上而下渐进式加载。<br>在上文中提到的 Progressive 和 Baseline 的区别中，progressive 等同于<code>interlaced</code>，baseline 等同于 <code>not interlaced</code>，所以取舍自己决定。</p>
+<blockquote>
+<p>参数说明<br><code>optimizationLevel</code>是优化级别，默认值为 1，取值范围在 1-3。优化级别的高低决定图片的质量，较高的级别需要更长的时间，但可能会有更好的效果。<br>文档中给出了 3 种取值所做的事：<br>1：仅存储每个图像的更改部分<br>2：还使用透明度进一步缩小文件。<br>3：尝试几种优化方法（通常速度较慢，有时效果更好）。<br><code>colors</code>是颜色减少的高低设置，是将每个输出 GIF 中的不同颜色数量减少到指定数值或者更少，取值范围在 2-256 之间。<br><code>buffer</code>是利用缓冲进行优化。</p>
+</blockquote>
+<h3 id="webp"><a href="#webp" class="headerlink" title="webp"></a><a href="https://github.com/imagemin/imagemin-webp" target="_blank" rel="noopener">webp</a></h3><p>最后来看一下该插件的可选优化器 Webp。</p>
+<blockquote>
+<p><strong>参数说明</strong> &gt; <code>quality</code>质量参数，将品质因数设置在<code>0</code>和之间<code>100</code>。是最常用，大多数场景下也只需要调整这一个参数即可。<br>其他参数可以参考<a href="https://github.com/imagemin/imagemin-webp#api" target="_blank" rel="noopener">官方文档</a> &gt; <strong>注意，在实际的使用中，发现这里存在一个容易被忽视的坑。</strong> &gt; <strong>image-webpack-loader 里的 webp 优化器只是针对已有的 webp 文件进行质量上的优化（或者说就不起作用，如果有研究出来的大佬麻烦评论告知哈），并不能把前面的 png/jpg 转成 webp。官方文档有点误导到大家，导致许多图片优化的教程都把这个当成 webp 转换器，然而我实际试了下，并不能=.=。</strong></p>
+</blockquote>
+<p>至于 webp 的优化过程，我将在下文<code>优雅地使用WebP图片</code>中详细介绍。</p>
+<h1 id="响应式图片"><a href="#响应式图片" class="headerlink" title="响应式图片"></a>响应式图片</h1><p>所谓响应式图片，关键就一点：<strong>根据客户端的情况返回最适合客户端的图片</strong>。</p>
+<p>那么，在准备部署响应式图片的时候，会存在哪些情况呢？</p>
+<ul>
+<li>是否希望根据客户端情况返回不同的图片 <strong>内容</strong>?</li>
+<li>是否希望根据客户端情况返回不同的图片 <strong>格式</strong>？</li>
+<li>是否希望根据客户端情况返回不同的图片 <strong>尺寸</strong> ？</li>
+<li>是否希望优化高 <strong>分辨率</strong> 设备的体验？</li>
+</ul>
+<p>在 <code>picture</code> 标签出来之前，这些只能通过 JS 来实现，不仅代码而且丑陋能力也不全。但是现在，针对这些问题，我们有了一个完整的优雅的解决方案。</p>
+<h2 id="picture-标签"><a href="#picture-标签" class="headerlink" title="picture 标签"></a>picture 标签</h2><p><code>picture</code> 是 HTML5 新引入的标签，基本用法如下。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>picture</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>a.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>b.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>c.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>picture</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>我们可以这样理解，<code>picture</code> 标签会从 <code>source</code> 中选择最合适的一个，然后将它的 URL 赋值给 <code>img</code>。对于不认识 <code>picture</code> 的旧浏览器，他们会忽略 <code>picture</code>，只渲染 <code>img</code>，一切都不会有问题。<br>注意：<code>**picture**</code>** 标签最后一定要包含一个 <strong><code>**img**</code></strong> 标签，否则，什么都不会显示。**<br>现在我们逐一来看 <code>picture</code> 是怎样解决上面的四个问题。</p>
+<h2 id="动态内容"><a href="#动态内容" class="headerlink" title="动态内容"></a>动态内容</h2><p>根据客户端的情况，我们来返回完全不同的两张图。这个很简单，使用 <code>source</code> 标签的 <code>media</code> 属性即可。<br>如下代码会在小于 1024px 的时候显示 <code>img-center.jpg</code>，而在大于等于 1024px 的时候显示 <code>img-full.jpg</code>。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>picture</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">media</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 1024px)<span class="token punctuation">"</span></span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-full.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-center.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>picture</span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="动态尺寸"><a href="#动态尺寸" class="headerlink" title="动态尺寸"></a>动态尺寸</h2><p>如果希望浏览器能根据情况去请求不同尺寸的图片，我们需要提供两个信息：</p>
+<ul>
+<li>有哪些尺寸的图片</li>
+<li>图片显示的时候是什么尺寸</li>
+</ul>
+<p>下面的代码中，我们首先使用 <code>srcset</code> 属性指定有哪些图片，分别是图片名和图片的尺寸，这里注意单位不用 <code>px</code> 而是 <code>w</code>，用于表示图片的固有宽度。<br><code>sizes</code> 属性告诉浏览器，这个图片在不同的条件下会是什么样的宽度。这个属性用于给到浏览器提示，并不会真正的指定 <code>img</code> 的宽度，我们还是需要另外使用 CSS 来指定。<br>这样，给定一个视口宽度，浏览器可以得知图片需要的宽度，然后根据 DPI 情况，在所有可选图片中选择最合适的一个。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span>
+  <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-400.jpg<span class="token punctuation">"</span></span>
+  <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 640px) 60vw, 100vw<span class="token punctuation">"</span></span>
+  <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+    img-200.jpg   200w,
+    img-400.jpg   400w,
+    img-800.jpg   800w,
+    img-1200.jpg 1200w
+  <span class="token punctuation">"</span></span>
+<span class="token punctuation">/></span></span>
+</code></pre>
+<h2 id="动态分辨率"><a href="#动态分辨率" class="headerlink" title="动态分辨率"></a>动态分辨率</h2><p>动态分辨率其实是动态尺寸的一种简化情况。<br>根据显示器的 DPI 返回同一张图片的不同分辨率版本可以直接利用 <code>img</code> 标签的 <code>srcset</code> 属性。<br>使用了如下的代码，浏览器会自动根据显示器的 DPI 来决定下载图片的哪个版本。<br>在低 DPI 设备上，例如桌面显示器，浏览器会使用 img-200.jpg，而在高 DPI 设备上，例如手机，浏览器会使用 img-400.jpg。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-200.jpg, img-300.jpg 1.5x, img-400.jpg 2x<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-400.jpg<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token style language-css">
+  <span class="token selector">img </span><span class="token punctuation">{</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">200</span>px<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>当然，我们也可以组合这几个选项。</p>
+<ul>
+<li>视口 &gt;= 1280px 时<ul>
+<li>根据视口的具体宽度，返回不同尺寸的 <em>img-full</em> 图片</li>
+<li>如果客户端支持 WebP，返回 WebP 格式</li>
+</ul>
+</li>
+<li>视口 &lt; 1280px 时<ul>
+<li>根据视口的具体宽度，返回不同尺寸的 <em>img</em> 图片</li>
+</ul>
+</li>
+<li>如果客户端支持 WebP，返回 WebP 格式</li>
+</ul>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>picture</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span>
+    <span class="token attr-name">media</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 1280px)<span class="token punctuation">"</span></span>
+    <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>50vw<span class="token punctuation">"</span></span>
+    <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+      img-full-200.webp   200w,
+      img-full-400.webp   400w,
+      img-full-800.webp   800w,
+      img-full-1200.webp 1200w,
+      img-full-1600.webp 1600w,
+      img-full-2000.webp 2000w
+    <span class="token punctuation">"</span></span>
+    <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/webp<span class="token punctuation">"</span></span>
+  <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span>
+    <span class="token attr-name">media</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 1280px)<span class="token punctuation">"</span></span>
+    <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>50vw<span class="token punctuation">"</span></span>
+    <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+      img-full-200.jpg   200w,
+      img-full-400.jpg   400w,
+      img-full-800.jpg   800w,
+      img-full-1200.jpg 1200w,
+      img-full-1600.jpg 1800w,
+      img-full-2000.jpg 2000w
+    <span class="token punctuation">"</span></span>
+  <span class="token punctuation">/></span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span>
+    <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 640px) 60vw, 100vw<span class="token punctuation">"</span></span>
+    <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+      img-200.webp   200w,
+      img-400.webp   400w,
+      img-800.webp   800w,
+      img-1200.webp 1200w,
+      img-1600.webp 1600w,
+      img-2000.webp 2000w
+    <span class="token punctuation">"</span></span>
+    <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/webp<span class="token punctuation">"</span></span>
+  <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span>
+    <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-400.jpg<span class="token punctuation">"</span></span>
+    <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>(min-width: 640px) 60vw, 100vw<span class="token punctuation">"</span></span>
+    <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>
+      img-200.jpg   200w,
+      img-400.jpg   400w,
+      img-800.jpg   800w,
+      img-1200.jpg 1200w,
+      img-1600.jpg 1600w,
+      img-2000.jpg 2000w
+    <span class="token punctuation">"</span></span>
+  <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>picture</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>这里强烈建议自己动手，结合 <a href="https://placeholder.com/" target="_blank" rel="noopener">placeholder.com</a> 网站，生成一些图片来测试。毕竟，纸上得来终觉浅。</p>
+<h1 id="优雅地使用-WebP-图片"><a href="#优雅地使用-WebP-图片" class="headerlink" title="优雅地使用 WebP 图片"></a>优雅地使用 WebP 图片</h1><p>在使用 webp 图片之前，我们先来了解下 webp 格式的图片到底是怎样的。<br>参考<a href="https://blog.liuguofeng.com/tag/%E5%9B%BE%E7%89%87" target="_blank" rel="noopener">将之前的项目图片进行了压缩</a>这篇文章的说明：</p>
+<p><a href="https://developers.google.com/speed/webp/" target="_blank" rel="noopener">WebP</a>是 Google 推出的一种相对较新的格式，旨在通过编码<a href="https://en.wikipedia.org/wiki/Lossless_compression" target="_blank" rel="noopener">无损</a>和<a href="https://en.wikipedia.org/wiki/Lossy_compression" target="_blank" rel="noopener">有损</a>格式的图像来提供较小的文件大小，使其成为 JPEG 和 PNG 的绝佳替代品。<br>WebP 图像的视觉质量通常与 JPEG 和 PNG 相当，但通常文件大小要小得多。例如，当我将屏幕截图从上面转换为 WebP 时，我得到了一个 88 KB 的文件，其质量与 913 KB 的原始图像相当。<strong>减少 90％！</strong><br>看一看下面三张图，你能分辨的出来吗？</p>
+<ul>
+<li><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232154.png" target="_blank" rel="noopener">原始图片</a></li>
+<li><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232255.png" target="_blank" rel="noopener">优化后的图片</a></li>
+<li><a href="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/20200419232329.webp" target="_blank" rel="noopener">webp 图片</a></li>
+</ul>
+<p>就个人而言，视觉质量具有可比性，您所获得的节省很难被忽视。现在我们已经确定了尽可能使用 WebP 格式的价值，但是要注意是它不能完全取代 JPEG 和 PNG。根据<a href="https://caniuse.com/#search=WebP" target="_blank" rel="noopener">caniuse.com</a>提供的数据显示，虽然浏览器中的 WebP 支持已经很普遍了，但是需要足够高的版本号才可支持。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FiPJ5-pU_jPgEpBXUujF9z2nNzgs.png"><br>截止撰稿日(2020-04-20)，只有 Safari 还在试验中，也算是即将支持 webp 图片了。至于 IE 浏览器嘛，emmmm….一言难尽<img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FmguFO0BL22hZqoWWJIcrzSCJFkD.svg"><br>数据显示，全球有 77.63%的用户使用支持 WebP 的浏览器。这意味着，通过提供 WebP 图像，您可以为 77.63%的客户提高网页速度。<br>所以，在客户端支持的情况下，我们应该尽可能地使用 WebP 格式。</p>
+<h2 id="picture-标签兼容优化"><a href="#picture-标签兼容优化" class="headerlink" title="picture 标签兼容优化"></a>picture 标签兼容优化</h2><h3 id="优化流程"><a href="#优化流程" class="headerlink" title="优化流程"></a>优化流程</h3><p>在开始讲针对 webp 图片的优化前，我想先梳理下开发流程。<br>这里需要分两种情况：</p>
+<ol>
+<li>全新网站的兼容优化</li>
+<li>针对已有网站的兼容优化。</li>
+</ol>
+<p>如果是全新网站，而且设计师把各种图片都给到你了，那就完全不用担心图片转换问题，可以直接运用<code>picture</code>标签书写兼容格式，我这里就不再赘述。<br>而本文主要讲的就是在图片格式不全的情况下，甚至是对已有目录的静态网站进行优化时该怎样的开发流程。<br>第一个是顺序，在上面我尝试了在构建的同时利用 image-webpack-loader 可选的 webp 转换器，直接对现有 jpg/png 图片转换失败后，就暂时无法在缺失 webp 图片的情况下直接进行改造。<br>所以现在的思路是：</p>
+<ol>
+<li>将现有的图片全部转换成 webp 格式。</li>
+<li>将已有的 img 标签全部替换成 picture 标签。</li>
+<li>利用 webpack 的 html-loader 识别出所有图片格式的路径后并将其 hash 重命名后打包到同一文件夹下。</li>
+</ol>
+<p>下面将具体展开谈一下针对单入口的页面和多入口的页面的处理。</p>
+<h3 id="单入口页面"><a href="#单入口页面" class="headerlink" title="单入口页面"></a>单入口页面</h3><p>对于单入口单页面的话，网站所用的图片原则上都只在一个文件夹。假设一个单页面网站的目录结构是这样的：</p>
+<pre class=" language-csharp"><code class="language-csharp"><span class="token operator">|</span><span class="token operator">--</span>dist                                  <span class="token comment" spellcheck="true">//打包后的路径</span>
+<span class="token operator">|</span><span class="token operator">--</span>src                                  <span class="token comment" spellcheck="true">//项目源代码目录</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>css                              <span class="token comment" spellcheck="true">//存放css样式表</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>images                      <span class="token comment" spellcheck="true">//存放网页所需的所有图片</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>js                              <span class="token comment" spellcheck="true">//存放javaScript代码</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>index<span class="token punctuation">.</span>html              <span class="token comment" spellcheck="true">//网页入口</span>
+<span class="token operator">|</span><span class="token operator">--</span>webpack<span class="token punctuation">.</span>config<span class="token punctuation">.</span>js      <span class="token comment" spellcheck="true">//webpack的配置文件</span>
+<span class="token operator">|</span><span class="token operator">--</span>package<span class="token punctuation">.</span>json                  <span class="token comment" spellcheck="true">//项目元数据，依赖包等信息</span>
+<span class="token operator">|</span><span class="token operator">--</span>package<span class="token operator">-</span>loack<span class="token punctuation">.</span>json   <span class="token comment" spellcheck="true">//依赖包具体版本信息</span>
+<span class="token operator">|</span><span class="token operator">--</span>webp<span class="token punctuation">.</span>js                           <span class="token comment" spellcheck="true">//下文中提到的转换图片的js</span>
+</code></pre>
+<p>我们可以使用<code>imagemin-webp</code>官方文档所提供的方法：使用了<code>imagemin</code>和<code>imagemin-webp</code>来转换 jpg/png。<br>在根目录中新建<code>webp.js</code>文件</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> imageminWebp <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"imagemin-webp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> imagemin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"imagemin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">imagemin</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">"src/images/*.{jpg,png}"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  destination<span class="token punctuation">:</span> <span class="token string">"src/images"</span><span class="token punctuation">,</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token function">imageminWebp</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      quality<span class="token punctuation">:</span> <span class="token number">80</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>这样就可以在根目录运行<code>node webp.js</code>，把项目中的所有 jpg/png 转成 webp 格式图片并存放到原图片目录下，然后就可以对原有 img 标签进行改造，加上 webp 格式的图片。</p>
+<h3 id="多入口页面"><a href="#多入口页面" class="headerlink" title="多入口页面"></a>多入口页面</h3><p>对于让人头疼的多入口页面来说，配置起来就复杂的多。首先我们先约定一下多入口页面的目录结构。</p>
+<h4 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h4><p>多入口也就意味着多出口，不但 html 网页可能分布在不同的文件夹下，不同网页所需的图片/css/js 也被存放到对应网页的不同文件夹下。假设一个多入口页面的目录结构如下：</p>
+<pre class=" language-csharp"><code class="language-csharp">webpack
+<span class="token operator">|</span><span class="token operator">--</span>dist                                  <span class="token comment" spellcheck="true">//打包后的路径</span>
+<span class="token operator">|</span><span class="token operator">--</span>src                                  <span class="token comment" spellcheck="true">//项目源代码目录</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>common                        <span class="token comment" spellcheck="true">//存放各个页面都有可能用到的组件库（基本不变更）</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>jquery<span class="token punctuation">.</span>min<span class="token punctuation">.</span>js
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>swiper<span class="token punctuation">.</span>min<span class="token punctuation">.</span>js
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>css                              <span class="token comment" spellcheck="true">//存放css样式表</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>index<span class="token punctuation">.</span>scss          <span class="token comment" spellcheck="true">//index页面所需的样式表</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>about<span class="token punctuation">.</span>scss          <span class="token comment" spellcheck="true">//about页面所需的样式表</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>common<span class="token punctuation">.</span>scss      <span class="token comment" spellcheck="true">//通用样式表</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>images                      <span class="token comment" spellcheck="true">//存放网页所需的所有图片</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>index                  <span class="token comment" spellcheck="true">//index页面所需的图片</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>header1<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>banner1<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>a1<span class="token punctuation">.</span>jpg
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>about                  <span class="token comment" spellcheck="true">//about页面所需的图片</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>header1<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>banner1<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>a1<span class="token punctuation">.</span>jpg
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>common                  <span class="token comment" spellcheck="true">//可复用的图片</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>logo<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>footer<span class="token punctuation">.</span>png
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>wechat<span class="token punctuation">.</span>svg
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>js                              <span class="token comment" spellcheck="true">//存放javaScript代码</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>index<span class="token punctuation">.</span>js              <span class="token comment" spellcheck="true">//index页面的js文件</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>about<span class="token punctuation">.</span>js              <span class="token comment" spellcheck="true">//index页面的js文件</span>
+<span class="token operator">|</span>  <span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>common<span class="token punctuation">.</span>js          <span class="token comment" spellcheck="true">//可复用的js</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>index<span class="token punctuation">.</span>html              <span class="token comment" spellcheck="true">//网站首页html</span>
+<span class="token operator">|</span>  <span class="token operator">|</span><span class="token operator">--</span>about<span class="token punctuation">.</span>html              <span class="token comment" spellcheck="true">//关于网站html</span>
+<span class="token operator">|</span><span class="token operator">--</span>webpack<span class="token punctuation">.</span>config<span class="token punctuation">.</span>js      <span class="token comment" spellcheck="true">//webpack的配置文件</span>
+<span class="token operator">|</span><span class="token operator">--</span>package<span class="token punctuation">.</span>json                  <span class="token comment" spellcheck="true">//项目元数据，依赖包等信息</span>
+<span class="token operator">|</span><span class="token operator">--</span>package<span class="token operator">-</span>loack<span class="token punctuation">.</span>json   <span class="token comment" spellcheck="true">//依赖包具体版本信息</span>
+</code></pre>
+<p>可以看出，较为复杂的就是图片了。由于多个页面所需的图片数量非常多，在开发的过程中很难保证图片起名的不重复，所以最理想的就是放在不同文件夹下了。<br>但是新的问题出现了：webpack 常用于将不同文件都打包至同一目录下，如果打包后命名重复导致文件被覆盖了怎么办？<br>当然，webpack 也给出了几乎完美的解决方案：将文件进行 hash 重命名后输出，这样就几乎不会导致重名覆盖问题的发生。<br>可是，又一个棘手的问题发生了：<br>上文我们也说了，我们是要在打包前就将图片转换成 webp 格式。这样改造过程中，静态资源的文件名也不会变，路径也是各自的路径，开发过程才能方便起来。<br>那么，既然用到的图片会重名，所以将图片整体拿出来手动转换后再丢回到各自文件夹的方法也不可取。最理想的就是各自转换各自的目录，所以第一个办法就是：</p>
+<ul>
+<li>用单页面转换的方式，每次改一下输入输出路径，对每个存放图片的文件夹单独转换。</li>
+</ul>
+<p>怎么说呢，可以是可以的，但是既然都用了 webpack 自动化打包了，我们应该减少手动操作文件的次数。而且后期维护起来，那是相当的麻烦。当你有更多的页面，每次需求方更新图片的时候，我们都得手动操作一次，费力又费时间。</p>
+<h4 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h4><p>于是乎我投向了 gulp 的怀抱，gulp 在操作文件的过程中，借鉴了 linux 的管道思想，可以将上个的输出作为下一个的输入。于是，基于 gulp 的自动化转换程序诞生了：<br>首先在根目录建立 gulpfile.js 文件，并安装好所需的依赖。</p>
+<blockquote>
+<p><strong>注意，gulp 需要安装两次</strong></p>
+</blockquote>
+<pre class=" language-javascript"><code class="language-javascript">npm i gulp <span class="token operator">-</span>D <span class="token comment" spellcheck="true">//保证依赖被安装到node_modules下</span>
+npm i gulp <span class="token operator">-</span>g <span class="token comment" spellcheck="true">//保证直接在命令行使用gulp命令时不会报错</span>
+</code></pre>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> gulp <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"gulp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> merge <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"merge-stream"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> webp <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"gulp-webp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 获取文件夹</span>
+<span class="token keyword">function</span> <span class="token function">getFolders</span><span class="token punctuation">(</span>dir<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> fs<span class="token punctuation">.</span><span class="token function">readdirSync</span><span class="token punctuation">(</span>dir<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>file<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> fs<span class="token punctuation">.</span><span class="token function">statSync</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>dir<span class="token punctuation">,</span> file<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">isDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// 需要转换的文件路径，我这里设置为根目录下的src目录</span>
+<span class="token keyword">const</span> scriptsPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> <span class="token string">"src"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">imagesToWebp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> folders <span class="token operator">=</span> <span class="token function">getFolders</span><span class="token punctuation">(</span>scriptsPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> tasks <span class="token operator">=</span> folders<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>folder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>folder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//依次输出：</span>
+    <span class="token comment" spellcheck="true">//common</span>
+    <span class="token comment" spellcheck="true">//css</span>
+    <span class="token comment" spellcheck="true">//images</span>
+    <span class="token comment" spellcheck="true">//js</span>
+    <span class="token comment" spellcheck="true">// </span><span class="token comment" spellcheck="true">/**/</span><span class="token operator">*</span><span class="token punctuation">.</span><span class="token punctuation">{</span>jpg<span class="token punctuation">,</span>png<span class="token punctuation">}</span>是找到src下所有层级的jpg<span class="token operator">/</span>png图片
+    <span class="token keyword">return</span> gulp
+      <span class="token punctuation">.</span><span class="token function">src</span><span class="token punctuation">(</span>path<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span>scriptsPath<span class="token punctuation">,</span> folder<span class="token punctuation">,</span> <span class="token string">"/**/*.{jpg,png}"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span><span class="token function">webp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//使用webp插件进行转换（默认会保留原图片）</span>
+      <span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>gulp<span class="token punctuation">.</span><span class="token function">dest</span><span class="token punctuation">(</span>scriptsPath <span class="token operator">+</span> folder<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//输出到各自的文件夹下</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> <span class="token function">merge</span><span class="token punctuation">(</span>tasks<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//合并gulp流</span>
+<span class="token punctuation">}</span>
+
+exports<span class="token punctuation">.</span>webp <span class="token operator">=</span> gulp<span class="token punctuation">.</span><span class="token function">series</span><span class="token punctuation">(</span>imagesToWebp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>大功告成！这样我们就可以在命令行使用<code>gulp webp</code>命令进行图片转换了。<br>在拿到了所有 webp 文件后，就可以使用 picture 标签进行改造了。</p>
+<pre class=" language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>picture</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./images/index/a1.webp<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/webp<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./images/index/a1.png<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>picture</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>picture</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>source</span> <span class="token attr-name">srcset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./images/about/a1.webp<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/webp<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>./images/about/a1.png<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>picture</span><span class="token punctuation">></span></span>
+</code></pre>
+<blockquote>
+<p><strong>注意：</strong><br>记得在 webpack.config.js 中使用 html-loader 时，将 source 标签下的 srcset 属性加入 attrs，否则 html-loader 将无法识别 source 标签中的图片路径。</p>
+</blockquote>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  test<span class="token operator">:</span> /\.(html<span class="token punctuation">)</span>$/<span class="token punctuation">,</span>
+  use<span class="token operator">:</span> <span class="token punctuation">{</span>
+    loader<span class="token operator">:</span> 'html-loader'<span class="token punctuation">,</span>
+    options<span class="token operator">:</span> <span class="token punctuation">{</span>
+      root<span class="token operator">:</span> path.resolve(__dirname<span class="token punctuation">,</span> 'src'<span class="token punctuation">)</span><span class="token punctuation">,</span>
+      attrs<span class="token operator">:</span> <span class="token punctuation">[</span>'img<span class="token operator">:</span>src'<span class="token punctuation">,</span> 'img<span class="token operator">:</span>data-src'<span class="token punctuation">,</span> 'source<span class="token operator">:</span>srcset'<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>对于 webpack 中关于多页面的其他配置，我将在其他文章中详细介绍并分享我的代码，请持续关注，谢谢～</p>
+<h2 id="利用-cdn-服务自动判断"><a href="#利用-cdn-服务自动判断" class="headerlink" title="利用 cdn 服务自动判断"></a>利用 cdn 服务自动判断</h2><p>目前，有些图片 cdn 服务可以开启自动兼容 webp 的模式，即支持 webp 的浏览器则将原图转换为 webp 图片并返回，否则直接返回原图。实现这个功能的原理是，根据浏览器发起的请求头中的 Accept 属性中是否包含 webp 格式来判断：</p>
+<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fv3x2-3h24vcrUFFv5rxfxcMkRKo.png"><br>有则说明浏览器支持 webp 格式，这对开发者来说可能是最简单的兼容方案，但是依赖于后端服务。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="https://blog.liuguofeng.com/tag/%E5%9B%BE%E7%89%87" target="_blank" rel="noopener">将之前的项目图片进行了压缩</a></li>
+<li><a href="https://juejin.im/post/5d4979cc5188255b3e4126ae#heading-10" target="_blank" rel="noopener">谈谈 Web 应用中的图片优化技巧及反思</a></li>
+<li><a href="https://www.jianshu.com/p/83d00a7e2a4b" target="_blank" rel="noopener">Laya 图片压缩</a></li>
+</ol>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://1874.cool" rel="external nofollow noreferrer">1874</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://1874.cool/ulvcm5/">https://1874.cool/ulvcm5/</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        语雀文章链接: &nbsp;
+                    </i>
+                </span>
+                    <span class="reprint-info">
+                    <a href="https://www.yuque.com/1874w/1874.cool/ulvcm5/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/ulvcm5/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明: &nbsp;
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://1874.cool" target="_blank">1874</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Webpack/">
+                                    <span class="chip bg-color">Webpack</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E4%BC%98%E5%8C%96/">
+                                    <span class="chip bg-color">静态资源优化</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <!-- <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css"> -->
+<link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="qq,weibo,douban,google,wechat" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <!-- <script src="/libs/share/js/social-share.min.js"></script> -->
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<!-- <script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script> -->
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'Md0lfvjFOKaeMBFRyhPa8Flr-gzGzoHsz',
+        appKey: 'qtEUdBnIgk8OxXH1Vbpw25Vd',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mp',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: '欢迎畅所欲言'
+    });
+</script>
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/hryfur/">
+                    <div class="card-image">
+                        
+                        <!-- <img src="https://image.1874.cool/blog-images/20210308004929.png" class="responsive-img" alt="Nginx配置重定向和Https的实践"> -->
+                        <img src="https://image.1874.cool/blog-images/20210308004929.png" class="responsive-img" alt="Nginx配置重定向和Https的实践">
+                        
+                        <span class="card-title">Nginx配置重定向和Https的实践</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            docker容器化操作Nginx配置重定向和Https的实践
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-10-16
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                    技术分享
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Nginx/">
+                        <span class="chip bg-color">Nginx</span>
+                    </a>
+                    
+                    <a href="/tags/SSL/">
+                        <span class="chip bg-color">SSL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/oslix7/">
+                    <div class="card-image">
+                        
+                        <!-- <img src="https://image.1874.cool/blog-images/20200420000639.png" class="responsive-img" alt="谈一谈二进制"> -->
+                        <img src="https://image.1874.cool/blog-images/20200420000639.png" class="responsive-img" alt="谈一谈二进制">
+                        
+                        <span class="card-title">谈一谈二进制</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            谈一谈进制之间的转换
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%9D%82%E8%B0%88/" class="post-category">
+                                    杂谈
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                        <span class="chip bg-color">数据结构</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<!-- <script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<!-- <script src="/libs/tocbot/tocbot.min.js"></script> -->
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h1, h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Design by&nbsp;<a href="https://blog.csdn.net/z_johnny" target="_blank">1874</a>
+            &nbsp|&nbsp&nbsp;Powered by&nbsp;<a href="https://github.com/hongweifuture/hexo-theme-halo" target="_blank">Halo</a> 
+            of <a href="https://hexo.io/" target="_blank">Hexo</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;总字数:&nbsp;<span
+                class="white-color">55.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;点击量:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            <br>
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>&nbsp&nbsp|
+            &nbsp;<a href="https://1874.cool/sitemap.xml" target="_blank">Sitemap</a>&nbsp;&nbsp;|&nbsp;
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "2";
+                    var startDate = "17";
+                    var startHour = "22";
+                    var startMinute = "08";
+                    var startSecond = "11";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                            " 天 " ;
+                        // document.getElementById("sitetime").innerHTML = "本站已充电 " + diffDays + " 天 " + diffHours +
+                        //     " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                            " 天 " ;
+                        // document.getElementById("sitetime").innerHTML = "本站已充电 " + diffYears + " 年 " + diffDays +
+                        //     " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/LetTTGACO" class="tooltipped" target="_blank" data-toggle="tooltip" data-placement="top" title="访问我的GitHub">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:me@1874.cool" class="tooltipped" target="_blank" data-toggle="tooltip" data-placement="top" title="邮件联系我">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<!-- <script src="/js/search.js"></script> -->
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    // searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <!-- <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script> -->
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+        <!-- <script src="/libs/others/clicklove.js" async="async"></script> -->
+        <script src="/libs/others/clicklove.js" async="async"></script>
+    
+
+    
+
+    
+
+    
+    <!-- <script async src="/libs/others/busuanzi.pure.mini.js"></script> -->
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <!-- <script src="/libs/instantpage/instantpage.js" type="module"></script> -->
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<!--    <script type="text/javascript"> -->
+<!--        var OriginTitile=document.title,st; -->
+<!--        document.addEventListener("visibilitychange",function(){ -->
+<!--            document.hidden?(document.title="ヽ(●-`Д´-)ノ风里雨里我在等你~",clearTimeout(st)):(document.title="(๑•̀ㅂ•́) ✧ 欢迎回来~~！",st=setTimeout(function(){document.title=OriginTitile},3e3)) -->
+<!--            })-->
+<!--    </script>-->
+
+    <div id="he-plugin-simple"></div>
+    <script>
+    WIDGET = {
+    CONFIG: {
+        "modules": "01234",
+        "background": 5,
+        "tmpColor": "FFFFFF",
+        "tmpSize": 16,
+        "cityColor": "FFFFFF",
+        "citySize": "16",
+        "aqiSize": 16,
+        "weatherIconSize": "20",
+        "alertIconSize": 18,
+        "padding": "10px 10px 10px 10px",
+        "shadow": "0",
+        "language": "auto",
+        "fixed": "true",
+        "vertical": "top",
+        "horizontal": "right",
+        "right": 10,
+        "top": "60",
+        "key": "2ccd90212a1d41dea248662765a0fb9c"
+    }
+    }
+    </script>
+    <script src="https://widget.heweather.net/simple/static/js/he-simple-common.js?v=1.1"></script>
+
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== '' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+Base64.encode(href)+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body>
+
+</html>
