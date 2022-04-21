@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Nginx配置重定向和Https的实践, blog">
-    <meta name="description" content="docker容器化操作Nginx配置重定向和Https的实践">
+    <meta name="keywords" content="MacOS开发环境治理-卸载nvm/node并重新安装, blog">
+    <meta name="description" content="MacOS开发环境治理-卸载nvm/node并重新安装">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="baidu-site-verification" content="code-g3oDWAlD4V" />
-    <title>Nginx配置重定向和Https的实践 | 1874</title>
+    <title>MacOS开发环境治理-卸载nvm/node并重新安装 | 1874</title>
     <!-- <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico"> -->
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
@@ -326,13 +326,13 @@
 
 
 
-<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/20210308004929.png')"> -->
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/20210308004929.png')">    
+<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')"> -->
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">    
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Nginx配置重定向和Https的实践</h1>
+                    <h1 class="description center-align post-title">MacOS开发环境治理-卸载nvm/node并重新安装</h1>
                 </div>
             </div>
         </div>
@@ -450,12 +450,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Nginx/">
-                                <span class="chip bg-color">Nginx</span>
-                            </a>
-                        
-                            <a href="/tags/SSL/">
-                                <span class="chip bg-color">SSL</span>
+                            <a href="/tags/Node/">
+                                <span class="chip bg-color">Node</span>
                             </a>
                         
                     </div>
@@ -466,8 +462,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
-                                技术分享
+                            <a href="/categories/MacOS/" class="post-category">
+                                MacOS
                             </a>
                         
                     </div>
@@ -479,28 +475,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-10-16
+                    2022-04-22
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-01-18
+                    2022-04-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    597
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    2 分
                 </div>
                 
 
@@ -516,105 +512,51 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>在<code>docker</code>容器化越来越流行的今天，安装各种环境和软件都越来越方便。然而我的腾讯云服务器却依旧使用的是较为原始的<code>yum</code>等安装方式，后来换成了宝塔一键式安装后，网站也稳定运行着，也没有再去管了。然而今天发现云服务的内存占用都快满了，然而我还想安装一些其他环境。所以为了进一步榨干云服务的性能，我选择重装系统，全部利用<code>docker</code>的方式去安装各种环境。不过今天只记录下安装<code>nginx</code>及其一些配置时爬过的坑。</p>
-<p>我的博客<code>blog.letttgaco.cn</code>，是部署在<code>GitHub Pages</code>上的，但是域名备案时是备案的<code>www.letttgaco.cn</code>，所以我是想利用<code>nginx</code>的重定向功能，将<code>www.letttgaco.cn</code>重定向到我的博客去。</p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>在 dns 解析中，<code>blog.letttgaco.cn</code>已经指向的是<code>github</code>（GitHub Pages 已设置强制 HTTPS 访问），现在需要将<code>www.letttgaco.cn</code>的<code>dns</code>解析指向云服务器上，然后由云服务器上部署的 Nginx 去监听 80 端口和 443 端口，将其重定向/转发至<code>https://blog.letttgaco.cn</code>。</p>
-<h1 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h1><p>我的云服务器为腾讯云服务器，系统为 CentOS7.6(64 位)，自带 50G 系统盘。<br>在<code>dns</code>解析中将<code>www.letttgaco.cn</code>指向云服务器的对外 IP 地址。</p>
-<h1 id="安装并配置-Nginx"><a href="#安装并配置-Nginx" class="headerlink" title="安装并配置 Nginx"></a>安装并配置 Nginx</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><pre class=" language-sh"><code class="language-sh">|--root                   // root（家）目录
-|  |--app                 // 各个程序所在目录
-|  |  |--nginx            // 各个程序所在目录
-|  |  |  |--conf
-|  |  |  |  |--nginx.conf // nginx自定义配置文件
-|  |  |  |--html          // 网页根目录
-|  |  |  |--logs          // 日志文件
-|  |  |  |--ssl           // 各个域名的证书存放地址nginx.conf
-|  |--nginx_run.sh        // sh自动化命令
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr>
+<p>最近在调试开发环境的时候，<code>node</code>环境各种问题，索性全部重新安装一次，这里记录下整个安装过程。</p>
+<h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><h2 id="卸载-nvm"><a href="#卸载-nvm" class="headerlink" title="卸载 nvm"></a>卸载 nvm</h2><p>当我们直接在终端输入<code>nvm</code>时，提示告诉我们，当卸载<code>nvm</code>时还需要取环境变量中将相关的变量全部删除才行。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FlfNndBLq_OVgSi11jH36W2r-n-3.png"></p>
+<ol>
+<li>删除<code>～/.nvm</code>文件夹</li>
+</ol>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">rm</span> -rf ~/.nvm
 </code></pre>
-<p>按照以上目录结构创建相应的文件夹和文件</p>
-<pre class=" language-sh"><code class="language-sh">mkdir /root/app/nginx/conf -p
-touch /root/app/nginx/conf/nginx.conf
-mkdir /root/app/nginx/html -p
-mkdir /root/app/nginx/logs -p
-mkdir /root/app/nginx/ssl -p
-touch /root/nginx_run.sh
-</code></pre>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="不需要-SSL"><a href="#不需要-SSL" class="headerlink" title="不需要 SSL"></a>不需要 SSL</h3><p>如果只需要将<code>http://www.letttgaco.cn</code>重定向到<code>https://blog.letttgaco.cn</code>，那就只需要配置 80 端口。</p>
-<pre class=" language-sh"><code class="language-sh">vim /root/app/nginx/conf/nginx.conf
-</code></pre>
-<pre><code>server {
-    listen       80;
-
-    server_name  www.letttgaco.cn;
-    rewrite /.* https://blog.letttgaco.cn$uri permanent;
-}
-</code></pre>
-<p>重定向的<code>url</code>是会发生变更，如果是需要隐式转发，则可以进行如下配置：</p>
-<pre><code>server {
-    listen 80;
-    server_name www.letttgaco.cn;
-    large_client_header_buffers 4 128k;
-
-    location / {
-
-        #开启对http1.1支持
-        proxy_http_version 1.1;
-
-        #设置Connection为空串,以禁止传递头部到后端
-        #http1.0中默认值Connection: close
-        proxy_set_header Connection &quot;&quot;;
-
-        proxy_pass https://blog.letttgaco.cn;
-    }
-}
-</code></pre>
-<h3 id="需要-SSL"><a href="#需要-SSL" class="headerlink" title="需要 SSL"></a>需要 SSL</h3><p>如果也需要将<code>https://www.letttgaco.cn</code>也进行重定向，那么就需要进行额外的证书配置</p>
-<h4 id="申请-SSL-证书"><a href="#申请-SSL-证书" class="headerlink" title="申请 SSL 证书"></a>申请 SSL 证书</h4><p>首先先去腾讯云去申请<code>www.letttgaco.cn</code>的 SSL 证书，主要有两个文件：</p>
+<ol start="2">
+<li>如果有以下文件，依次用文本编辑器打开，并删除其中的 nvm 相关的变量</li>
+</ol>
 <ul>
-<li><code>1_www.letttgaco.cn_bundle.crt</code></li>
-<li><code>2_www.letttgaco.cn.key</code></li>
+<li><code>~/.profile</code></li>
+<li><code>~/.bash_profile</code></li>
+<li><code>~/.zshrc</code></li>
+<li><code>~/.bashrc</code></li>
 </ul>
-<p>将证书下载下来并上传到<code>/root/app/nginx/ssl</code>中，</p>
-<blockquote>
-<p>备注：<a href="https://cloud.tencent.com/document/product/400/35244" target="_blank" rel="noopener">腾讯云 SSL 部署文档</a></p>
-</blockquote>
-<h4 id="配置-conf-文件"><a href="#配置-conf-文件" class="headerlink" title="配置 conf 文件"></a>配置 conf 文件</h4><pre><code>server {
-    listen 80;
-    #SSL 访问端口号为 443
-    listen 443 ssl;
-    #填写绑定证书的域名
-    server_name www.letttgaco;
-    #证书文件名称
-    ssl_certificate /ssl/1_www.letttgaco.cn_bundle.crt;
-    #私钥文件名称
-    ssl_certificate_key /ssl/2_www.letttgaco.cn.key;
-    ssl_session_timeout 5m;
-    #请按照以下协议配置
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    #请按照以下套件配置，配置加密套件，写法遵循 openssl 标准。
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
-    ssl_prefer_server_ciphers on;
-        # 重定向
-    rewrite /.* https://blog.letttgaco.cn$uri permanent;
-}
-</code></pre>
-<h2 id="启动-Nginx"><a href="#启动-Nginx" class="headerlink" title="启动 Nginx"></a>启动 Nginx</h2><h3 id="不需要-SSL-1"><a href="#不需要-SSL-1" class="headerlink" title="不需要 SSL"></a>不需要 SSL</h3><pre class=" language-sh"><code class="language-sh">docker run -p 80:80 --name nginx -v /root/app/nginx/html/:/usr/share/nginx/html -v /root/app/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf -v /root/app/nginx/logs/:/var/log/nginx/  --privileged=true -d nginx:1.19.3
-</code></pre>
-<h3 id="需要-SSL-1"><a href="#需要-SSL-1" class="headerlink" title="需要 SSL"></a>需要 SSL</h3><pre class=" language-sh"><code class="language-sh">docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/nginx/html -v /root/app/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf -v /root/app/nginx/logs/:/var/log/nginx/ -v /root/app/nginx/ssl/:/ssl/ --privileged=true -d nginx:1.19.3
+<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FnEHSYHDcKow3IZtIdWH7hrFdVQy.png"></p>
+<h2 id="卸载-node、yarn、npm"><a href="#卸载-node、yarn、npm" class="headerlink" title="卸载 node、yarn、npm"></a>卸载 node、yarn、npm</h2><p>检查以下目录，将<code>node</code>、<code>yarn</code>、<code>npm</code>相关的文件和文件夹全部删除</p>
+<ul>
+<li><code>~/</code></li>
+<li><code>/usr/local/bin</code></li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装-node（可选）"><a href="#安装-node（可选）" class="headerlink" title="安装 node（可选）"></a>安装 node（可选）</h2><p>由于项目中经常会使用<code>git hooks</code>来规范代码，而其脚本指定的<code>node</code>地址一般指向的是<code>/usr/local/bin/node</code>，如果你使用<code>nvm</code>管理<code>node</code>版本的话，<code>node</code>地址一般是<code>/Users/fangpengfei/.nvm/versions/node/v12.22.12/bin/node</code>，所以在运行时可能会报错<code>node command not found</code>。而我自己用的是<code>WebStorm</code>，就有这个问题。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FrqJL1Fp9eHIZXC8eNYbEkrnPtZt.png"><br>解决办法有两种：</p>
+<ol>
+<li>建立软链接，将<code>nvm</code>中的<code>node</code>指向<code>/usr/local/bin/node</code>，相当于创建了一个快捷方式。</li>
+</ol>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">ln</span> -s /Users/fangpengfei/.nvm/versions/node/v12.22.12/bin/node /usr/local/bin/node
 </code></pre>
 <blockquote>
-<p><code>-p 80:80</code> 将 80 端口映射到主机 80 端口</p>
-<p><code>--name nginx</code> 别名，可以使用别名操作 nginx 容器</p>
-<p><code>-v /root/app/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf</code> 将主机的配置文件挂载到容器中，使 nginx 容器使用主机中的自定义配置文件</p>
-<p><code>--privileged=true</code> 获取宿主机 root 权限</p>
-<p><code>nginx:1.19.3</code> 指定 nginx 的版本，防止后续有坑</p>
+<p>但是这种建立软链方式可能会有个问题：用户对<code>/usr/local/bin</code>文件夹的访问权限不够（即使使用了<code>sudo</code>），这就是另一个问题了，可以谷歌一下，这里不再赘述。</p>
 </blockquote>
-<h1 id="自动化启动-Nginx"><a href="#自动化启动-Nginx" class="headerlink" title="自动化启动 Nginx"></a>自动化启动 Nginx</h1><p>为了启动<code>Nginx</code>方便，我在这里写了一个简单的<code>nginx_run.sh</code>的脚本：</p>
-<pre class=" language-sh"><code class="language-sh">docker stop nginx
-docker rm nginx
-docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/nginx/html -v /root/app/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf -v /root/app/nginx/logs/:/var/log/nginx/ -v /root/app/nginx/ssl/:/ssl/ --privileged=true -d nginx:1.19.3
+<ol start="2">
+<li><strong>先全局安装从官网安装包安装</strong><code>**node**</code><strong>（推荐）</strong></li>
+</ol>
+<p>因为安装包会直接将<code>node</code>安装在<code>/usr/local/bin/node</code>中，这样系统也有了一份<code>node</code>。值得注意的是，这里我还建议可以在未安装<code>nvm</code>前，先全局安装<code>yarn</code>和<code>pnpm</code>（需要的话），这样后面也不需要将<code>nvm</code>中的<code>yarn</code>软链到<code>/usr/local/bin/yarn</code>上。</p>
+<h2 id="安装-nvm"><a href="#安装-nvm" class="headerlink" title="安装 nvm"></a>安装 nvm</h2><p>当然你也可以直接安装<code>nvm</code>，利用<code>nvm</code>管理<code>node</code>版本，后续如果出现上述问题，再用软链方式解决就行。<br>进入<code>nvm</code>的<a href="https://github.com/nvm-sh/nvm#install--update-script=" target="_blank" rel="noopener">github</a>官网，用<code>curl</code>安装<code>nvm</code></p>
+<pre class=" language-bash"><code class="language-bash">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh <span class="token operator">|</span> <span class="token function">bash</span>
 </code></pre>
-<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>至此，我的网站终于可以实现<code>http</code>和<code>https</code>的重定向了。</p>
-
+<p>利用<code>nvm</code>安装<code>node</code>，这里我从官网安装的<code>node</code>版本是<code>v16.14.2</code>，所以<code>nvm</code>我再装一个<code>v12</code>版本的，并且设置为<code>default</code>版本以应对大部分项目的<code>node</code>版本要求。</p>
+<pre class=" language-bash"><code class="language-bash">nvm <span class="token function">install</span> 12
+nvm <span class="token function">alias</span> default 12
+</code></pre>
+<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FuB-VClzE71G3G6Nr7YA7qRZgY1e.png"></p>
+<h1 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h1>
             </div>
             <hr/>
 
@@ -639,7 +581,7 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://1874.cool/hryfur/">https://1874.cool/hryfur/</a>
+                    <a href="https://1874.cool/is8lw3/">https://1874.cool/is8lw3/</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -649,7 +591,7 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
                     </i>
                 </span>
                     <span class="reprint-info">
-                    <a href="https://www.yuque.com/1874w/1874.cool/hryfur/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/hryfur/</a>
+                    <a href="https://www.yuque.com/1874w/1874.cool/is8lw3/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/is8lw3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -687,12 +629,8 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Nginx/">
-                                    <span class="chip bg-color">Nginx</span>
-                                </a>
-                            
-                                <a href="/tags/SSL/">
-                                    <span class="chip bg-color">SSL</span>
+                                <a href="/tags/Node/">
+                                    <span class="chip bg-color">Node</span>
                                 </a>
                             
                         </div>
@@ -1000,46 +938,49 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/fqx1vy/">
+                <a href="/is8lw3/">
                     <div class="card-image">
                         
-                        <!-- <img src="https://image.1874.cool/blog-images/20210109131656.png" class="responsive-img" alt="webpack-dev-server启动找不到config-yargs"> -->
-                        <img src="https://image.1874.cool/blog-images/20210109131656.png" class="responsive-img" alt="webpack-dev-server启动找不到config-yargs">
                         
-                        <span class="card-title">webpack-dev-server启动找不到config-yargs</span>
+                        <!-- <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="MacOS开发环境治理-卸载nvm/node并重新安装"> -->
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="MacOS开发环境治理-卸载nvm/node并重新安装">
+                        
+                        <span class="card-title">MacOS开发环境治理-卸载nvm/node并重新安装</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            webpack-dev-server启动找不到config-yargs解决办法
+                            MacOS开发环境治理-卸载nvm/node并重新安装
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E9%9D%A2%E5%90%91BUG%E5%BC%80%E5%8F%91/" class="post-category">
-                                    面向BUG开发
+                            <a href="/categories/MacOS/" class="post-category">
+                                    MacOS
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Webpack/">
-                        <span class="chip bg-color">Webpack</span>
+                    <a href="/tags/Node/">
+                        <span class="chip bg-color">Node</span>
                     </a>
                     
                 </div>
@@ -1053,31 +994,32 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/ulvcm5/">
+                <a href="/rm057k/">
                     <div class="card-image">
                         
-                        <!-- <img src="https://image.1874.cool/blog-images/20200420000347.jpg" class="responsive-img" alt="Webpack配置-图片优化"> -->
-                        <img src="https://image.1874.cool/blog-images/20200420000347.jpg" class="responsive-img" alt="Webpack配置-图片优化">
                         
-                        <span class="card-title">Webpack配置-图片优化</span>
+                        <!-- <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="程序员必备——Mac效率工具Alfred Workflows配置"> -->
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="程序员必备——Mac效率工具Alfred Workflows配置">
+                        
+                        <span class="card-title">程序员必备——Mac效率工具Alfred Workflows配置</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            利用Webpack插件来优化图片
+                            程序员必备——Mac效率工具Alfred Workflows配置
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-19
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
-                                    技术分享
+                            <a href="/categories/MacOS/" class="post-category">
+                                    MacOS
                                 </a>
                             
                             
@@ -1087,12 +1029,8 @@ docker run -p 80:80 -p 443:443 --name nginx -v /root/app/nginx/html/:/usr/share/
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Webpack/">
-                        <span class="chip bg-color">Webpack</span>
-                    </a>
-                    
-                    <a href="/tags/%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E4%BC%98%E5%8C%96/">
-                        <span class="chip bg-color">静态资源优化</span>
+                    <a href="/tags/Alfred/">
+                        <span class="chip bg-color">Alfred</span>
                     </a>
                     
                 </div>

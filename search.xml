@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>MacOS开发环境治理-卸载nvm/node并重新安装</title>
+      <link href="/is8lw3/"/>
+      <url>/is8lw3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr><p>最近在调试开发环境的时候，<code>node</code>环境各种问题，索性全部重新安装一次，这里记录下整个安装过程。</p><h1 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h1><h2 id="卸载-nvm"><a href="#卸载-nvm" class="headerlink" title="卸载 nvm"></a>卸载 nvm</h2><p>当我们直接在终端输入<code>nvm</code>时，提示告诉我们，当卸载<code>nvm</code>时还需要取环境变量中将相关的变量全部删除才行。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FlfNndBLq_OVgSi11jH36W2r-n-3.png"></p><ol><li>删除<code>～/.nvm</code>文件夹</li></ol><pre class=" language-bash"><code class="language-bash"><span class="token function">rm</span> -rf ~/.nvm</code></pre><ol start="2"><li>如果有以下文件，依次用文本编辑器打开，并删除其中的 nvm 相关的变量</li></ol><ul><li><code>~/.profile</code></li><li><code>~/.bash_profile</code></li><li><code>~/.zshrc</code></li><li><code>~/.bashrc</code></li></ul><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FnEHSYHDcKow3IZtIdWH7hrFdVQy.png"></p><h2 id="卸载-node、yarn、npm"><a href="#卸载-node、yarn、npm" class="headerlink" title="卸载 node、yarn、npm"></a>卸载 node、yarn、npm</h2><p>检查以下目录，将<code>node</code>、<code>yarn</code>、<code>npm</code>相关的文件和文件夹全部删除</p><ul><li><code>~/</code></li><li><code>/usr/local/bin</code></li></ul><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="安装-node（可选）"><a href="#安装-node（可选）" class="headerlink" title="安装 node（可选）"></a>安装 node（可选）</h2><p>由于项目中经常会使用<code>git hooks</code>来规范代码，而其脚本指定的<code>node</code>地址一般指向的是<code>/usr/local/bin/node</code>，如果你使用<code>nvm</code>管理<code>node</code>版本的话，<code>node</code>地址一般是<code>/Users/fangpengfei/.nvm/versions/node/v12.22.12/bin/node</code>，所以在运行时可能会报错<code>node command not found</code>。而我自己用的是<code>WebStorm</code>，就有这个问题。<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FrqJL1Fp9eHIZXC8eNYbEkrnPtZt.png"><br>解决办法有两种：</p><ol><li>建立软链接，将<code>nvm</code>中的<code>node</code>指向<code>/usr/local/bin/node</code>，相当于创建了一个快捷方式。</li></ol><pre class=" language-bash"><code class="language-bash"><span class="token function">ln</span> -s /Users/fangpengfei/.nvm/versions/node/v12.22.12/bin/node /usr/local/bin/node</code></pre><blockquote><p>但是这种建立软链方式可能会有个问题：用户对<code>/usr/local/bin</code>文件夹的访问权限不够（即使使用了<code>sudo</code>），这就是另一个问题了，可以谷歌一下，这里不再赘述。</p></blockquote><ol start="2"><li><strong>先全局安装从官网安装包安装</strong><code>**node**</code><strong>（推荐）</strong></li></ol><p>因为安装包会直接将<code>node</code>安装在<code>/usr/local/bin/node</code>中，这样系统也有了一份<code>node</code>。值得注意的是，这里我还建议可以在未安装<code>nvm</code>前，先全局安装<code>yarn</code>和<code>pnpm</code>（需要的话），这样后面也不需要将<code>nvm</code>中的<code>yarn</code>软链到<code>/usr/local/bin/yarn</code>上。</p><h2 id="安装-nvm"><a href="#安装-nvm" class="headerlink" title="安装 nvm"></a>安装 nvm</h2><p>当然你也可以直接安装<code>nvm</code>，利用<code>nvm</code>管理<code>node</code>版本，后续如果出现上述问题，再用软链方式解决就行。<br>进入<code>nvm</code>的<a href="https://github.com/nvm-sh/nvm#install--update-script=" target="_blank" rel="noopener">github</a>官网，用<code>curl</code>安装<code>nvm</code></p><pre class=" language-bash"><code class="language-bash">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh <span class="token operator">|</span> <span class="token function">bash</span></code></pre><p>利用<code>nvm</code>安装<code>node</code>，这里我从官网安装的<code>node</code>版本是<code>v16.14.2</code>，所以<code>nvm</code>我再装一个<code>v12</code>版本的，并且设置为<code>default</code>版本以应对大部分项目的<code>node</code>版本要求。</p><pre class=" language-bash"><code class="language-bash">nvm <span class="token function">install</span> 12nvm <span class="token function">alias</span> default 12</code></pre><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FuB-VClzE71G3G6Nr7YA7qRZgY1e.png"></p><h1 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> MacOS </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Node </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>程序员必备——Mac效率工具Alfred Workflows配置</title>
       <link href="/rm057k/"/>
       <url>/rm057k/</url>
@@ -13,7 +38,7 @@
       
       <categories>
           
-          <category> 效率 </category>
+          <category> MacOS </category>
           
       </categories>
       
