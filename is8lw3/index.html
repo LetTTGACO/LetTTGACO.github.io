@@ -489,7 +489,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    597
+                    593
                 </div>
                 
 
@@ -545,7 +545,7 @@
 <p>但是这种建立软链方式可能会有个问题：用户对<code>/usr/local/bin</code>文件夹的访问权限不够（即使使用了<code>sudo</code>），这就是另一个问题了，可以谷歌一下，这里不再赘述。</p>
 </blockquote>
 <ol start="2">
-<li><strong>先全局安装从官网安装包安装</strong><code>**node**</code><strong>（推荐）</strong></li>
+<li><strong>先从官网安装包安装</strong><code>node</code><strong>（推荐）</strong></li>
 </ol>
 <p>因为安装包会直接将<code>node</code>安装在<code>/usr/local/bin/node</code>中，这样系统也有了一份<code>node</code>。值得注意的是，这里我还建议可以在未安装<code>nvm</code>前，先全局安装<code>yarn</code>和<code>pnpm</code>（需要的话），这样后面也不需要将<code>nvm</code>中的<code>yarn</code>软链到<code>/usr/local/bin/yarn</code>上。</p>
 <h2 id="安装-nvm"><a href="#安装-nvm" class="headerlink" title="安装 nvm"></a>安装 nvm</h2><p>当然你也可以直接安装<code>nvm</code>，利用<code>nvm</code>管理<code>node</code>版本，后续如果出现上述问题，再用软链方式解决就行。<br>进入<code>nvm</code>的<a href="https://github.com/nvm-sh/nvm#install--update-script=" target="_blank" rel="noopener">github</a>官网，用<code>curl</code>安装<code>nvm</code></p>
