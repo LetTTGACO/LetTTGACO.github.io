@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="第二章 React架构-JSX, blog">
-    <meta name="description" content="自顶向下学习React源码 第二章 React架构-JSX">
+    <meta name="keywords" content="注解式配置dubbo服务, blog">
+    <meta name="description" content="引言之前在做项目时一直用的都是 dubbo 的 xml 配置，在调试时未防止连接超时，一般会在 xml 中设置超时时间，但是最近的项目试了下 dubbo 的注解配置，但是一时半会没找到利用注解配置来设置超时时间，于是找了找资料，整理出常用的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="baidu-site-verification" content="code-g3oDWAlD4V" />
-    <title>第二章 React架构-JSX | 1874</title>
+    <title>注解式配置dubbo服务 | 1874</title>
     <!-- <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico"> -->
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
@@ -326,13 +326,13 @@
 
 
 
-<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/202201191345844.jpeg')"> -->
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://image.1874.cool/blog-images/202201191345844.jpeg')">    
+<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')"> -->
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">    
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">第二章 React架构-JSX</h1>
+                    <h1 class="description center-align post-title">注解式配置dubbo服务</h1>
                 </div>
             </div>
         </div>
@@ -450,12 +450,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/React/">
-                                <span class="chip bg-color">React</span>
-                            </a>
-                        
-                            <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
-                                <span class="chip bg-color">自顶向下学习React源码</span>
+                            <a href="/tags/Java/">
+                                <span class="chip bg-color">Java</span>
                             </a>
                         
                     </div>
@@ -466,8 +462,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/React%E6%BA%90%E7%A0%81/" class="post-category">
-                                React源码
+                            <a href="/categories/Java/" class="post-category">
+                                Java
                             </a>
                         
                     </div>
@@ -479,7 +475,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-12-16
+                    2019-02-09
                 </div>
                 
 
@@ -493,14 +489,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    753
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    3 分
                 </div>
                 
 
@@ -516,174 +512,87 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="React-目录结构"><a href="#React-目录结构" class="headerlink" title="React 目录结构"></a>React 目录结构</h1><hr>
-<h2 id="顶层目录"><a href="#顶层目录" class="headerlink" title="顶层目录"></a>顶层目录</h2><p>除去配置文件和隐藏文件夹，根目录的文件夹包括三个：</p>
-<pre class=" language-typescript"><code class="language-typescript">根目录
-├── fixtures        # 包含一些给贡献者准备的小型 React 测试项目
-├── packages        # 包含元数据（比如 <span class="token keyword">package</span><span class="token punctuation">.</span>json）和 React 仓库中所有 <span class="token keyword">package</span> 的源码（子目录 src）
-├── scripts         # 各种工具链的脚本，比如git、jest、eslint等
-</code></pre>
-<h2 id="packages-目录"><a href="#packages-目录" class="headerlink" title="packages 目录"></a>packages 目录</h2><h3 id="react-文件夹"><a href="#react-文件夹" class="headerlink" title="react 文件夹"></a>react 文件夹</h3><p>React 的核心，包含所有全局 React API，如：</p>
-<ul>
-<li>React.createElement</li>
-<li>React.Component</li>
-<li>React.Children</li>
-</ul>
-<p>这些 API 是全平台通用的，它不包含 ReactDOM、ReactNative 等平台特定的代码。在 NPM 上作为单独的一个包发布。</p>
-<h3 id="scheduler-文件夹"><a href="#scheduler-文件夹" class="headerlink" title="scheduler 文件夹"></a>scheduler 文件夹</h3><p>Scheduler（调度器）的实现。</p>
-<h3 id="shared-文件夹"><a href="#shared-文件夹" class="headerlink" title="shared 文件夹"></a>shared 文件夹</h3><p>源码中其他模块公用的方法和全局变量，比如在 shared/ReactSymbols.js 中保存 React 不同组件类型的定义。</p>
-<pre class=" language-typescript"><code class="language-typescript"><span class="token comment" spellcheck="true">// ...</span>
-<span class="token keyword">export</span> <span class="token keyword">let</span> REACT_ELEMENT_TYPE <span class="token operator">=</span> <span class="token number">0xeac7</span><span class="token punctuation">;</span>
-<span class="token keyword">export</span> <span class="token keyword">let</span> REACT_PORTAL_TYPE <span class="token operator">=</span> <span class="token number">0xeaca</span><span class="token punctuation">;</span>
-<span class="token keyword">export</span> <span class="token keyword">let</span> REACT_FRAGMENT_TYPE <span class="token operator">=</span> <span class="token number">0xeacb</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// ...</span>
-</code></pre>
-<h3 id="Renderer-相关的文件夹"><a href="#Renderer-相关的文件夹" class="headerlink" title="Renderer 相关的文件夹"></a>Renderer 相关的文件夹</h3><p>包含不同平台的渲染器的实现</p>
-<pre class=" language-typescript"><code class="language-typescript"><span class="token operator">-</span> react<span class="token operator">-</span>art
-<span class="token operator">-</span> react<span class="token operator">-</span>dom                 # 注意这同时是DOM和SSR（服务端渲染）的入口
-<span class="token operator">-</span> react<span class="token operator">-</span>native<span class="token operator">-</span>renderer
-<span class="token operator">-</span> react<span class="token operator">-</span>noop<span class="token operator">-</span>renderer       # 用于debug fiber（后面会介绍fiber）
-<span class="token operator">-</span> react<span class="token operator">-</span>test<span class="token operator">-</span>renderer
-</code></pre>
-<h3 id="试验性包的文件夹"><a href="#试验性包的文件夹" class="headerlink" title="试验性包的文件夹"></a>试验性包的文件夹</h3><p>React 将自己流程中的一部分抽离出来，形成可以独立使用的包，由于他们是试验性质的，所以不被建议在生产环境使用。包括如下文件夹：</p>
-<pre class=" language-typescript"><code class="language-typescript"><span class="token operator">-</span> react<span class="token operator">-</span>server        # 创建自定义SSR流
-<span class="token operator">-</span> react<span class="token operator">-</span>client        # 创建自定义的流
-<span class="token operator">-</span> react<span class="token operator">-</span>fetch         # 用于数据请求
-<span class="token operator">-</span> react<span class="token operator">-</span>interactions  # 用于测试交互相关的内部特性，比如React的事件模型
-<span class="token operator">-</span> react<span class="token operator">-</span>reconciler    # Reconciler的实现，你可以用他构建自己的Renderer
-</code></pre>
-<h3 id="辅助包的文件夹"><a href="#辅助包的文件夹" class="headerlink" title="辅助包的文件夹"></a>辅助包的文件夹</h3><p>React 将一些辅助功能形成单独的包。包括如下文件夹：</p>
-<pre class=" language-typescript"><code class="language-typescript"><span class="token operator">-</span> react<span class="token operator">-</span>is       # 用于测试组件是否是某类型
-<span class="token operator">-</span> react<span class="token operator">-</span>client   # 创建自定义的流
-<span class="token operator">-</span> react<span class="token operator">-</span>fetch    # 用于数据请求
-<span class="token operator">-</span> react<span class="token operator">-</span>refresh  # “热重载”的React官方实现
-</code></pre>
-<h3 id="react-reconciler-文件夹"><a href="#react-reconciler-文件夹" class="headerlink" title="react-reconciler 文件夹"></a>react-reconciler 文件夹</h3><p>我们需要重点关注 react-reconciler，虽然他是一个实验性的包，内部的很多功能在正式版本中还未开放。但是他一边对接 Scheduler，一边对接不同平台的 Renderer，构成了整个 React16 的架构体系。</p>
-<h1 id="深入理解-JSX"><a href="#深入理解-JSX" class="headerlink" title="深入理解 JSX"></a>深入理解 JSX</h1><hr>
-<h2 id="React-CreateElement"><a href="#React-CreateElement" class="headerlink" title="React.CreateElement"></a>React.CreateElement</h2><p>JSX 在编译时会被 Babel 编译为 React.createElement 方法，查看源码：</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">/**
- * Create and return a new ReactElement of the given type.
- * See https://reactjs.org/docs/react-api.html#createelement
- */</span>
-<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">createElement</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> config<span class="token punctuation">,</span> children<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">let</span> propName<span class="token punctuation">;</span>
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>之前在做项目时一直用的都是 dubbo 的 xml 配置，在调试时未防止连接超时，一般会在 xml 中设置超时时间，但是最近的项目试了下 dubbo 的注解配置，但是一时半会没找到利用注解配置来设置超时时间，于是找了找资料，整理出常用的 dubbo 的配置文件以及注解配置设置超时时间等属性。</p>
+<h1 id="服务提供者"><a href="#服务提供者" class="headerlink" title="服务提供者"></a>服务提供者</h1><h2 id="applicationContext-service-xml-配置文件"><a href="#applicationContext-service-xml-配置文件" class="headerlink" title="applicationContext-service.xml 配置文件"></a>applicationContext-service.xml 配置文件</h2><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>p</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/p<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>dubbo</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://code.alibabatech.com/schema/dubbo<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>mvc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/mvc<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-  <span class="token comment" spellcheck="true">// Reserved names are extracted</span>
-  <span class="token keyword">const</span> props <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">&lt;!--发布dubbo服务 --></span>
+    <span class="token comment" spellcheck="true">&lt;!--提供方应用信息,用于计算依赖关系--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>application</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tiramisu-sellergoods-service<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--注册中心的地址--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>registry</span> <span class="token attr-name">protocol</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>zookeeper<span class="token punctuation">"</span></span> <span class="token attr-name">address</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xxx.xxx.xxx.xxx:2181<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--用于dubbo协议在20881端口暴露服务--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>protocol</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>dubbo<span class="token punctuation">"</span></span> <span class="token attr-name">port</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>20881<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--配置dubbo注解扫描包路径--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>annotation</span> <span class="token attr-name">package</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cn.tiramisu.sellergoods.service.impl<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="Service-实现类"><a href="#Service-实现类" class="headerlink" title="@Service 实现类"></a>@Service 实现类</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>config<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Service<span class="token punctuation">;</span>
 
-  <span class="token keyword">let</span> key <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> ref <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> self <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-  <span class="token keyword">let</span> source <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//注意不是springframework的service</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TiramisuServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">TiramisuService</span> <span class="token punctuation">{</span>
 
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>config <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 赋值给props</span>
-  <span class="token punctuation">}</span>
-
-  <span class="token comment" spellcheck="true">// Children can be more than one argument, and those are transferred onto</span>
-  <span class="token comment" spellcheck="true">// the newly allocated props object.</span>
-  <span class="token keyword">const</span> childrenLength <span class="token operator">=</span> arguments<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 处理 children，会被赋值给props.children</span>
-
-  <span class="token comment" spellcheck="true">// Resolve default props 处理默认值并赋值</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">&amp;&amp;</span> type<span class="token punctuation">.</span>defaultProps<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">const</span> defaultProps <span class="token operator">=</span> type<span class="token punctuation">.</span>defaultProps<span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>propName <span class="token keyword">in</span> defaultProps<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span>props<span class="token punctuation">[</span>propName<span class="token punctuation">]</span> <span class="token operator">===</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        props<span class="token punctuation">[</span>propName<span class="token punctuation">]</span> <span class="token operator">=</span> defaultProps<span class="token punctuation">[</span>propName<span class="token punctuation">]</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> <span class="token function">ReactElement</span><span class="token punctuation">(</span>
-    type<span class="token punctuation">,</span>
-    key<span class="token punctuation">,</span>
-    ref<span class="token punctuation">,</span>
-    self<span class="token punctuation">,</span>
-    source<span class="token punctuation">,</span>
-    ReactCurrentOwner<span class="token punctuation">.</span>current<span class="token punctuation">,</span>
-    props
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>最后，React 会返回一个包含组件数据的 ReactElement 的对象，该对象有一个属性<code>$$typeof: REACT_ELEMENT_TYPE</code>来标记他是一个 ReactElement。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">const</span> ReactElement <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>type<span class="token punctuation">,</span> key<span class="token punctuation">,</span> ref<span class="token punctuation">,</span> self<span class="token punctuation">,</span> source<span class="token punctuation">,</span> owner<span class="token punctuation">,</span> props<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> element <span class="token operator">=</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// This tag allows us to uniquely identify this as a React Element</span>
-    $$<span class="token keyword">typeof</span><span class="token punctuation">:</span> REACT_ELEMENT_TYPE<span class="token punctuation">,</span>
+<h1 id="服务消费者"><a href="#服务消费者" class="headerlink" title="服务消费者"></a>服务消费者</h1><h2 id="springmvc-xml-配置文件"><a href="#springmvc-xml-配置文件" class="headerlink" title="springmvc.xml 配置文件"></a>springmvc.xml 配置文件</h2><pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>beans</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>xsi</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.w3.org/2001/XMLSchema-instance<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>p</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/p<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>context</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/context<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>dubbo</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://code.alibabatech.com/schema/dubbo<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xmlns:</span>mvc</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/mvc<span class="token punctuation">"</span></span>
+    <span class="token attr-name"><span class="token namespace">xsi:</span>schemaLocation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-    <span class="token comment" spellcheck="true">// Built-in properties that belong on the element</span>
-    type<span class="token punctuation">:</span> type<span class="token punctuation">,</span>
-    key<span class="token punctuation">:</span> key<span class="token punctuation">,</span>
-    ref<span class="token punctuation">:</span> ref<span class="token punctuation">,</span>
-    props<span class="token punctuation">:</span> props<span class="token punctuation">,</span>
-
-    <span class="token comment" spellcheck="true">// Record the component responsible for creating this element.</span>
-    _owner<span class="token punctuation">:</span> owner<span class="token punctuation">,</span>
-  <span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">return</span> element<span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">&lt;!-- 引用dubbo服务 --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>application</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tiramisu-manager-web<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--注册中心的地址--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>registry</span> <span class="token attr-name">address</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>zookeeper://xxx.xxx.xxx.xxx:2181<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--配置dubbo注解扫描包路径--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>annotation</span> <span class="token attr-name">package</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cn.letttgaco.manager.controller<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>beans</span><span class="token punctuation">></span></span>
 </code></pre>
-<p>在 React 中有一个全局的方法<code>isValidElement</code>来校验合法的 ReactElement。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">/**
- * Verifies the object is a ReactElement.
- * See https://reactjs.org/docs/react-api.html#isvalidelement
- * @param {?object} object
- * @return {boolean} True if `object` is a ReactElement.
- * @final
- */</span>
-<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">isValidElement</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token keyword">typeof</span> object <span class="token operator">===</span> <span class="token string">"object"</span> <span class="token operator">&amp;&amp;</span>
-    object <span class="token operator">!==</span> <span class="token keyword">null</span> <span class="token operator">&amp;&amp;</span>
-    object<span class="token punctuation">.</span>$$<span class="token keyword">typeof</span> <span class="token operator">===</span> REACT_ELEMENT_TYPE
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="Reference-注解"><a href="#Reference-注解" class="headerlink" title="@Reference 注解"></a>@Reference 注解</h2><pre class=" language-java"><code class="language-java"><span class="token keyword">import</span> com<span class="token punctuation">.</span>alibaba<span class="token punctuation">.</span>dubbo<span class="token punctuation">.</span>config<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>Reference<span class="token punctuation">;</span><span class="token annotation punctuation">@RestController</span>
+
+<span class="token annotation punctuation">@Controller</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BrandController</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//使用dubbo提供的reference注解，引用dubbo服务</span>
+    <span class="token annotation punctuation">@Reference</span>
+    <span class="token keyword">private</span> TiramisuService tiramisuService<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<p>可以发现<code>$$typeof === REACT_ELEMENT_TYPE</code>的非 null 对象就是一个合法的 ReactElement。换言之，在 React 中，所有 JSX 在运行时的返回结果（即 React.createElement()的返回值）都是 React Element。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>React Component<br>在 React 中，我们常使用 ClassComponent 与 FunctionComponent 构建组件。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">class</span> <span class="token class-name">AppClass</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
-  <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token operator">&lt;</span>p<span class="token operator">></span>KaSong<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是ClassComponent："</span><span class="token punctuation">,</span> AppClass<span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是Element："</span><span class="token punctuation">,</span> <span class="token operator">&lt;</span>AppClass <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">function</span> <span class="token function">AppFunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">return</span> <span class="token operator">&lt;</span>p<span class="token operator">></span>KaSong<span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">></span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是FunctionComponent："</span><span class="token punctuation">,</span> AppFunc<span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"这是Element："</span><span class="token punctuation">,</span> <span class="token operator">&lt;</span>AppFunc <span class="token operator">/</span><span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<h2 id="Service-和-Reference-的属性配置"><a href="#Service-和-Reference-的属性配置" class="headerlink" title="@Service 和@Reference 的属性配置"></a>@Service 和@Reference 的属性配置</h2><p>在平时测试过程中，由于 dubbo 默认的超时时间为 5000 毫秒，无法很方便的进行测试，容易报超时异常，而在以前的 xml 配置 dubbo 时，经常这样配置客户端的超时时间：</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!--设置超时时间为30秒--></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">dubbo:</span>service</span> <span class="token attr-name">interface</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cn.letttgaco.order.service.OrderService<span class="token punctuation">"</span></span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>orderServiceImpl<span class="token punctuation">"</span></span> <span class="token attr-name">timeout</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300000<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
 </code></pre>
-<p>ClassComponent 对应的 Element 的 type 字段为 AppClass 自身。FunctionComponent 对应的 Element 的 type 字段为 AppFunc 自身：</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
-  $$<span class="token keyword">typeof</span><span class="token punctuation">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span>react<span class="token punctuation">.</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span>
-  key<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-  props<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-  ref<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-  type<span class="token punctuation">:</span> ƒ <span class="token function">AppFunc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-  _owner<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-  _store<span class="token punctuation">:</span> <span class="token punctuation">{</span>validated<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-  _self<span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
-  _source<span class="token punctuation">:</span> <span class="token keyword">null</span>
-<span class="token punctuation">}</span>
+<p>但是现在用的是 dubbo 的注解形式，设置注解形式的超时时间是直接在注解中声明的：</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">//都要设置超时时间为30秒</span>
+<span class="token comment" spellcheck="true">//服务提供方</span>
+<span class="token annotation punctuation">@Service</span><span class="token punctuation">(</span>timeout<span class="token operator">=</span><span class="token number">300000</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">//服务消费者</span>
+<span class="token annotation punctuation">@Reference</span><span class="token punctuation">(</span>timeout<span class="token operator">=</span><span class="token number">300000</span><span class="token punctuation">)</span>
 </code></pre>
-<p>但是由于 class 组件和 function 组件本质上都是 function， 所以无法通过 instanceof 区分。</p>
-<pre class=" language-javascript"><code class="language-javascript">AppClass <span class="token keyword">instanceof</span> <span class="token class-name">Function</span> <span class="token operator">===</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-AppFunc <span class="token keyword">instanceof</span> <span class="token class-name">Function</span> <span class="token operator">===</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-</code></pre>
-<p>React 通过 ClassComponent 实例原型上的 isReactComponent 变量判断是否是 ClassComponent。</p>
-<pre class=" language-javascript"><code class="language-javascript">ClassComponent<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>isReactComponent <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-</code></pre>
-<h2 id="JSX-与-Fiber-节点"><a href="#JSX-与-Fiber-节点" class="headerlink" title="JSX 与 Fiber 节点"></a>JSX 与 Fiber 节点</h2><p>从上面的内容我们可以发现，JSX 是一种描述当前组件内容的数据结构，他不包含组件 schedule、reconcile、render 所需的相关信息。<br>比如如下信息就不包括在 JSX 中：</p>
-<ul>
-<li>组件在更新中的优先级</li>
-<li>组件的 state</li>
-<li>组件被打上的用于 Renderer 的标记</li>
-<li>这些内容都包含在 Fiber 节点中。</li>
-</ul>
-<p>所以，在组件 mount 时，Reconciler 根据 JSX 描述的组件内容生成组件对应的 Fiber 节点。<br>在 update 时，Reconciler 将 JSX 与 Fiber 节点保存的数据对比，生成组件对应的 Fiber 节点，并根据对比结果为 Fiber 节点打上标记。</p>
+<p>当然还有更多的属性都可以设置，如果有需要的可以研究下。</p>
 
             </div>
             <hr/>
@@ -709,7 +618,7 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://1874.cool/react-jsx/">https://1874.cool/react-jsx/</a>
+                    <a href="https://1874.cool/oelsu8/">https://1874.cool/oelsu8/</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -719,7 +628,7 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                     </i>
                 </span>
                     <span class="reprint-info">
-                    <a href="https://www.yuque.com/1874w/1874.cool/react-jsx/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/react-jsx/</a>
+                    <a href="https://www.yuque.com/1874w/1874.cool/oelsu8/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/oelsu8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -757,12 +666,8 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/React/">
-                                    <span class="chip bg-color">React</span>
-                                </a>
-                            
-                                <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
-                                    <span class="chip bg-color">自顶向下学习React源码</span>
+                                <a href="/tags/Java/">
+                                    <span class="chip bg-color">Java</span>
                                 </a>
                             
                         </div>
@@ -1074,31 +979,31 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/roeayv/">
+                <a href="/fh1na3/">
                     <div class="card-image">
                         
-                        <!-- <img src="https://image.1874.cool/moon/202201191231304.JPG" class="responsive-img" alt="语雀云端写作 Hexo+Github Actions+COS持续集成"> -->
-                        <img src="https://image.1874.cool/moon/202201191231304.JPG" class="responsive-img" alt="语雀云端写作 Hexo+Github Actions+COS持续集成">
+                        <!-- <img src="https://image.1874.cool/blog-images/202201182317291.jpeg" class="responsive-img" alt="Spring Security安全框架入门"> -->
+                        <img src="https://image.1874.cool/blog-images/202201182317291.jpeg" class="responsive-img" alt="Spring Security安全框架入门">
                         
-                        <span class="card-title">语雀云端写作 Hexo+Github Actions+COS持续集成</span>
+                        <span class="card-title">Spring Security安全框架入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Hexo终极玩法：语雀云端写作配合webhook+腾讯云函数+Hexo+Github Actions+COS静态网站+CDN持续集成的个人博客部署方案
+                            引言Spring Security 是一个能够为基于 Spring 的企业应用系统提供声明式的安全访问控制解决方案的安全框架。它提供了一组可以在 Spring 应用上下文中配置的 Bean，充分利用了 Spring IOC（Inversio
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-01-19
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-02-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
-                                    技术分享
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
@@ -1108,12 +1013,8 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Hexo/">
-                        <span class="chip bg-color">Hexo</span>
-                    </a>
-                    
-                    <a href="/tags/CI-CD/">
-                        <span class="chip bg-color">CI/CD</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
@@ -1127,31 +1028,32 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/react/">
+                <a href="/ywdq07/">
                     <div class="card-image">
                         
-                        <!-- <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第一章 React理念"> -->
-                        <img src="https://image.1874.cool/blog-images/202201191345844.jpeg" class="responsive-img" alt="第一章 React理念">
                         
-                        <span class="card-title">第一章 React理念</span>
+                        <!-- <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Mybatis分页插件警告解决办法"> -->
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Mybatis分页插件警告解决办法">
+                        
+                        <span class="card-title">Mybatis分页插件警告解决办法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            自顶向下学习React源码 第一章 React理念
+                            Mybatis分页插件警告解决办法
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-02-08
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/React%E6%BA%90%E7%A0%81/" class="post-category">
-                                    React源码
+                            <a href="/categories/Java/" class="post-category">
+                                    Java
                                 </a>
                             
                             
@@ -1161,12 +1063,8 @@ AppFunc <span class="token keyword">instanceof</span> <span class="token class-n
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/React/">
-                        <span class="chip bg-color">React</span>
-                    </a>
-                    
-                    <a href="/tags/%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E5%AD%A6%E4%B9%A0React%E6%BA%90%E7%A0%81/">
-                        <span class="chip bg-color">自顶向下学习React源码</span>
+                    <a href="/tags/Java/">
+                        <span class="chip bg-color">Java</span>
                     </a>
                     
                 </div>
