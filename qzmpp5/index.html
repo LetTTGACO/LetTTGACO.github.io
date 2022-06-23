@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="跨域场景汇总, blog">
-    <meta name="description" content="常见跨域问题排查及问题解决">
+    <meta name="keywords" content="从0实现npm包自动化发布, blog">
+    <meta name="description" content="利用github actions自动化发布npm">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="baidu-site-verification" content="code-g3oDWAlD4V" />
-    <title>跨域场景汇总 | 1874</title>
+    <title>从0实现npm包自动化发布 | 1874</title>
     <!-- <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico"> -->
     <link rel="icon" type="image/x-icon, image/vnd.microsoft.icon" href="/favicon.ico">
 
@@ -326,13 +326,13 @@
 
 
 
-<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')"> -->
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">    
+<!-- <div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')"> -->
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">    
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">跨域场景汇总</h1>
+                    <h1 class="description center-align post-title">从0实现npm包自动化发布</h1>
                 </div>
             </div>
         </div>
@@ -450,8 +450,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%B7%A8%E5%9F%9F/">
-                                <span class="chip bg-color">跨域</span>
+                            <a href="/tags/npm/">
+                                <span class="chip bg-color">npm</span>
                             </a>
                         
                     </div>
@@ -462,8 +462,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E9%9D%A2%E5%90%91BUG%E5%BC%80%E5%8F%91/" class="post-category">
-                                面向BUG开发
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                技术分享
                             </a>
                         
                     </div>
@@ -475,7 +475,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-09-03
+                    2022-06-23
                 </div>
                 
 
@@ -489,14 +489,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    521
+                    875
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -512,55 +512,188 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Access-Control-Allow-Origin-相关"><a href="#Access-Control-Allow-Origin-相关" class="headerlink" title="Access-Control-Allow-Origin 相关"></a>Access-Control-Allow-Origin 相关</h1><h2 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h2><p>No ‘Access-Control-Allow-Origin’ header is present on the requested resource，但是 status 200 OK<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fipa7Fg68MI7orwWfEZmwY-oNzX4.png"></p>
-<pre><code>Access to XMLHttpRequest at &#39;http://xxx/get&#39; from origin &#39;http://ccc&#39; has been blocked by CORS policy: Response to preflight request doesn&#39;t pass access control check: No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource.
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr>
+<p>这篇文章我其实最想解决的是【如何简单快速打造一个能同时导出<code>cjs</code>和<code>esm</code>的<code>npm</code>包】。在看了网上的各种教程，都没我想要的。要么就是利用<code>rollup</code>来构建，但是配置问题和兼容性问题又很棘手。最后是在看了<a href="https://github.com/typestack/typedi" target="_blank" rel="noopener">typedi</a>的代码仓库，发现很适合我，就借鉴过来了。<br>因为我的<code>npm</code>包是在<code>node</code>端使用的，所以只需要<code>cjs</code>和 esm<code>类型</code>的包就行，而<code>ts-node</code>就刚刚好能满足我的需求，所以我也没有使用其他构建工具。</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>项目关键文件如下：</p>
+<pre class=" language-json"><code class="language-json">node-agile-client
+|--.github
+|  |--workflows
+|  |    |--cd.yml
+|--build
+|  |--cjs
+|  |    |--index.js
+|  |--esm5
+|  |    |--index.js
+|  |--types
+|  |    |--index.d.ts
+|  |--package.json
+|--src
+|  |--index.ts
+|--package.json
+|--tsconfig.json
+|--tsconfig.esm5.json
+|--tsconfig.cjs.json
+|--tsconfig.types.json
 </code></pre>
-<p>这种现象是服务器端后台允许 OPTIONS 请求,并且接口也允许 OPTIONS 请求,但是头部匹配时出现不匹配现象.<br>比如 origin 头部检查不匹配,比如少了一些头部的支持(如常见的 X-Requested-With 头部),然后服务端就会将 response 返回给前端,前端检测到这个后就触发 XHR.onerror,导致前端控制台报错.<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FkHkJ6Q9H_zop1YV_KAhWivdtRhD.png"></p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>增加跨域中间件：</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">{</span> Context <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"koa"</span><span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">/**
- * 跨域白名单
- */</span>
-<span class="token keyword">enum</span> WhiteList <span class="token punctuation">{</span>
-  DEV <span class="token operator">=</span> <span class="token string">'http://dev-xxx.com:6666'</span><span class="token punctuation">,</span>
-  TEST_HTTP <span class="token operator">=</span> <span class="token string">'http://test.com'</span><span class="token punctuation">,</span>
-  TEST_HTTPS <span class="token operator">=</span> <span class="token string">'https://test.com'</span><span class="token punctuation">,</span>
-  PROD_HTTP <span class="token operator">=</span> <span class="token string">'http://prod.com'</span><span class="token punctuation">,</span>
-  PROD_HTTPS <span class="token operator">=</span> <span class="token string">'https://prod.com'</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">/**
- * 跨域中间件
- * @param ctx 上下文拿到Origin来判断是否是跨域请求
- * @param next 如果是跨域就设置允许的源和Headers,再放行
- */</span>
-<span class="token keyword">export</span> <span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">CORSMiddleware</span><span class="token punctuation">(</span>ctx<span class="token punctuation">:</span> Context<span class="token punctuation">,</span> next<span class="token punctuation">:</span> <span class="token punctuation">(</span>err<span class="token operator">?</span><span class="token punctuation">:</span> any<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> Promise<span class="token operator">&lt;</span>any<span class="token operator">></span><span class="token punctuation">)</span><span class="token punctuation">:</span> Promise<span class="token operator">&lt;</span>any<span class="token operator">></span> <span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">// 获取 Origin 请求头，只有非简单请求时，浏览器才会带上Origin字段来标识</span>
-  <span class="token keyword">const</span> requestOrigin <span class="token operator">=</span> ctx<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'Origin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token comment" spellcheck="true">// 不管有没有跨域都要设置 Vary: Origin</span>
-  ctx<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'Vary'</span><span class="token punctuation">,</span> <span class="token string">'Origin'</span><span class="token punctuation">)</span>
-
-  <span class="token keyword">const</span> whiteList <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>WhiteList<span class="token punctuation">)</span> <span class="token keyword">as</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span>
-
-  <span class="token comment" spellcheck="true">// 1.如果没有设置，说明没有跨域，跳过</span>
-  <span class="token comment" spellcheck="true">// 2.或者 不在域名白名单中这直接跳过</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>requestOrigin <span class="token operator">||</span> <span class="token operator">!</span>whiteList<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>requestOrigin<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">return</span> <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<ul>
+<li>.github：github actions 配置文件</li>
+<li>build：文件夹是打包后的产物，也是发不到 npm 上的文件夹，仓库 src 的文件是不会上传到 npm 的<ul>
+<li>cjs：CommonJS 模块的代码</li>
+<li>esm5：ES Modules 模块的代码</li>
+<li>types：类型声明文件</li>
+<li>package.json：对 npm 包的定义说明</li>
+</ul>
+</li>
+<li>src：项目文件代码</li>
+<li>package.json：对项目文件的定义说明及命令行操作</li>
+<li>tsconfig.json：ts 编译配置主体文件</li>
+<li>tsconfig.esm5.json：编译成 ems5 的编译配置</li>
+<li>tsconfig.cjs.json：编译成 cjs 的编译配置</li>
+<li>tsconfig.types.json：编译成类型声明文件的编译配置</li>
+</ul>
+<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><p>这是一份最终配置，具体代码：<a href="https://github.com/LetTTGACO/node-agile-client" target="_blank" rel="noopener">node-agile-client</a></p>
+<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"node-agile-client"</span><span class="token punctuation">,</span>
+  <span class="token property">"version"</span><span class="token operator">:</span> <span class="token string">"0.0.3"</span><span class="token punctuation">,</span>
+  <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"AgileConfig的node客户端"</span><span class="token punctuation">,</span>
+  <span class="token property">"main"</span><span class="token operator">:</span> <span class="token string">"./cjs/index.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"./esm5/index.js"</span><span class="token punctuation">,</span>
+  <span class="token property">"typings"</span><span class="token operator">:</span> <span class="token string">"./types/index.d.ts"</span><span class="token punctuation">,</span>
+  <span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"prebuild"</span><span class="token operator">:</span> <span class="token string">"rimraf build"</span><span class="token punctuation">,</span>
+    <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"npm run build:cjs &amp;&amp; npm run build:esm5 &amp;&amp; npm run build:types"</span><span class="token punctuation">,</span>
+    <span class="token property">"build:esm5"</span><span class="token operator">:</span> <span class="token string">"tsc --project tsconfig.esm5.json"</span><span class="token punctuation">,</span>
+    <span class="token property">"build:cjs"</span><span class="token operator">:</span> <span class="token string">"tsc --project tsconfig.cjs.json"</span><span class="token punctuation">,</span>
+    <span class="token property">"build:types"</span><span class="token operator">:</span> <span class="token string">"tsc --project tsconfig.types.json"</span><span class="token punctuation">,</span>
+    <span class="token property">"postbuild"</span><span class="token operator">:</span> <span class="token string">"cp LICENSE build/LICENSE &amp;&amp; cp README.md build/README.md &amp;&amp; cp package.json build/package.json"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"repository"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"git"</span><span class="token punctuation">,</span>
+    <span class="token property">"url"</span><span class="token operator">:</span> <span class="token string">"git+https://github.com/LetTTGACO/node-agile-client.git"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"tags"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"agile"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"keywords"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"配置中心"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"author"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"license"</span><span class="token operator">:</span> <span class="token string">"ISC"</span><span class="token punctuation">,</span>
+  <span class="token property">"bugs"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"url"</span><span class="token operator">:</span> <span class="token string">"https://github.com/LetTTGACO/node-agile-client/issues"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"homepage"</span><span class="token operator">:</span> <span class="token string">"https://github.com/LetTTGACO/node-agile-client#readme"</span><span class="token punctuation">,</span>
+  <span class="token property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"axios"</span><span class="token operator">:</span> <span class="token string">"^0.26.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"fs-extra"</span><span class="token operator">:</span> <span class="token string">"^10.1.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"md5"</span><span class="token operator">:</span> <span class="token string">"^2.3.0"</span><span class="token punctuation">,</span>
+    <span class="token property">"path"</span><span class="token operator">:</span> <span class="token string">"^0.12.7"</span><span class="token punctuation">,</span>
+    <span class="token property">"ws"</span><span class="token operator">:</span> <span class="token string">"^8.5.0"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"devDependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"@types/fs-extra"</span><span class="token operator">:</span> <span class="token string">"^9.0.13"</span><span class="token punctuation">,</span>
+    <span class="token property">"@types/md5"</span><span class="token operator">:</span> <span class="token string">"^2.3.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"@types/ws"</span><span class="token operator">:</span> <span class="token string">"^8.5.3"</span><span class="token punctuation">,</span>
+    <span class="token property">"rimraf"</span><span class="token operator">:</span> <span class="token string">"^3.0.2"</span><span class="token punctuation">,</span>
+    <span class="token property">"ts-node"</span><span class="token operator">:</span> <span class="token string">"^10.8.1"</span><span class="token punctuation">,</span>
+    <span class="token property">"typescript"</span><span class="token operator">:</span> <span class="token string">"^4.7.4"</span>
   <span class="token punctuation">}</span>
-  <span class="token comment" spellcheck="true">// 设置响应头</span>
-  ctx<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Origin'</span><span class="token punctuation">,</span> requestOrigin<span class="token punctuation">)</span>
-  <span class="token comment" spellcheck="true">// 跨域解决</span>
-  ctx<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Headers'</span><span class="token punctuation">,</span> <span class="token string">'Content-Type, Authorization, X-Requested-With'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  ctx<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Methods'</span><span class="token punctuation">,</span> <span class="token string">'PUT, POST, GET, DELETE, OPTIONS'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token comment" spellcheck="true">// 该字段可选，用来指定本次预检请求的有效期，单位为秒。</span>
-  <span class="token comment" spellcheck="true">// 当请求方法是PUT或DELETE等特殊方法或者Content-Type字段的类型是application/json时，服务器会提前发送一次请求进行验证</span>
-  <span class="token comment" spellcheck="true">// 下面的的设置只本次验证的有效时间，即在该时间段内服务端可以不用进行验证</span>
-  ctx<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">"Access-Control-Max-Age"</span><span class="token punctuation">,</span> <span class="token string">'86400'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">return</span> <span class="token keyword">await</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<p>因为这个<code>package.json</code>最后会被拷贝到<code>build</code>文件夹中去，所以以下配置都是基于<code>build</code>目录下的配置选项</p>
+<table>
+<thead>
+<tr>
+<th>关键参数</th>
+<th>值</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>main</td>
+<td>./cjs/index.js</td>
+<td>commonjs 的入口文件</td>
+</tr>
+<tr>
+<td>module</td>
+<td>./esm5/index.js</td>
+<td>esmodule 的入口文件</td>
+</tr>
+<tr>
+<td>typings</td>
+<td>./types/index.d.ts</td>
+<td>类型声明的入口文件</td>
+</tr>
+</tbody></table>
+<h2 id="tsconfig-json"><a href="#tsconfig-json" class="headerlink" title="tsconfig.json"></a>tsconfig.json</h2><pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"commonjs"</span><span class="token punctuation">,</span>
+    <span class="token property">"moduleResolution"</span><span class="token operator">:</span> <span class="token string">"node"</span><span class="token punctuation">,</span>
+    <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"es2018"</span><span class="token punctuation">,</span>
+    <span class="token property">"lib"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"es2018"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"outDir"</span><span class="token operator">:</span> <span class="token string">"build/node"</span><span class="token punctuation">,</span>
+    <span class="token property">"rootDirs"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"./src"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"strict"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"sourceMap"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"inlineSources"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"removeComments"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"esModuleInterop"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"experimentalDecorators"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"emitDecoratorMetadata"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"forceConsistentCasingInFileNames"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"exclude"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"build"</span><span class="token punctuation">,</span> <span class="token string">"node_modules"</span><span class="token punctuation">,</span> <span class="token string">"sample"</span><span class="token punctuation">,</span> <span class="token string">"**/*.spec.ts"</span><span class="token punctuation">,</span> <span class="token string">"test/**"</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="tsconfig-cjs-json"><a href="#tsconfig-cjs-json" class="headerlink" title="tsconfig.cjs.json"></a>tsconfig.cjs.json</h2><pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"extends"</span><span class="token operator">:</span> <span class="token string">"./tsconfig.json"</span><span class="token punctuation">,</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"CommonJS"</span><span class="token punctuation">,</span>
+    <span class="token property">"outDir"</span><span class="token operator">:</span> <span class="token string">"build/cjs"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="tsconfig-esm5-json"><a href="#tsconfig-esm5-json" class="headerlink" title="tsconfig.esm5.json"></a>tsconfig.esm5.json</h2><pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"extends"</span><span class="token operator">:</span> <span class="token string">"./tsconfig.json"</span><span class="token punctuation">,</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"module"</span><span class="token operator">:</span> <span class="token string">"ES2015"</span><span class="token punctuation">,</span>
+    <span class="token property">"target"</span><span class="token operator">:</span> <span class="token string">"ES5"</span><span class="token punctuation">,</span>
+    <span class="token property">"outDir"</span><span class="token operator">:</span> <span class="token string">"build/esm5"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="tsconfig-types-json"><a href="#tsconfig-types-json" class="headerlink" title="tsconfig.types.json"></a>tsconfig.types.json</h2><pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"extends"</span><span class="token operator">:</span> <span class="token string">"./tsconfig.json"</span><span class="token punctuation">,</span>
+  <span class="token property">"compilerOptions"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"declaration"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"emitDeclarationOnly"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"outDir"</span><span class="token operator">:</span> <span class="token string">"build/types"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="自动化发布"><a href="#自动化发布" class="headerlink" title="自动化发布"></a>自动化发布</h1><p>在项目根目录新建<code>.github/workflows/cd.yml</code>，并配置<code>github actions</code>，<code>secrets.NPM_PUBLISH_TOKEN</code>需要去<code>npm</code>官网生成<code>token</code>并配置到<code>github</code>仓库的<code>Actions secrets</code>中。</p>
+<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> CD
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">release</span><span class="token punctuation">:</span>
+    <span class="token key atrule">types</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>created<span class="token punctuation">]</span>
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">publish</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> Publish to NPM
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v2
+      <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v2
+        <span class="token key atrule">with</span><span class="token punctuation">:</span>
+          <span class="token key atrule">node-version</span><span class="token punctuation">:</span> <span class="token string">"lts/*"</span>
+          <span class="token key atrule">registry-url</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//registry.npmjs.org
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm ci <span class="token punctuation">-</span><span class="token punctuation">-</span>ignore<span class="token punctuation">-</span>scripts
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build<span class="token punctuation">:</span>cjs
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build<span class="token punctuation">:</span>esm5
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm run build<span class="token punctuation">:</span>types
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> cp LICENSE build/LICENSE
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> cp README.md build/README.md
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> jq 'del(.devDependencies) <span class="token punctuation">|</span> del(.scripts)' package.json <span class="token punctuation">></span> build/package.json
+      <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm publish ./build
+        <span class="token key atrule">env</span><span class="token punctuation">:</span>
+          <span class="token key atrule">NODE_AUTH_TOKEN</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NPM_PUBLISH_TOKEN <span class="token punctuation">}</span><span class="token punctuation">}</span>
+</code></pre>
+<h1 id="大功告成！"><a href="#大功告成！" class="headerlink" title="大功告成！"></a>大功告成！</h1><p>经过以上配置，就可以在<code>github</code>创建<code>release</code>版本时触发<code>actions</code>，将<code>build</code>文件夹中的压缩包发布到<code>npm</code>了！</p>
 
             </div>
             <hr/>
@@ -586,7 +719,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://1874.cool/fgligg/">https://1874.cool/fgligg/</a>
+                    <a href="https://1874.cool/qzmpp5/">https://1874.cool/qzmpp5/</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -596,7 +729,7 @@
                     </i>
                 </span>
                     <span class="reprint-info">
-                    <a href="https://www.yuque.com/1874w/1874.cool/fgligg/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/fgligg/</a>
+                    <a href="https://www.yuque.com/1874w/1874.cool/qzmpp5/" target="_blank" rel="noopener">https://www.yuque.com/1874w/1874.cool/qzmpp5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -634,8 +767,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%B7%A8%E5%9F%9F/">
-                                    <span class="chip bg-color">跨域</span>
+                                <a href="/tags/npm/">
+                                    <span class="chip bg-color">npm</span>
                                 </a>
                             
                         </div>
@@ -943,46 +1076,49 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/peqmq8/">
+                <a href="/qzmpp5/">
                     <div class="card-image">
                         
-                        <!-- <img src="https://image.1874.cool/blog-images/202201171551896.png" class="responsive-img" alt="React 中后台系统多页签方案"> -->
-                        <img src="https://image.1874.cool/blog-images/202201171551896.png" class="responsive-img" alt="React 中后台系统多页签方案">
                         
-                        <span class="card-title">React 中后台系统多页签方案</span>
+                        <!-- <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="从0实现npm包自动化发布"> -->
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="从0实现npm包自动化发布">
+                        
+                        <span class="card-title">从0实现npm包自动化发布</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            React 中后台系统多页签方案，实现缓存+多页签等功能
+                            利用github actions自动化发布npm
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-23
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/React/" class="post-category">
-                                    React
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                    技术分享
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/React/">
-                        <span class="chip bg-color">React</span>
+                    <a href="/tags/npm/">
+                        <span class="chip bg-color">npm</span>
                     </a>
                     
                 </div>
@@ -996,32 +1132,32 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/epmi4g/">
+                <a href="/wqx8a7/">
                     <div class="card-image">
                         
                         
-                        <!-- <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="关于接口的请求的一些思考"> -->
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="关于接口的请求的一些思考">
+                        <!-- <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="为开源社区做贡献-开发AgileConfig的NodeJS客户端：node-agile-client"> -->
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="为开源社区做贡献-开发AgileConfig的NodeJS客户端：node-agile-client">
                         
-                        <span class="card-title">关于接口的请求的一些思考</span>
+                        <span class="card-title">为开源社区做贡献-开发AgileConfig的NodeJS客户端：node-agile-client</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            接口请求的并发和任务切割
+                            AgileConfig（配置中心）的node客户端：node-agile-client
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E8%83%A1%E8%AF%B4/" class="post-category">
-                                    胡说
+                            <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="post-category">
+                                    技术分享
                                 </a>
                             
                             
@@ -1031,8 +1167,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%B9%B6%E5%8F%91/">
-                        <span class="chip bg-color">接口并发</span>
+                    <a href="/tags/Node/">
+                        <span class="chip bg-color">Node</span>
+                    </a>
+                    
+                    <a href="/tags/npm/">
+                        <span class="chip bg-color">npm</span>
                     </a>
                     
                 </div>
