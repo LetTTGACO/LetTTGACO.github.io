@@ -526,9 +526,9 @@
             <div id="articleContent">
                 <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr>
 <p>在之前的文章<a href="https://www.yuque.com/1874w/1874.cool/roeayv" target="_blank" rel="noopener">语雀云端写作 Hexo+Github Actions+COS 持续集成</a> 中，语雀<code>webhook</code>触发构建的流程如下：</p>
-<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FmBBicekAEyyKQlzZSWZxgWjZ0Qn.jpeg"><br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FmhY6GFyNQLpKk12gH6LQ7JvqyeL.png"></p>
-<p>而当时腾讯云函数对个人使用还是在一定条件下免费的，本着能白嫖就白嫖的心态就用它做中转服务调用了。结果从上个月开始，腾讯云函数涨价了，而且费用也不便宜，我看了下账单，一个月差不多要快 10 块钱了，这我可忍不了。<br>所以就打算自己搭建一个<code>node</code>服务，自己调用<code>Github Actions</code>的<code>API</code>触发构建。流程如下：<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FiOZZFrZK2WNImXPudM_Eggi4hCJ.jpeg"><br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FsKyeQjN9zLBroMtMhOzbkBCFBw7.png"></p>
-<h1 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h1><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FpafgH_mmn7S7Xdf2eI_tZuZUpco.jpeg"><br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fn7InsViKxa8EwqrW7-xh4Q9oKiL.png"></p>
+<p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FmBBicekAEyyKQlzZSWZxgWjZ0Qn.jpeg"></p>
+<p>而当时腾讯云函数对个人使用还是在一定条件下免费的，本着能白嫖就白嫖的心态就用它做中转服务调用了。结果从上个月开始，腾讯云函数涨价了，而且费用也不便宜，我看了下账单，一个月差不多要快 10 块钱了，这我可忍不了。<br>所以就打算自己搭建一个<code>node</code>服务，自己调用<code>Github Actions</code>的<code>API</code>触发构建。流程如下：<br><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FiOZZFrZK2WNImXPudM_Eggi4hCJ.jpeg"></p>
+<h1 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h1><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FpafgH_mmn7S7Xdf2eI_tZuZUpco.jpeg"></p>
 <h1 id="搭建-Node-服务"><a href="#搭建-Node-服务" class="headerlink" title="搭建 Node 服务"></a>搭建 Node 服务</h1><p>搭建记录请看<a href="https://www.yuque.com/1874w/1874.cool/zbbxv0" target="_blank" rel="noopener">Midway 项目搭建</a></p>
 <h1 id="开通腾讯云容器镜像服务（可选）"><a href="#开通腾讯云容器镜像服务（可选）" class="headerlink" title="开通腾讯云容器镜像服务（可选）"></a>开通腾讯云容器镜像服务（可选）</h1><p>目前腾讯云容器镜像服务对个人还是免费的，我就先用这个，不免费了再说。也可以直接推送到<code>Docker Hub</code></p>
 <blockquote>
