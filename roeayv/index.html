@@ -543,7 +543,7 @@
 <p>至于为什么选择腾讯云 COS，是因为我的云服务器、域名、图床都使用的腾讯云的服务。再加上 COS 静态网站+CDN 加速的极致体验，让我心动了。而且我这个战五渣的个人博客的访问量对于收费的 COS 来说，也没多钱，就先做个试验吧，万一哪天<del>博客火了</del>（没钱了），再换也不迟。</p>
 <h1 id="部署流程"><a href="#部署流程" class="headerlink" title="部署流程"></a>部署流程</h1><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/FvjX9uckFsBD3DDgkfoo-IZ3b8yJ.png"></p>
 <blockquote>
-<p>PS：在<a href="undefined/ovugli">Github Actions 持续集成 Docker 构建并部署 Node 项目到云服务器</a>中，我已经将调用云函数改为调我自己的 node 项目了，再由 node 服务调用 github actions</p>
+<p>PS：在<a href="https://1874.cool/ovugli">Github Actions 持续集成 Docker 构建并部署 Node 项目到云服务器</a>中，我已经将调用云函数改为调我自己的 node 项目了，再由 node 服务调用 github actions</p>
 </blockquote>
 <h1 id="初始化-Hexo"><a href="#初始化-Hexo" class="headerlink" title="初始化 Hexo"></a>初始化 Hexo</h1><p>首先需要在本地初始化 hexo 仓库</p>
 <pre class=" language-bash"><code class="language-bash">npx hexo-cli init blog
@@ -771,7 +771,7 @@
           tccli cdn PurgePathCache --cli-unfold-argument --Paths https://1874.cool/ --FlushType flush</span>
 </code></pre>
 <h1 id="配置腾讯云函数"><a href="#配置腾讯云函数" class="headerlink" title="配置腾讯云函数"></a>配置腾讯云函数</h1><blockquote>
-<p>PS：在<a href="undefined/ovugli">Github Actions 持续集成 Docker 构建并部署 Node 项目到云服务器</a>中，我已经将调用云函数改为调我自己的 node 项目了，因为腾讯云函数现在（2022-07-16）好贵了！</p>
+<p>PS：在<a href="https://1874.cool/ovugli">Github Actions 持续集成 Docker 构建并部署 Node 项目到云服务器</a>中，我已经将调用云函数改为调我自己的 node 项目了，因为腾讯云函数现在（2022-07-16）好贵了！</p>
 </blockquote>
 <ol>
 <li>访问<a href="https://console.cloud.tencent.com/scf" target="_blank" rel="noopener">云数控制台</a>=&gt;新建云函数</li>
