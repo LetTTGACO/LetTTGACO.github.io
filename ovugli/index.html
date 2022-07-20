@@ -501,7 +501,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    912
+                    915
                 </div>
                 
 
@@ -532,7 +532,7 @@
 <h1 id="搭建-Node-服务"><a href="#搭建-Node-服务" class="headerlink" title="搭建 Node 服务"></a>搭建 Node 服务</h1><p>搭建记录请看<a href="https://1874.cool/zbbxv0">Midway 项目搭建</a></p>
 <h1 id="开通腾讯云容器镜像服务（可选）"><a href="#开通腾讯云容器镜像服务（可选）" class="headerlink" title="开通腾讯云容器镜像服务（可选）"></a>开通腾讯云容器镜像服务（可选）</h1><p>目前腾讯云容器镜像服务对个人还是免费的，我就先用这个，不免费了再说。也可以直接推送到<code>Docker Hub</code></p>
 <blockquote>
-<p>实操过程中发现：由于 Github Actions 使用的机器都是美国的，所以推送到 Docker Hub 可能会更快一点。后续我也会改为直接推送到 Docker Hub 上去</p>
+<p>实操过程中发现：由于 Github Actions 使用的机器都是美国的，所以选择在香港/海外新建会快很多很多！<img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/blog-images/Fi5ZyPntP28VPpJP66tQDzSirGxn.png"></p>
 </blockquote>
 <p>具体开通流程和快速入门请直接移步<a href="https://cloud.tencent.com/document/product/1141/63910" target="_blank" rel="noopener">腾讯云容器镜像服务个人版快速入门</a></p>
 <h1 id="配置-Github-Actions"><a href="#配置-Github-Actions" class="headerlink" title="配置 Github Actions"></a>配置 Github Actions</h1><h2 id="编写-workflows-流程"><a href="#编写-workflows-流程" class="headerlink" title="编写 workflows 流程"></a>编写 workflows 流程</h2><p>在 Node 项目的根目录新建<code>.github/workflows/docker-build-deploy.yml</code>文件</p>
@@ -551,11 +551,12 @@
     <span class="token key atrule">steps</span><span class="token punctuation">:</span>
       <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v3
       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 构建镜像
-        <span class="token key atrule">run</span><span class="token punctuation">:</span> docker build <span class="token punctuation">-</span><span class="token punctuation">-</span>file Dockerfile <span class="token punctuation">-</span><span class="token punctuation">-</span>tag ccr.ccs.tencentyun.com/命名空间/镜像名称 .
+        <span class="token comment" spellcheck="true"># 选择推送到香港的镜像仓库会快很多</span>
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> docker build <span class="token punctuation">-</span><span class="token punctuation">-</span>file Dockerfile <span class="token punctuation">-</span><span class="token punctuation">-</span>tag hkccr.ccs.tencentyun.com/命名空间/镜像名称 .
       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 登录腾讯的 docker 镜像仓库
-        <span class="token key atrule">run</span><span class="token punctuation">:</span> echo "$<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.TENCENT_REGISTRY_PASSWORD <span class="token punctuation">}</span><span class="token punctuation">}</span>" <span class="token punctuation">|</span> docker login ccr.ccs.tencentyun.com <span class="token punctuation">-</span><span class="token punctuation">-</span>username=用户名 <span class="token punctuation">-</span><span class="token punctuation">-</span>password<span class="token punctuation">-</span>stdin
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> echo "$<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.TENCENT_REGISTRY_PASSWORD <span class="token punctuation">}</span><span class="token punctuation">}</span>" <span class="token punctuation">|</span> docker login hkccr.ccs.tencentyun.com <span class="token punctuation">-</span><span class="token punctuation">-</span>username=用户名 <span class="token punctuation">-</span><span class="token punctuation">-</span>password<span class="token punctuation">-</span>stdin
       <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 把构建好的镜像推送到腾讯仓库
-        <span class="token key atrule">run</span><span class="token punctuation">:</span> docker push ccr.ccs.tencentyun.com/命名空间/镜像名称
+        <span class="token key atrule">run</span><span class="token punctuation">:</span> docker push hkccr.ccs.tencentyun.com/命名空间/镜像名称
 
   <span class="token key atrule">deploy</span><span class="token punctuation">:</span>
     <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
@@ -583,9 +584,9 @@
 <h2 id="deploy-sh"><a href="#deploy-sh" class="headerlink" title="deploy.sh"></a>deploy.sh</h2><pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true">#/bin/bash</span>
 docker stop 镜像名称
 docker <span class="token function">rm</span> 镜像名称
-docker rmi ccr.ccs.tencentyun.com/命名空间/镜像名称
-docker pull ccr.ccs.tencentyun.com/命名空间/镜像名称
-docker run -d --name 镜像名称 -p 7001:7001 ccr.ccs.tencentyun.com/命名空间/镜像名称
+docker rmi hkccr.ccs.tencentyun.com/命名空间/镜像名称
+docker pull hkccr.ccs.tencentyun.com/命名空间/镜像名称
+docker run -d --name 镜像名称 -p 7001:7001 hkccr.ccs.tencentyun.com/命名空间/镜像名称
 </code></pre>
 <h1 id="配置-DockerFile"><a href="#配置-DockerFile" class="headerlink" title="配置 DockerFile"></a>配置 DockerFile</h1><h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><p>在 Node 项目的根目录新建<code>Dockerfile</code>文件</p>
 <pre class=" language-dockerfile"><code class="language-dockerfile">FROM node:12 AS build
