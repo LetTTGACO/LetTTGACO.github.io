@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="引言 在没有遇到yuque-hexo之前，我博客是 Hexo+Github Pages 的部署方式：  本地配置 Hexo 源码 利用本地的 markdown 编辑器书写文章 Hexo 部署到 Github Pages&#x2F;Coding Pages 上  缺点也很明显：  本地编辑器鱼龙混杂，使用手感一言难尽 代码存储在本地不方便 GitHub Pages 国内访问速度令人堪忧（有段时间我还">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云端写作Hexo+Github Actions持续集成">
+<meta property="og:url" content="http://example.com/2022/11/10/%E4%BA%91%E7%AB%AF%E5%86%99%E4%BD%9CHexo+Github%20Actions%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="引言 在没有遇到yuque-hexo之前，我博客是 Hexo+Github Pages 的部署方式：  本地配置 Hexo 源码 利用本地的 markdown 编辑器书写文章 Hexo 部署到 Github Pages&#x2F;Coding Pages 上  缺点也很明显：  本地编辑器鱼龙混杂，使用手感一言难尽 代码存储在本地不方便 GitHub Pages 国内访问速度令人堪忧（有段时间我还">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FowG8aCcGp031gey2-jKiLvM2WoL.png">
+<meta property="article:published_time" content="2022-11-10T16:30:29.000Z">
+<meta property="article:modified_time" content="2022-11-10T17:59:57.990Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FowG8aCcGp031gey2-jKiLvM2WoL.png">
+
+<link rel="canonical" href="http://example.com/2022/11/10/%E4%BA%91%E7%AB%AF%E5%86%99%E4%BD%9CHexo+Github%20Actions%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>云端写作Hexo+Github Actions持续集成 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/10/%E4%BA%91%E7%AB%AF%E5%86%99%E4%BD%9CHexo+Github%20Actions%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云端写作Hexo+Github Actions持续集成
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-11-10 16:30:29 / Modified: 17:59:57" itemprop="dateCreated datePublished" datetime="2022-11-10T16:30:29+00:00">2022-11-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr>
+<p>在没有遇到<a target="_blank" rel="noopener" href="https://github.com/x-cold/yuque-hexo">yuque-hexo</a>之前，我博客是 Hexo+Github Pages 的部署方式：</p>
+<ul>
+<li>本地配置 Hexo 源码</li>
+<li>利用本地的 markdown 编辑器书写文章</li>
+<li>Hexo 部署到 Github Pages&#x2F;Coding Pages 上</li>
+</ul>
+<p>缺点也很明显：</p>
+<ul>
+<li>本地编辑器鱼龙混杂，使用手感一言难尽</li>
+<li>代码存储在本地不方便</li>
+<li>GitHub Pages 国内访问速度令人堪忧（有段时间我还双重部署在了 Coding Pages 上，但是太不稳定了）</li>
+</ul>
+<p>本地的编辑器我是挑了又挑，总算找到一个手感还不错的<a target="_blank" rel="noopener" href="https://typora.io/">Typora</a>，但还是限于本地编辑的局限性和不方便，就懒的在本地写博客了。<br>在试用了语雀之后，发现语雀的编辑器太好用了，功能齐全，速度也快。后来我就一直在语雀上记录各种文章，但是并没有同步到博客。所在公司团队也用语雀来记录各种技术方案等文档。就这样我的博客几乎停更了一年。</p>
+<hr>
+<p>直到我遇到了<a target="_blank" rel="noopener" href="https://github.com/x-cold/yuque-hexo">yuque-hexo</a>，突然就引起了我的兴趣。结合推荐的最佳实践文章，我没日没夜搞了好几天，终于搭建好了我的<a target="_blank" rel="noopener" href="https://1874.cool/">新博客</a>。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h2><ul>
+<li>node 环境的安装</li>
+<li>hexo-cli 的的初始化</li>
+<li>hexo 主题安装</li>
+<li>yuque-hexo 安装</li>
+<li>dotenv -cli 安装</li>
+</ul>
+<h3 id="node-环境的安装"><a href="#node-环境的安装" class="headerlink" title="node 环境的安装"></a>node 环境的安装</h3><h3 id="hexo-cli-的的初始化"><a href="#hexo-cli-的的初始化" class="headerlink" title="hexo-cli 的的初始化"></a>hexo-cli 的的初始化</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx hexo-cli init blog</span><br></pre></td></tr></table></figure>
+
+<h3 id="hexo-主题安装"><a href="#hexo-主题安装" class="headerlink" title="hexo 主题安装"></a>hexo 主题安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<h3 id="yuque-hexo-安装"><a href="#yuque-hexo-安装" class="headerlink" title="yuque-hexo 安装"></a>yuque-hexo 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i yuque-hexo</span><br></pre></td></tr></table></figure>
+
+<h3 id="dotenv-cli-安装"><a href="#dotenv-cli-安装" class="headerlink" title="dotenv -cli 安装"></a>dotenv -cli 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i dotenv-cli</span><br></pre></td></tr></table></figure>
+
+<h2 id="语雀相关"><a href="#语雀相关" class="headerlink" title="语雀相关"></a>语雀相关</h2><ul>
+<li>新建语雀仓库</li>
+<li>语雀 Token 申请</li>
+<li>语雀知识库前缀</li>
+</ul>
+<h3 id="新建语雀仓库"><a href="#新建语雀仓库" class="headerlink" title="新建语雀仓库"></a>新建语雀仓库</h3><p><a target="_blank" rel="noopener" href="https://www.yuque.com/dashboard">https://www.yuque.com/dashboard</a></p>
+<h3 id="语雀-Token-申请"><a href="#语雀-Token-申请" class="headerlink" title="语雀 Token 申请"></a>语雀 Token 申请</h3><p><a target="_blank" rel="noopener" href="https://www.yuque.com/settings/tokens?view=doc_embed">设置 · 语雀</a></p>
+<h3 id="语雀知识库前缀"><a href="#语雀知识库前缀" class="headerlink" title="语雀知识库前缀"></a>语雀知识库前缀</h3><p><a target="_blank" rel="noopener" href="https://www.yuque.com/1874w/yuque-hexo-demo/settings/basic">https://www.yuque.com/1874w/yuque-hexo-demo/settings/basic</a></p>
+<h2 id="GIthub-相关"><a href="#GIthub-相关" class="headerlink" title="GIthub 相关"></a>GIthub 相关</h2><ul>
+<li>github 源码仓库</li>
+<li>github 图床仓库</li>
+<li>GithubPages 仓库</li>
+<li>GITHUB_TOKEN </li>
+<li>Github 的 SSH_PRIVATE_KEY  私钥</li>
+</ul>
+<h3 id="github-源码仓库"><a href="#github-源码仓库" class="headerlink" title="github 源码仓库"></a>github 源码仓库</h3><h3 id="github-图床仓库"><a href="#github-图床仓库" class="headerlink" title="github 图床仓库"></a>github 图床仓库</h3><p><a target="_blank" rel="noopener" href="https://github.com/LetTTGACO/image">https://github.com/LetTTGACO/image</a></p>
+<h3 id="GithubPages-仓库"><a href="#GithubPages-仓库" class="headerlink" title="GithubPages 仓库"></a>GithubPages 仓库</h3><p><a target="_blank" rel="noopener" href="https://github.com/LetTTGACO/LetTTGACO.github.io">https://github.com/LetTTGACO/LetTTGACO.github.io</a></p>
+<h3 id="GITHUB-TOKEN-申请"><a href="#GITHUB-TOKEN-申请" class="headerlink" title="GITHUB_TOKEN  申请"></a>GITHUB_TOKEN  申请</h3><p><a target="_blank" rel="noopener" href="https://github.com/settings/tokens">https://github.com/settings/tokens</a></p>
+<h3 id="SSH-PRIVATE-KEY-私钥"><a href="#SSH-PRIVATE-KEY-私钥" class="headerlink" title="SSH_PRIVATE_KEY  私钥"></a>SSH_PRIVATE_KEY  私钥</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -C <span class="string">&quot;1225751694@qq.com&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FowG8aCcGp031gey2-jKiLvM2WoL.png"></p>
+<h1 id="站点配置"><a href="#站点配置" class="headerlink" title="站点配置"></a>站点配置</h1><h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;yuqueConfig&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;postPath&quot;</span>: <span class="string">&quot;source/_posts&quot;</span>,</span><br><span class="line">    <span class="string">&quot;baseUrl&quot;</span>: <span class="string">&quot;https://www.yuque.com/api/v2&quot;</span>,</span><br><span class="line">    <span class="string">&quot;login&quot;</span>: <span class="string">&quot;1874w&quot;</span>,</span><br><span class="line">    <span class="string">&quot;repo&quot;</span>: <span class="string">&quot;yuque-hexo-demo&quot;</span>,</span><br><span class="line">    <span class="string">&quot;onlyPublished&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;onlyPublic&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;imgCdn&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;concurrency&quot;</span>: 1,</span><br><span class="line">      <span class="string">&quot;imageBed&quot;</span>: <span class="string">&quot;github&quot;</span>,</span><br><span class="line">      <span class="string">&quot;enabled&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="string">&quot;bucket&quot;</span>: <span class="string">&quot;image&quot;</span>,</span><br><span class="line">      <span class="string">&quot;host&quot;</span>: <span class="string">&quot;cdn.jsdelivr.net&quot;</span>,</span><br><span class="line">      <span class="string">&quot;prefixKey&quot;</span>: <span class="string">&quot;blog-images12&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="x2F-github-x2F-main-yml"><a href="#x2F-github-x2F-main-yml" class="headerlink" title=".&#x2F;github&#x2F;main.yml"></a>.&#x2F;github&#x2F;main.yml</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deplo</span> <span class="string">To</span> <span class="string">COS</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># 允许手动push触发</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line">  <span class="comment"># 允许外部仓库事件触发</span></span><br><span class="line">  <span class="attr">repository_dispatch:</span></span><br><span class="line">    <span class="attr">types:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">start</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">检查分支</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@master</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">安装node环境</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&quot;12.x&quot;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">缓存依赖</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v1</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">cache</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;runner.OS&#125;&#125;-$&#123;&#123;hashFiles(&#x27;**/package-lock.json&#x27;)&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">安装依赖</span></span><br><span class="line">        <span class="attr">if:</span> <span class="string">steps.cache.outputs.cache-hit</span> <span class="type">!=</span> <span class="string">&#x27;true&#x27;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          export TZ=&#x27;Asia/Shanghai&#x27;</span></span><br><span class="line"><span class="string">          npm install</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">拉取语雀的文章</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="attr">YUQUE_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.YUQUE_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm run yuque:sync</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">配置Git用户名邮箱</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          git config --global user.name &quot;1874&quot;</span></span><br><span class="line"><span class="string">          git config --global user.email &quot;1225751694@qq.com&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">提交yuque拉取的文章到GitHub仓库</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          echo `date +&quot;%Y-%m-%d %H:%M:%S&quot;` begin &gt; time.txt</span></span><br><span class="line"><span class="string">          git add .</span></span><br><span class="line"><span class="string">          git commit -m &quot;Refresh yuque json&quot; -a</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">推送文章到仓库</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">ad-m/github-push-action@master</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">生成静态文件</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          npm run hexo:clean</span></span><br><span class="line"><span class="string">          npm run hexo:build</span></span><br><span class="line"><span class="string"></span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">上传文章到GitHub</span> <span class="string">Pages</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">deploy_key:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.SSH_PRIVATE_KEY</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">external_repository:</span> <span class="string">LetTTGACO/LetTTGACO.github.io</span></span><br><span class="line">          <span class="attr">publish_branch:</span> <span class="string">master</span></span><br><span class="line">          <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">          <span class="attr">commit_message:</span> <span class="string">$&#123;&#123;</span> <span class="string">github.event.head_commit.message</span> <span class="string">&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/21/%E6%B5%8B%E8%AF%95%E5%88%A0%E9%99%A4/" rel="prev" title="测试删除">
+      <i class="fa fa-chevron-left"></i> 测试删除
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E7%9B%B8%E5%85%B3"><span class="nav-number">2.1.</span> <span class="nav-text">环境相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#node-%E7%8E%AF%E5%A2%83%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.1.</span> <span class="nav-text">node 环境的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-cli-%E7%9A%84%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.1.2.</span> <span class="nav-text">hexo-cli 的的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.3.</span> <span class="nav-text">hexo 主题安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yuque-hexo-%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.4.</span> <span class="nav-text">yuque-hexo 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dotenv-cli-%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.5.</span> <span class="nav-text">dotenv -cli 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E9%9B%80%E7%9B%B8%E5%85%B3"><span class="nav-number">2.2.</span> <span class="nav-text">语雀相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E8%AF%AD%E9%9B%80%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.1.</span> <span class="nav-text">新建语雀仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9B%80-Token-%E7%94%B3%E8%AF%B7"><span class="nav-number">2.2.2.</span> <span class="nav-text">语雀 Token 申请</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E9%9B%80%E7%9F%A5%E8%AF%86%E5%BA%93%E5%89%8D%E7%BC%80"><span class="nav-number">2.2.3.</span> <span class="nav-text">语雀知识库前缀</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIthub-%E7%9B%B8%E5%85%B3"><span class="nav-number">2.3.</span> <span class="nav-text">GIthub 相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#github-%E6%BA%90%E7%A0%81%E4%BB%93%E5%BA%93"><span class="nav-number">2.3.1.</span> <span class="nav-text">github 源码仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-%E5%9B%BE%E5%BA%8A%E4%BB%93%E5%BA%93"><span class="nav-number">2.3.2.</span> <span class="nav-text">github 图床仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GithubPages-%E4%BB%93%E5%BA%93"><span class="nav-number">2.3.3.</span> <span class="nav-text">GithubPages 仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GITHUB-TOKEN-%E7%94%B3%E8%AF%B7"><span class="nav-number">2.3.4.</span> <span class="nav-text">GITHUB_TOKEN  申请</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSH-PRIVATE-KEY-%E7%A7%81%E9%92%A5"><span class="nav-number">2.3.5.</span> <span class="nav-text">SSH_PRIVATE_KEY  私钥</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AB%99%E7%82%B9%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">站点配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#package-json"><span class="nav-number">3.1.</span> <span class="nav-text">package.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x2F-github-x2F-main-yml"><span class="nav-number">3.2.</span> <span class="nav-text">.&#x2F;github&#x2F;main.yml</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E5%8A%9F%E5%91%8A%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">大功告成</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
