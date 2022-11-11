@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-11-11 02:24:28 / Modified: 02:25:23" itemprop="dateCreated datePublished" datetime="2022-11-11T02:24:28+00:00">2022-11-11</time>
+              <time title="Created: 2022-11-11 02:24:28 / Modified: 02:49:01" itemprop="dateCreated datePublished" datetime="2022-11-11T02:24:28+00:00">2022-11-11</time>
             </span>
 
           
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-11 02:25:23" itemprop="dateModified" datetime="2022-11-11T02:25:23+00:00">2022-11-11</time>
+                <time title="Modified: 2022-11-11 02:49:01" itemprop="dateModified" datetime="2022-11-11T02:49:01+00:00">2022-11-11</time>
               </span>
 
           
@@ -300,7 +300,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-11 02:25:23" itemprop="dateModified" datetime="2022-11-11T02:25:23+00:00">2022-11-11</time>
+                <time title="Modified: 2022-11-11 02:49:02" itemprop="dateModified" datetime="2022-11-11T02:49:02+00:00">2022-11-11</time>
               </span>
 
           
@@ -369,7 +369,7 @@
 <h3 id="GITHUB-TOKEN-申请"><a href="#GITHUB-TOKEN-申请" class="headerlink" title="GITHUB_TOKEN  申请"></a>GITHUB_TOKEN  申请</h3><p><a target="_blank" rel="noopener" href="https://github.com/settings/tokens">https://github.com/settings/tokens</a></p>
 <h3 id="SSH-PRIVATE-KEY-私钥"><a href="#SSH-PRIVATE-KEY-私钥" class="headerlink" title="SSH_PRIVATE_KEY  私钥"></a>SSH_PRIVATE_KEY  私钥</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 2048 -C <span class="string">&quot;1225751694@qq.com&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FowG8aCcGp031gey2-jKiLvM2WoL.png"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images13/FowG8aCcGp031gey2-jKiLvM2WoL.png"></p>
 <h3 id="配置源码仓库的-screct-环境变量"><a href="#配置源码仓库的-screct-环境变量" class="headerlink" title="配置源码仓库的 screct 环境变量"></a>配置源码仓库的 screct 环境变量</h3><ul>
 <li>SECRET_ID</li>
 <li>SECRET_KEY</li>
@@ -432,7 +432,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-11-11 02:25:14" itemprop="dateModified" datetime="2022-11-11T02:25:14+00:00">2022-11-11</time>
+                <time title="Modified: 2022-11-11 02:49:02" itemprop="dateModified" datetime="2022-11-11T02:49:02+00:00">2022-11-11</time>
               </span>
 
           
@@ -517,7 +517,7 @@
 <p>前端时间写了<a target="_blank" rel="noopener" href="https://www.yuque.com/1874w/1874.cool/osar7h">yuque-hexo 插件语雀图片防盗链的解决方案</a>，当时是用的腾讯云图床，后面考虑到可以支持更多的图床选择。这次的改造新增了阿里云图床和七牛云图床。</p>
 <h2 id="阿里云图床"><a href="#阿里云图床" class="headerlink" title="阿里云图床"></a>阿里云图床</h2><p>阿里云图床目前各大公司也都在用，技术成熟稳定，但也和腾讯云图床一样，是收费的。但是作为个人博客图床的话，腾讯云 COS 和阿里云 OSS 的费用都相当的便宜，一个月的费用大概都在几分钱到几毛钱的范围。</p>
 <h2 id="七牛云图床"><a href="#七牛云图床" class="headerlink" title="七牛云图床"></a>七牛云图床</h2><p>七牛云图床为个人提供 10G 的免费存储空间和完全够用的免费读写流量，用来作为博客图床再合适不过了。缺点就是七牛云图床默认使用 CDN 域名进行外链访问，而且是 30 天的临时域名，所以建议绑定一个备案域名作为永久 CND 域名进行访问。</p>
-<h1 id="改造思路"><a href="#改造思路" class="headerlink" title="改造思路"></a>改造思路</h1><p>由于各大图床的 API 使用方式不尽相同，所以需要抽离出一个适配层进行接口调用的统一，通过不同的配置获取不同的图床实例进行 API 操作。<br><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/Fhhlf0McPMjB-ly-QqWXkn9W3tG-.jpeg"></p>
+<h1 id="改造思路"><a href="#改造思路" class="headerlink" title="改造思路"></a>改造思路</h1><p>由于各大图床的 API 使用方式不尽相同，所以需要抽离出一个适配层进行接口调用的统一，通过不同的配置获取不同的图床实例进行 API 操作。<br><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images13/Fhhlf0McPMjB-ly-QqWXkn9W3tG-.jpeg"></p>
 <h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><h2 id=""><a href="#" class="headerlink" title=""></a></h2>
       
     </div>
@@ -585,7 +585,7 @@
 
       
           <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><hr>
-<p>在使用<a target="_blank" rel="noopener" href="https://github.com/x-cold/yuque-hexo">yuque-hexo</a>同步文章到博客后，由于语雀的图片由有防盗链的限制，会导致部署后，博客网站显示图片异常。<br>处理办法有两种：<br><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FioacWCiuPFjNteg-vR3cLc1WLxS.png"></p>
+<p>在使用<a target="_blank" rel="noopener" href="https://github.com/x-cold/yuque-hexo">yuque-hexo</a>同步文章到博客后，由于语雀的图片由有防盗链的限制，会导致部署后，博客网站显示图片异常。<br>处理办法有两种：<br><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images13/FioacWCiuPFjNteg-vR3cLc1WLxS.png"></p>
 <ol start="2">
 <li>为了不破坏语雀编辑器的体验，我修改了<code>yuque-hexo</code>的源代码，发布了<code>yuqe-hexo-with-cdn</code>插件。适配了将语雀中的图片上传到腾讯云 COS 图床后，将原有的语雀图片链接替换掉。</li>
 </ol>
@@ -593,7 +593,7 @@
 <blockquote>
 <p><strong>目前 x-code 已经将我的方案合并到主分支了，可以直接使用</strong><a target="_blank" rel="noopener" href="https://github.com/x-cold/yuque-hexo"><strong>yuque-hexo</strong></a><strong>进行配置</strong></p>
 </blockquote>
-<h2 id="改造思路"><a href="#改造思路" class="headerlink" title="改造思路"></a>改造思路</h2><h3 id="原-yuque-hexo-生成-md-文章简易流程"><a href="#原-yuque-hexo-生成-md-文章简易流程" class="headerlink" title="原 yuque-hexo 生成.md 文章简易流程"></a>原 yuque-hexo 生成.md 文章简易流程</h3><p><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images12/FvbBK8CcTjuw-otaGM04maJnn5bL.jpeg"></p>
+<h2 id="改造思路"><a href="#改造思路" class="headerlink" title="改造思路"></a>改造思路</h2><h3 id="原-yuque-hexo-生成-md-文章简易流程"><a href="#原-yuque-hexo-生成-md-文章简易流程" class="headerlink" title="原 yuque-hexo 生成.md 文章简易流程"></a>原 yuque-hexo 生成.md 文章简易流程</h3><p><img src="https://cdn.jsdelivr.net/gh/LetTTGACO/image/blog-images13/FvbBK8CcTjuw-otaGM04maJnn5bL.jpeg"></p>
 
       
     </div>
