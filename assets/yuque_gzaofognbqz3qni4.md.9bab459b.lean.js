@@ -1,1 +1,0 @@
-import{_ as s,c as t,o as i,a as e}from"./app.7ff5e5d3.js";const m=JSON.parse('{"title":"语雀-Markdown","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/gzaofognbqz3qni4.md"}'),l={name:"yuque/gzaofognbqz3qni4.md"},a=e("",22),c=[a];function k(d,h,b,o,n,p){return i(),t("div",null,c)}const u=s(l,[["render",k]]);export{m as __pageData,u as default};
