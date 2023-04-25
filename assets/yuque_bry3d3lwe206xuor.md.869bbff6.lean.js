@@ -1,1 +1,0 @@
-import{_ as a,c as t,o as s,a as e}from"./app.1581deea.js";const D=JSON.parse('{"title":"CLI 命令","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/bry3d3lwe206xuor.md"}'),n={name:"yuque/bry3d3lwe206xuor.md"},o=e("",17),l=[o];function p(d,c,r,i,h,y){return s(),t("div",null,l)}const b=a(n,[["render",p]]);export{D as __pageData,b as default};

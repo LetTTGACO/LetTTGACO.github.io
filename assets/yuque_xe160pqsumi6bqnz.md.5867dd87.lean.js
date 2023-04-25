@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t,a as r}from"./app.1581deea.js";const f=JSON.parse('{"title":"按目录存放文档","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/xe160pqsumi6bqnz.md"}'),o={name:"yuque/xe160pqsumi6bqnz.md"},n=r("",8),i=[n];function d(s,h,c,_,p,l){return t(),a("div",null,i)}const m=e(o,[["render",d]]);export{f as __pageData,m as default};
