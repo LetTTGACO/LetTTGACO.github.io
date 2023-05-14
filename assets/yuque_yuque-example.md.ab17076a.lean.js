@@ -1,0 +1,1 @@
+import{_ as a,o as s,c as e,a as n}from"./app.534c4d48.js";const D=JSON.parse('{"title":"语雀示例文章","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/yuque-example.md","lastUpdated":1684048245000}'),r={name:"yuque/yuque-example.md"},l=n("",69),o=[l];function t(p,c,d,i,h,y){return s(),e("div",null,o)}const F=a(r,[["render",t]]);export{D as __pageData,F as default};
