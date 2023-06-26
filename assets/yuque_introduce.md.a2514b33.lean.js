@@ -1,1 +1,0 @@
-import{_ as e,o as i,c as s,a as t}from"./app.534c4d48.js";const b=JSON.parse('{"title":"Elog 能干什么","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/introduce.md","lastUpdated":1684048245000}'),l={name:"yuque/introduce.md"},c=t("",22),a=[c];function o(d,h,k,n,p,r){return i(),s("div",null,a)}const x=e(l,[["render",o]]);export{b as __pageData,x as default};
