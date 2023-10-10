@@ -1,0 +1,1 @@
+import{_ as a,c as s,o as n,d as e}from"./app.e152cec3.js";const B=JSON.parse('{"title":"快速开始","description":"","frontmatter":{},"headers":[],"relativePath":"yuque/start.md","lastUpdated":1696914352000}'),l={name:"yuque/start.md"},p=e("",14),o=[p];function t(c,r,i,d,h,y){return n(),s("div",null,o)}const u=a(l,[["render",t]]);export{B as __pageData,u as default};
