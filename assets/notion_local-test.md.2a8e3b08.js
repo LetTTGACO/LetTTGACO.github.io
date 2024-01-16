@@ -1,15 +1,4 @@
-import{_ as s,c as n,o as a,a as p}from"./app.1f26d752.js";const A=JSON.parse('{"title":"目录结构","description":"","frontmatter":{"sort":90,"urlname":"config-catalog","catalog":"配置详情","tags":"Elog-Docs","title":"目录结构","date":"2023-10-13 13:12:00","updated":"2023-12-18 00:14:00"},"headers":[],"relativePath":"notion/config-catalog.md","lastUpdated":1705398347000}'),l={name:"notion/config-catalog.md"},o=p(`<h1 id="目录结构" tabindex="-1">目录结构 <a class="header-anchor" href="#目录结构" aria-hidden="true">#</a></h1><h2 id="目录结构-1" tabindex="-1">目录结构 <a class="header-anchor" href="#目录结构-1" aria-hidden="true">#</a></h2><p>以Hexo的根目录为例：</p><div class="language-text"><button title="Copy Code" class="copy"></button><span class="lang">text</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#babed8;">.</span></span>
-<span class="line"><span style="color:#babed8;">├── public</span></span>
-<span class="line"><span style="color:#babed8;">├── scaffolds</span></span>
-<span class="line"><span style="color:#babed8;">├── source</span></span>
-<span class="line"><span style="color:#babed8;">├── themes</span></span>
-<span class="line"><span style="color:#babed8;">├── .elog.env // Elog用于本地调试时的环境变量配置</span></span>
-<span class="line"><span style="color:#babed8;">├── .gitignore // git忽略文件，请将.elog.env文件加入，防止密码等信息误提交</span></span>
-<span class="line"><span style="color:#babed8;">├── _config.yml</span></span>
-<span class="line"><span style="color:#babed8;">├── elog.cache.json // Elog的缓存文件，用于缓存上次同步的文件</span></span>
-<span class="line"><span style="color:#babed8;">├── elog.config.js // Elog的配置文件</span></span>
-<span class="line"><span style="color:#babed8;">└── package.json</span></span>
-<span class="line"><span style="color:#babed8;"></span></span></code></pre></div><p>以下配置都是基于<code>elog.config.js</code>来说明</p><h2 id="完整示例" tabindex="-1">完整示例 <a class="header-anchor" href="#完整示例" aria-hidden="true">#</a></h2><div class="language-javascript"><button title="Copy Code" class="copy"></button><span class="lang">javascript</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#89DDFF;">module.exports</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">=</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
+import{_ as s,c as n,o as a,a as l}from"./app.1f26d752.js";const i=JSON.parse('{"title":"本地调试","description":"","frontmatter":{"sort":130,"urlname":"local-test","catalog":"配置详情","tags":"Elog-Docs","title":"本地调试","date":"2023-10-13 13:27:00","updated":"2024-01-16 17:45:00"},"headers":[],"relativePath":"notion/local-test.md","lastUpdated":1705409611000}'),p={name:"notion/local-test.md"},o=l(`<h1 id="本地调试" tabindex="-1">本地调试 <a class="header-anchor" href="#本地调试" aria-hidden="true">#</a></h1><h2 id="环境变量配置" tabindex="-1">环境变量配置 <a class="header-anchor" href="#环境变量配置" aria-hidden="true">#</a></h2><p>Elog配置文件默认为<code>elog.config.js</code>，可在配置文件中通过<code>p<wbr>rocess.env.xxx</code>根据需要自定义环境变量，一般不需要改动，只有当环境变量冲突时才需要变更。</p><blockquote><p>⚠️ 为了安全，在实际配置中请不要将敏感信息直接写在配置文件中，Elog提供了更优雅的本地调试方式。</p></blockquote><div class="language-javascript"><button title="Copy Code" class="copy"></button><span class="lang">javascript</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#89DDFF;">module.exports</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">=</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
 <span class="line"><span style="color:#BABED8;">  </span><span style="color:#F07178;">write</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
 <span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">platform</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;</span><span style="color:#C3E88D;">yuque</span><span style="color:#89DDFF;">&#39;</span><span style="color:#89DDFF;">,</span></span>
 <span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">yuque</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
@@ -112,48 +101,87 @@ import{_ as s,c as n,o as a,a as p}from"./app.1f26d752.js";const A=JSON.parse('{
 <span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">prefixKey</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
 <span class="line"><span style="color:#BABED8;">    </span><span style="color:#89DDFF;">},</span></span>
 <span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">github</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">user</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">GITHUB_USER</span><span style="color:#89DDFF;">,</span></span>
 <span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">token</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">GITHUB_TOKEN</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">repo</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">GITHUB_REPO</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">user</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">ELOG_GITHUB_USER</span><span style="color:#89DDFF;">,</span></span>
+<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">repo</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">ELOG_GITHUB_REPO</span><span style="color:#89DDFF;">,</span></span>
 <span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">prefixKey</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
 <span class="line"><span style="color:#BABED8;">    </span><span style="color:#89DDFF;">}</span></span>
 <span class="line"><span style="color:#BABED8;">  </span><span style="color:#89DDFF;">}</span></span>
 <span class="line"><span style="color:#89DDFF;">}</span></span>
-<span class="line"></span></code></pre></div><h2 id="字段说明" tabindex="-1">字段说明 <a class="header-anchor" href="#字段说明" aria-hidden="true">#</a></h2><table><thead><tr><th>字段</th><th>说明</th></tr></thead><tbody><tr><td>write</td><td>写作平台详细配置</td></tr><tr><td>deploy</td><td>部署（博客）平台详细配置</td></tr><tr><td>image</td><td>图床平台详情配置</td></tr></tbody></table><p>各个平台的<code>platform</code>字段和对应的平台配置字段都需要正确配置，例如使用语雀 + Hexo + 腾讯云Cos图床，则需要设置为</p><div class="language-javascript"><button title="Copy Code" class="copy"></button><span class="lang">javascript</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#89DDFF;">module.exports</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">=</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#F07178;">write</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">platform</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;</span><span style="color:#C3E88D;">yuque</span><span style="color:#89DDFF;">&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#89DDFF;">    </span><span style="color:#676E95;font-style:italic;">// 字段要对应上</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">yuque</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">token</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">YUQUE_TOKEN</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">baseUrl</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">login</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">YUQUE_LOGIN</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">repo</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">YUQUE_REPO</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">onlyPublic</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#FF9CAC;">false</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">onlyPublished</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#FF9CAC;">true</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#89DDFF;">}</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#89DDFF;">},</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#F07178;">deploy</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">platform</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;</span><span style="color:#C3E88D;">local</span><span style="color:#89DDFF;">&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">local</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">outputDir</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">filename</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">format</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">catalog</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#FF9CAC;">false</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">formatExt</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#89DDFF;">}</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#89DDFF;">},</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#F07178;">image</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">enable</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#FF9CAC;">true</span><span style="color:#89DDFF;">,</span><span style="color:#BABED8;"> </span><span style="color:#676E95;font-style:italic;">// 是否启用图片替换</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">platform</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;</span><span style="color:#C3E88D;">cos</span><span style="color:#89DDFF;">&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#F07178;">cos</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">{</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">secretId</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">COS_SECRET_ID</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">secretKey</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">COS_SECRET_KEY</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">bucket</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">COS_BUCKET</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">region</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">COS_REGION</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">host</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> process</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">env</span><span style="color:#89DDFF;">.</span><span style="color:#BABED8;">COS_HOST</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">prefixKey</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span></span>
-<span class="line"><span style="color:#BABED8;">      </span><span style="color:#F07178;">secretExt</span><span style="color:#89DDFF;">:</span><span style="color:#BABED8;"> </span><span style="color:#89DDFF;">&#39;&#39;</span><span style="color:#89DDFF;">,</span><span style="color:#BABED8;"> </span><span style="color:#676E95;font-style:italic;">// 可选</span></span>
-<span class="line"><span style="color:#BABED8;">    </span><span style="color:#89DDFF;">}</span></span>
-<span class="line"><span style="color:#BABED8;">  </span><span style="color:#89DDFF;">}</span></span>
-<span class="line"><span style="color:#89DDFF;">}</span></span>
-<span class="line"></span></code></pre></div><h2 id="下一步" tabindex="-1">下一步 <a class="header-anchor" href="#下一步" aria-hidden="true">#</a></h2><p><strong>点击</strong> <a href="/notion/write-platform">下一篇</a> <strong>继续配置写作平台</strong></p>`,13),e=[o];function c(D,t,r,y,F,B){return a(),n("div",null,e)}const i=s(l,[["render",c]]);export{A as __pageData,i as default};
+<span class="line"></span></code></pre></div><h2 id="本地调试-1" tabindex="-1">本地调试 <a class="header-anchor" href="#本地调试-1" aria-hidden="true">#</a></h2><p>为了方便本地调试，Elog 支持从本地文件中获取环境变量。只需要在<code>.elog.env</code>文件中将用到的配置写入，然后在执行同步命令时指定环境变量文件即可。</p><blockquote><p>⚠️ 注意：请将<code>.elog.env</code>文件加入 <code>.gitignore</code>，防止误提交到git仓库</p></blockquote><div class="language-shell"><button title="Copy Code" class="copy"></button><span class="lang">shell</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#FFCB6B;">elog</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">sync</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">-e</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">.elog.env</span></span>
+<span class="line"></span></code></pre></div><div class="language-yaml"><button title="Copy Code" class="copy"></button><span class="lang">yaml</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#676E95;font-style:italic;"># .elog.env</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 语雀（Token方式）</span></span>
+<span class="line"><span style="color:#C3E88D;">YUQUE_TOKEN=</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 语雀（帐号密码方式）</span></span>
+<span class="line"><span style="color:#C3E88D;">YUQUE_USERNAME=</span></span>
+<span class="line"><span style="color:#C3E88D;">YUQUE_PASSWORD=</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 语雀公共参数，使用语雀必填</span></span>
+<span class="line"><span style="color:#C3E88D;">YUQUE_LOGIN=</span></span>
+<span class="line"><span style="color:#C3E88D;">YUQUE_REPO=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># Notion</span></span>
+<span class="line"><span style="color:#C3E88D;">NOTION_TOKEN=</span></span>
+<span class="line"><span style="color:#C3E88D;">NOTION_DATABASE_ID=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;">#FlowUs</span></span>
+<span class="line"><span style="color:#C3E88D;">FLOWUS_TABLE_PAGE_ID=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;">#飞书云文档</span></span>
+<span class="line"><span style="color:#C3E88D;">FEISHU_APP_ID=</span></span>
+<span class="line"><span style="color:#C3E88D;">FEISHU_APP_SECRET=</span></span>
+<span class="line"><span style="color:#C3E88D;">FEISHU_FOLDER_TOKEN=</span></span>
+<span class="line"><span style="color:#C3E88D;">FEISHU_WIKI_ID=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># Halo</span></span>
+<span class="line"><span style="color:#C3E88D;">HALO_ENDPOINT=</span></span>
+<span class="line"><span style="color:#C3E88D;">HALO_TOKEN=</span></span>
+<span class="line"><span style="color:#C3E88D;">HALO_POLICY_NAME=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># Confluence</span></span>
+<span class="line"><span style="color:#C3E88D;">CONFLUENCE_BASE_URL=</span></span>
+<span class="line"><span style="color:#C3E88D;">CONFLUENCE_USER=</span></span>
+<span class="line"><span style="color:#C3E88D;">CONFLUENCE_PASSWORD=</span></span>
+<span class="line"><span style="color:#C3E88D;">CONFLUENCE_SPACE_KEY=</span></span>
+<span class="line"><span style="color:#C3E88D;">CONFLUENCE_ROOT_PAGE_ID=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># WordPress</span></span>
+<span class="line"><span style="color:#C3E88D;">WORDPRESS_USERNAME=</span></span>
+<span class="line"><span style="color:#C3E88D;">WORDPRESS_PASSWORD=</span></span>
+<span class="line"><span style="color:#C3E88D;">WORDPRESS_ENDPOINT=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 腾讯云</span></span>
+<span class="line"><span style="color:#C3E88D;">COS_SECRET_ID=</span></span>
+<span class="line"><span style="color:#C3E88D;">COS_SECRET_KEY=</span></span>
+<span class="line"><span style="color:#C3E88D;">COS_BUCKET=</span></span>
+<span class="line"><span style="color:#C3E88D;">COS_REGION=</span></span>
+<span class="line"><span style="color:#C3E88D;">COS_HOST=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 阿里云</span></span>
+<span class="line"><span style="color:#C3E88D;">OSS_SECRET_ID=</span></span>
+<span class="line"><span style="color:#C3E88D;">OSS_SECRET_KEY=</span></span>
+<span class="line"><span style="color:#C3E88D;">OSS_BUCKET=</span></span>
+<span class="line"><span style="color:#C3E88D;">OSS_REGION=</span></span>
+<span class="line"><span style="color:#C3E88D;">OSS_HOST=xxx.oss-cn-xxx.aliyuncs.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 七牛云</span></span>
+<span class="line"><span style="color:#C3E88D;">QINIU_SECRET_ID=</span></span>
+<span class="line"><span style="color:#C3E88D;">QINIU_SECRET_KEY=</span></span>
+<span class="line"><span style="color:#C3E88D;">QINIU_BUCKET=</span></span>
+<span class="line"><span style="color:#C3E88D;">QINIU_REGION=</span></span>
+<span class="line"><span style="color:#C3E88D;">QINIU_HOST=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 又拍云</span></span>
+<span class="line"><span style="color:#C3E88D;">UPYUN_USER=</span></span>
+<span class="line"><span style="color:#C3E88D;">UPYUN_PASSWORD=</span></span>
+<span class="line"><span style="color:#C3E88D;">UPYUN_BUCKET=</span></span>
+<span class="line"><span style="color:#C3E88D;">UPYUN_HOST=xxx.xx.upaiyun.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># Github</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># 在 Github 流水线中，Github不允许以GITHUB开头的自定义变量</span></span>
+<span class="line"><span style="color:#676E95;font-style:italic;"># GITHUB_TOKEN 为内置变量，无需改名也无需配置，流水线中可直接获取</span></span>
+<span class="line"><span style="color:#C3E88D;">GITHUB_TOKEN=</span></span>
+<span class="line"><span style="color:#C3E88D;">ELOG_GITHUB_USER=</span></span>
+<span class="line"><span style="color:#C3E88D;">ELOG_GITHUB_REPO=</span></span>
+<span class="line"></span></code></pre></div><h2 id="恭喜配置完成" tabindex="-1">恭喜配置完成！ <a class="header-anchor" href="#恭喜配置完成" aria-hidden="true">#</a></h2><p>配置完成后在根目录下，执行本地同步命令即可：</p><div class="language-shell"><button title="Copy Code" class="copy"></button><span class="lang">shell</span><pre class="shiki material-theme-palenight" tabindex="0"><code><span class="line"><span style="color:#FFCB6B;">elog</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">sync</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">-e</span><span style="color:#BABED8;"> </span><span style="color:#C3E88D;">.elog.env</span></span>
+<span class="line"></span></code></pre></div><p><img src="https://blogimagesrep-1257180516.cos.ap-guangzhou.myqcloud.com/elog-docs-images/fe4c43e0f09a7751297205a26c2e07c3.png" alt="Untitled.png"></p><h2 id="自动化配置" tabindex="-1">自动化配置 <a class="header-anchor" href="#自动化配置" aria-hidden="true">#</a></h2><p>自动化时，需要提前将以上<code>.elog.env</code>中用到的变量信息配置到环境变量上。 以 Github 为例，可以在仓库的<code>设置-Secrets and variables-Actions-Secrets</code>中进行配置，然后在流水线中注入即可。</p><blockquote><p>记得在仓库的<code>设置-Action-Workflow permissions</code>中开启读写权限</p></blockquote><p>详细的自动化配置请移步 <a href="/notion/vy55q9xwlqlsfrvk">持续集成</a> 页面。</p>`,18),e=[o];function c(D,t,r,y,F,B){return a(),n("div",null,e)}const A=s(p,[["render",c]]);export{i as __pageData,A as default};
